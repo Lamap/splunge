@@ -6,6 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.less']
 })
 export class AppComponent {
-  public lat =  47.6;
+  public lat =  47;
   public lng = 19;
 }
