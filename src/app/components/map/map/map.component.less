@@ -1,0 +1,14 @@
+@map-z-index: 0;
+
+.spg-map {
+  width: 100%;
+  height: 100%;
+
+  &__mapoverlay-control-wrapper {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 250px;
+    z-index: @map-z-index + 1;
+  }
+}

@@ -1,14 +1,30 @@
 <div class="map-placeholder">
+  <spg-map
+    [mapOptions]="agmMapOptions"
+    [mapOverlayItems]="mapOverlayItems"
+  >
+  </spg-map>
+  <!--
+  <spg-map-overlay-set></spg-map-overlay-set>
   <agm-map [latitude]="lat" [longitude]="lng">
     <spg-map-tiler
-      [north]="47.713693"
-      [west]="18.447135"
-      [east]="19.447135"
-      [south]="46.713693"
+      [north]="47"
+      [west]="18"
+      [east]="19"
+      [south]="46"
       [minZoomDisplay]="8"
       [maxZoomDisplay]="15"
+      [opacity]="mapOverlayOpacity"
     >
     </spg-map-tiler>
   </agm-map>
+  <spg-map-overlay-set-control></spg-map-overlay-set-control>
+  <div class="mt-3 row">
+    <div class="col-md-6">
+      <input type="number" [(ngModel)]="mapOverlayOpacity">
+    </div>
+    <div class="col-md-6">jenő</div>
+  </div>
+  -->
 </div>
 

@@ -1,4 +1,4 @@
-import {Input, AfterViewInit, Component, OnInit, ElementRef, ViewChild} from '@angular/core';
+import {Input, AfterViewInit, Component, OnInit, ElementRef, ViewChild, OnChanges} from '@angular/core';
 
 import {
     LatLngBounds, LatLng,
@@ -13,10 +13,10 @@ declare var google: any;
   templateUrl: './map-tiler.component.html',
   styleUrls: ['./map-tiler.component.less']
 })
-export class MapTilerComponent implements OnInit, AfterViewInit {
+export class MapTilerComponent implements OnInit, OnChanges, AfterViewInit {
   @ViewChild('content', { read: ElementRef }) template: ElementRef;
   constructor(protected _mapsWrapper: GoogleMapsAPIWrapper) {}
-  private spgSetintervalId: number;
+  private element: any;
 
   @Input() north: number;
   @Input() west: number;
@@ -24,6 +24,8 @@ export class MapTilerComponent implements OnInit, AfterViewInit {
   @Input() south: number;
   @Input() minZoomDisplay: number;
   @Input() maxZoomDisplay: number;
+  @Input() defaultZoom: number;
+  @Input() opacity: number;
 
   ngOnInit() {
   }
@@ -32,7 +34,7 @@ export class MapTilerComponent implements OnInit, AfterViewInit {
         this._mapsWrapper.getNativeMap().then(gMap => {
             const overlayView = new google.maps.OverlayView();
 
-            const element = this.template.nativeElement.children[0];
+            this.element = this.template.nativeElement.children[0];
 
             overlayView.setMap(gMap);
 
@@ -44,30 +46,29 @@ export class MapTilerComponent implements OnInit, AfterViewInit {
               const projection = overlayView.getProjection();
               const northWestPixel = projection.fromLatLngToDivPixel(northWestCoords);
               const southEastPixel = projection.fromLatLngToDivPixel(southEastCoords);
-              element.style.left = northWestPixel.x + 'px';
-              element.style.top = northWestPixel.y + 'px';
-              element.style.width = (southEastPixel.x - northWestPixel.x)  + 'px';
-              element.style.height = (southEastPixel.y - northWestPixel.y)  + 'px';
+                this.element.style.left = northWestPixel.x + 'px';
+                this.element.style.top = northWestPixel.y + 'px';
+                this.element.style.width = (southEastPixel.x - northWestPixel.x)  + 'px';
+                this.element.style.height = (southEastPixel.y - northWestPixel.y)  + 'px';
 
-              element.style.display = zoomIndex >= this.minZoomDisplay && zoomIndex <= this.maxZoomDisplay ?
+                this.element.style.display = zoomIndex >= this.minZoomDisplay && zoomIndex <= this.maxZoomDisplay ?
                   'block' : 'none';
 
-              element.style.opacity = 0.5;
-              clearInterval(this.spgSetintervalId);
-              this.spgSetintervalId = window.setInterval(() => {
-                element.style.opacity = Number(element.style.opacity) + 0.05;
-                if (Number(element.style.opacity) >= 1) {
-                    clearInterval(this.spgSetintervalId);
-                }
-              }, 250);
+                this.element.style.opacity = this.opacity / 100;
+
             };
             overlayView.onAdd = () => {
-              overlayView.getPanes().overlayImage.appendChild(element);
+              overlayView.getPanes().overlayImage.appendChild(this.element);
             };
             overlayView.getDiv = () => {
-              return element;
+              return this.element;
             };
         });
     }
-
+    ngOnChanges(change) {
+      console.log(change);
+      if (this.element) {
+          this.element.style.opacity = change.opacity.currentValue / 100;
+      }
+    }
 }
