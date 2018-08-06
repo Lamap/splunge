@@ -9,6 +9,7 @@ export interface IMapOptions {
 export interface IMapOverlayItem {
     id: string;
     name: string; // TODO: translatable
+    src?: string;
     north: number;
     south: number;
     west: number;
@@ -16,7 +17,8 @@ export interface IMapOverlayItem {
     minZoom: number;
     maxZoom: number;
     defaultCenterPosition?: any; // TODO: make it to lngLat
-    displayed: boolean;
+    isDisplayed: boolean;
+    opacity?: number;
 }
 @Component({
     selector: 'spg-map',
@@ -49,7 +51,7 @@ export class MapComponent implements OnInit {
         const clickedItemId = $event.id;
         this.mapOverlayItems.map((overlay: IMapOverlayItem) => {
             if (overlay.id === clickedItemId) {
-                overlay.displayed = !overlay.displayed;
+                overlay.isDisplayed = !overlay.isDisplayed;
             }
         });
     }

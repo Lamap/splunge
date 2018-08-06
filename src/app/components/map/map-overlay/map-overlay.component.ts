@@ -1,5 +1,6 @@
-import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import { GoogleMapsAPIWrapper } from '@agm/core';
+import { TweenLite } from 'gsap';
 
 declare var google: any; // TODO: get proper typing
 
@@ -19,8 +20,11 @@ export class MapOverlayComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() maxZoomDisplay: number;
   @Input() defaultZoom: number;
   @Input() opacity: number;
+  @Input() isDisplayed: boolean;
+  @Input() src: string;
 
-  private overlayElement: any;
+  private overlayElement: any; // TODO: specify type
+  private overlayImage: any; // TODO: specify type
 
   constructor(protected _mapsWrapper: GoogleMapsAPIWrapper) { }
 
@@ -31,7 +35,8 @@ export class MapOverlayComponent implements OnInit, OnChanges, AfterViewInit {
         const overlayView = new google.maps.OverlayView();
 
         this.overlayElement = this.template.nativeElement.children[0];
-        console.log(this.overlayElement, gMap);
+        this.overlayImage = this.overlayElement.children[0];
+        console.log(this.overlayElement, this.overlayElement.children[0], gMap);
 
         overlayView.setMap(gMap);
 
@@ -48,21 +53,45 @@ export class MapOverlayComponent implements OnInit, OnChanges, AfterViewInit {
             this.overlayElement.style.width = (southEastPixel.x - northWestPixel.x)  + 'px';
             this.overlayElement.style.height = (southEastPixel.y - northWestPixel.y)  + 'px';
 
-            this.overlayElement.style.display = zoomIndex >= this.minZoomDisplay && zoomIndex <= this.maxZoomDisplay ?
+            this.overlayImage.src = this.src;
+            this.overlayElement.style.display = this.isWithinZoomRange(zoomIndex) && this.isDisplayed ?
                 'block' : 'none';
 
-            this.overlayElement.style.opacity = this.opacity / 100;
+            this.overlayElement.style.opacity = this.isWithinZoomRange(zoomIndex) && this.isDisplayed ? this.opacity : 0;
 
         };
+
         overlayView.onAdd = () => {
             overlayView.getPanes().overlayImage.appendChild(this.overlayElement);
         };
+
         overlayView.getDiv = () => {
             return this.overlayElement;
         };
     });
   }
 
-  ngOnChanges() {}
+  ngOnChanges(change: SimpleChanges) {
+    console.log('change', change);
+    if (change.isDisplayed && this.overlayElement) {
+      console.log(change.isDisplayed);
+      change.isDisplayed.currentValue ? this.switchOn() : this.switchOff();
+    }
+  }
 
+  private switchOn() {
+      this.overlayElement.style.display = 'block';
+      TweenLite.to(this.overlayElement, 1, {opacity: this.opacity});
+  }
+
+  private switchOff() {
+      TweenLite.to(this.overlayElement, 1, {opacity: 0, onComplete: () => {
+            this.overlayElement.style.display = 'none';
+        }
+      });
+  }
+
+  private isWithinZoomRange(zoomIndex: number): boolean {
+      return zoomIndex >= this.minZoomDisplay && zoomIndex <= this.maxZoomDisplay;
+  }
 }

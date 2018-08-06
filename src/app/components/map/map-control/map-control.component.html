@@ -2,7 +2,7 @@
     <li
         *ngFor="let overlay of mapOverlayItems"
         (click)="onItemClicked(overlay)"
-        [ngClass]="{'spg-map-overlay-control__item--switched-on': overlay.displayed}"
+        [ngClass]="{'spg-map-overlay-control__item--switched-on': overlay.isDisplayed}"
         class="spg-map-overlay-control__item"
     >
         <h5>{{overlay.name}}</h5>

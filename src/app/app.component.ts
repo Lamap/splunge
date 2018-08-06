@@ -7,9 +7,6 @@ import {IMapOptions, IMapOverlayItem} from './components/map/map/map.component';
   styleUrls: ['./app.component.less']
 })
 export class AppComponent {
-  public lat =  47;
-  public lng = 19;
-  public mapOverlayOpacity = 50;
 
   public agmMapOptions: IMapOptions = {
     longitude: 5,
@@ -27,7 +24,9 @@ export class AppComponent {
         west: 10,
         minZoom: 5,
         maxZoom: 12,
-        displayed: false
+        isDisplayed: false,
+        opacity: 0.6,
+        src: 'http://tabanatlas.hspartacus.hu/trkp/b2_22clr.gif'
     },
     {
         id: 'jenoterkepe',
@@ -38,7 +37,9 @@ export class AppComponent {
         west: 7,
         minZoom: 5,
         maxZoom: 12,
-        displayed: true
+        isDisplayed: true,
+        opacity: 0.5,
+        src: 'http://tabanatlas.hspartacus.hu/trkp/b1_22clr.gif'
     }
   ];
 
