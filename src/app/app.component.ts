@@ -18,15 +18,28 @@ export class AppComponent {
   };
 
   public mapOverlayItems: IMapOverlayItem[] = [
-      {
+    {
+        id: 'belaterkepe',
         name: 'Béla térképe',
         north: 50,
         south: 40,
         east: 18,
         west: 10,
         minZoom: 5,
-        maxZoom: 12
-      }
+        maxZoom: 12,
+        displayed: false
+    },
+    {
+        id: 'jenoterkepe',
+        name: 'Jenő térképe',
+        north: 50,
+        south: 40,
+        east: 9,
+        west: 7,
+        minZoom: 5,
+        maxZoom: 12,
+        displayed: true
+    }
   ];
 
   constructor () {}

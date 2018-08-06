@@ -1,6 +1,6 @@
 // TODO: rename to map-overlay-control
 
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { IMapOverlayItem } from '../map/map.component';
 
 @Component({
@@ -9,12 +9,18 @@ import { IMapOverlayItem } from '../map/map.component';
   styleUrls: ['./map-control.component.less']
 })
 export class MapControlComponent implements OnInit {
+  @Output() $onItemClicked = new EventEmitter<IMapOverlayItem>();
   @Input() mapOverlayItems: IMapOverlayItem[];
 
   constructor() { }
 
   ngOnInit() {
       console.log(this.mapOverlayItems);
+  }
+
+  onItemClicked(overlay: IMapOverlayItem) {
+    console.log(overlay);
+    this.$onItemClicked.emit(overlay);
   }
 
 }

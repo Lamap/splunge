@@ -2,6 +2,7 @@
   <spg-map-control
     class="spg-map__mapoverlay-control-wrapper"
     [mapOverlayItems]="mapOverlayItems"
+    ($onItemClicked)="onOverlayControlItemClicked($event)"
   ></spg-map-control>
   <agm-map
     [latitude]="mapOptions.latitude"
@@ -9,12 +10,13 @@
     [zoom]="mapOptions.zoom"
   >
     <spg-map-overlay
-      [north]="47"
-      [west]="18"
-      [east]="19"
-      [south]="46"
-      [minZoomDisplay]="8"
-      [maxZoomDisplay]="15"
+      *ngFor="let overlay of mapOverlayItems"
+      [north]="overlay.north"
+      [west]="overlay.west"
+      [east]="overlay.east"
+      [south]="overlay.south"
+      [minZoomDisplay]="overlay.minZoom"
+      [maxZoomDisplay]="overlay.maxZoom"
       [opacity]="50"
     ></spg-map-overlay>
   </agm-map>
