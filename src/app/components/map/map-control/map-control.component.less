@@ -1,8 +1,42 @@
 .spg-map-overlay-control {
   background: #ffffff;
+  @top-border-width: 4px;
+  @secondtop-border-width: 2px;
+  &__title {
+    text-transform: uppercase;
+  }
+  &__items {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
   &__item {
-    &--switched-on {
-      border: 1px solid #999;
+    padding: 5px;
+    user-select: none;
+    color: #333;
+    &--is-top,
+    &:hover {
+      border-left: @top-border-width solid #999;
+      margin: 0 -@top-border-width;
+      font-weight: 600;
     }
+  }
+  &__item-dated {
+    font-size: 14px;
+    color: #555;
+  }
+  &__item-title {
+  }
+  &__item-controls {
+    display: flex;
+  }
+  &__item-opacity-slider {
+    width: 100%;
+    margin-right: 30px;
+  }
+  &__item-zoom-to-boundaries {
+    margin-left: auto;
+    font-size: 11px;
+    font-weight: normal;
   }
 }

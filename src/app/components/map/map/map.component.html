@@ -2,7 +2,9 @@
   <spg-map-control
     class="spg-map__mapoverlay-control-wrapper"
     [mapOverlayItems]="mapOverlayItems"
-    ($onItemClicked)="onOverlayControlItemClicked($event)"
+    [isGoogleMapOnTop]="isGoogleMapOnTop"
+    ($onItemSelected)="onOverlayControlItemSelected($event)"
+    ($onGoogleMapsSelected)="onGoogleMapsSelected($event)"
   ></spg-map-control>
   <agm-map
     [latitude]="mapOptions.latitude"
@@ -20,6 +22,8 @@
       [opacity]="overlay.opacity"
       [isDisplayed]="overlay.isDisplayed"
       [src] = "overlay.src"
+      [zIndex]="overlay.zIndex"
+      [id]="overlay.id"
     ></spg-map-overlay>
   </agm-map>
 </div>

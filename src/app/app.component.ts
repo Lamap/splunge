@@ -9,37 +9,54 @@ import {IMapOptions, IMapOverlayItem} from './components/map/map/map.component';
 export class AppComponent {
 
   public agmMapOptions: IMapOptions = {
-    longitude: 5,
-    latitude: 48,
-    zoom: 7,
+    longitude: 19,
+    latitude: 49,
+    zoom: 10,
   };
 
   public mapOverlayItems: IMapOverlayItem[] = [
     {
-        id: 'belaterkepe',
-        name: 'Béla térképe',
+        id: 'T-2000',
+        name: 'Ezredforduló',
+        src: 'http://tabanatlas.hspartacus.hu/trkp/b3_22clr.gif',
         north: 50,
-        south: 40,
-        east: 18,
-        west: 10,
+        south: 48,
+        east: 20,
+        west: 17,
         minZoom: 5,
         maxZoom: 12,
         isDisplayed: false,
-        opacity: 0.6,
-        src: 'http://tabanatlas.hspartacus.hu/trkp/b2_22clr.gif'
+        opacity: 100,
+        dated: 2000
     },
     {
-        id: 'jenoterkepe',
-        name: 'Jenő térképe',
+        id: 'T-1930',
+        name: 'Tabán 1930',
+        src: 'http://tabanatlas.hspartacus.hu/trkp/b2_22clr.gif',
         north: 50,
-        south: 40,
-        east: 9,
-        west: 7,
+        south: 48,
+        east: 20,
+        west: 17,
         minZoom: 5,
         maxZoom: 12,
         isDisplayed: true,
-        opacity: 0.5,
-        src: 'http://tabanatlas.hspartacus.hu/trkp/b1_22clr.gif'
+        isTop: true,
+        opacity: 100,
+        dated: 1920
+    },
+    {
+        id: 'T-1900',
+        name: 'Tabán századforduló',
+        src: 'http://tabanatlas.hspartacus.hu/trkp/b1_22clr.gif',
+        north: 50,
+        south: 48,
+        east: 20,
+        west: 17,
+        minZoom: 5,
+        maxZoom: 12,
+        isDisplayed: false,
+        opacity: 100,
+        dated: 1900
     }
   ];
 

@@ -9,8 +9,10 @@ import { IMapOverlayItem } from '../map/map.component';
   styleUrls: ['./map-control.component.less']
 })
 export class MapControlComponent implements OnInit {
-  @Output() $onItemClicked = new EventEmitter<IMapOverlayItem>();
+  @Output() $onItemSelected = new EventEmitter<IMapOverlayItem>();
+  @Output() $onGoogleMapsSelected = new EventEmitter<Boolean>();
   @Input() mapOverlayItems: IMapOverlayItem[];
+  @Input() isGoogleMapOnTop: boolean;
 
   constructor() { }
 
@@ -20,7 +22,13 @@ export class MapControlComponent implements OnInit {
 
   onItemClicked(overlay: IMapOverlayItem) {
     console.log(overlay);
-    this.$onItemClicked.emit(overlay);
+    if (overlay.isTop) {
+      return;
+    }
+    this.$onItemSelected.emit(overlay);
   }
 
+  onGoogleMapsClicked() {
+    this.$onGoogleMapsSelected.emit(true);
+  }
 }

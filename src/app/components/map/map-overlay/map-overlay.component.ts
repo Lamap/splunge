@@ -12,6 +12,7 @@ declare var google: any; // TODO: get proper typing
 export class MapOverlayComponent implements OnInit, OnChanges, AfterViewInit {
   @ViewChild('content', { read: ElementRef }) template: ElementRef;
 
+  // TODO: convert to 1 option object
   @Input() north: number;
   @Input() west: number;
   @Input() east: number;
@@ -22,6 +23,8 @@ export class MapOverlayComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() opacity: number;
   @Input() isDisplayed: boolean;
   @Input() src: string;
+  @Input() zIndex: number;
+  @Input() id: string;
 
   private overlayElement: any; // TODO: specify type
   private overlayImage: any; // TODO: specify type
@@ -57,7 +60,8 @@ export class MapOverlayComponent implements OnInit, OnChanges, AfterViewInit {
             this.overlayElement.style.display = this.isWithinZoomRange(zoomIndex) && this.isDisplayed ?
                 'block' : 'none';
 
-            this.overlayElement.style.opacity = this.isWithinZoomRange(zoomIndex) && this.isDisplayed ? this.opacity : 0;
+            this.overlayElement.style.opacity = this.isWithinZoomRange(zoomIndex) && this.isDisplayed ?
+                this.opacity / 100 : 0;
 
         };
 
@@ -72,23 +76,30 @@ export class MapOverlayComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   ngOnChanges(change: SimpleChanges) {
-    console.log('change', change);
-    if (change.isDisplayed && this.overlayElement) {
-      console.log(change.isDisplayed);
-      change.isDisplayed.currentValue ? this.switchOn() : this.switchOff();
-    }
-  }
-
-  private switchOn() {
+    if (change.zIndex && this.overlayElement) {
+      console.log('zIndex changed', this.id, change.zIndex);
+      this.overlayElement.style.zIndex = this.zIndex;
+      this.overlayElement.style.opacity = 0;
       this.overlayElement.style.display = 'block';
-      TweenLite.to(this.overlayElement, 1, {opacity: this.opacity});
-  }
-
-  private switchOff() {
-      TweenLite.to(this.overlayElement, 1, {opacity: 0, onComplete: () => {
-            this.overlayElement.style.display = 'none';
+      TweenLite.to(this.overlayElement, 1, {opacity: this.opacity / 100});
+    }
+    if (change.isDisplayed && this.overlayElement) {
+        console.log ('display changed', this.id, change.isDisplayed);
+        if (!change.isDisplayed.currentValue) {
+            this.overlayElement.style.opacity = this.opacity / 100;
+            TweenLite.to(this.overlayElement, 1, {
+                opacity: 0,
+                onComplete: () => {
+                    this.overlayElement.style.display = 'none';
+                }
+            });
         }
-      });
+    }
+
+    if (change.opacity && !change.zIndex && !change.isDisplayed && this.overlayElement) {
+        console.log('opacity', this.opacity);
+        TweenLite.to(this.overlayElement, 1, {opacity: this.opacity / 100});
+    }
   }
 
   private isWithinZoomRange(zoomIndex: number): boolean {

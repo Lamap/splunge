@@ -6,6 +6,10 @@ export interface IMapOptions {
     latitude?: number;
     zoom?: number;
 }
+export interface IDateRange {
+    from: number;
+    to: number;
+}
 export interface IMapOverlayItem {
     id: string;
     name: string; // TODO: translatable
@@ -19,6 +23,9 @@ export interface IMapOverlayItem {
     defaultCenterPosition?: any; // TODO: make it to lngLat
     isDisplayed: boolean;
     opacity?: number;
+    zIndex?: number;
+    dated: IDateRange | number;
+    isTop?: boolean;
 }
 @Component({
     selector: 'spg-map',
@@ -29,11 +36,14 @@ export interface IMapOverlayItem {
 
 export class MapComponent implements OnInit {
 
+    public isGoogleMapOnTop = false;
+
     private _defaultMapOptions: IMapOptions = {
         longitude: 47,
         latitude: 19,
         zoom: 10,
     };
+    private maxZindex: number;
 
     @Input() mapOptions: IMapOptions;
     @Input() mapOverlayItems: IMapOverlayItem[];
@@ -44,16 +54,45 @@ export class MapComponent implements OnInit {
     ngOnInit() {
         this.mapOptions = _.merge(this._defaultMapOptions, this.mapOptions);
         console.log(this.mapOverlayItems);
+        this.maxZindex = this.mapOverlayItems.length;
     }
 
-    onOverlayControlItemClicked($event: IMapOverlayItem) {
-        console.log($event);
-        const clickedItemId = $event.id;
-        this.mapOverlayItems.map((overlay: IMapOverlayItem) => {
-            if (overlay.id === clickedItemId) {
-                overlay.isDisplayed = !overlay.isDisplayed;
+    onOverlayControlItemSelected($event: IMapOverlayItem) {
+        const clickedId = $event.id;
+        this.maxZindex++;
+        this.isGoogleMapOnTop = false;
+
+        this.mapOverlayItems.map((overlay) => {
+            if (overlay.id === clickedId) {
+                overlay.isTop = true;
+                overlay.zIndex = this.maxZindex;
+                overlay.isDisplayed = true;
+                overlay.opacity = 100;
+            }
+            if (!overlay.zIndex || overlay.zIndex < this.maxZindex) {
+                overlay.isTop = false;
+                overlay.opacity = 100;
+            }
+            if (!overlay.zIndex || overlay.zIndex < this.maxZindex - 1) {
+                overlay.isTop = false;
+                overlay.isDisplayed = false;
             }
         });
+        console.log(this.maxZindex);
     }
 
+    onGoogleMapsSelected($event: boolean) {
+        console.log('gmapsSelected', $event);
+        this.isGoogleMapOnTop = true;
+        this.mapOverlayItems.map((overlay) => {
+           if (overlay.zIndex === this.maxZindex) {
+               overlay.isDisplayed = false;
+               overlay.isTop = false;
+           }
+           if (overlay.zIndex === this.maxZindex - 1)  {
+               overlay.isDisplayed = false;
+               overlay.opacity = 0;
+           }
+        });
+    }
 }

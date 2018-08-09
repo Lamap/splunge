@@ -1,11 +1,33 @@
-<ul class="spg-map-overlay-control">
-    <li
-        *ngFor="let overlay of mapOverlayItems"
-        (click)="onItemClicked(overlay)"
-        [ngClass]="{'spg-map-overlay-control__item--switched-on': overlay.isDisplayed}"
-        class="spg-map-overlay-control__item"
-    >
-        <h5>{{overlay.name}}</h5>
-        <div>description blablabla</div>
-    </li>
-</ul>
+<mat-card class="spg-map-overlay-control">
+    <div class="spg-map-overlay-control__title">Avalaible Maps on the current zoom</div>
+    <ul class="spg-map-overlay-control__items">
+        <li
+                class="spg-map-overlay-control__item"
+                [ngClass]="{'spg-map-overlay-control__item--is-top': isGoogleMapOnTop}"
+                (click)="onGoogleMapsClicked()"
+        >
+            <div class="spg-map-overlay-control__item-dated">Present</div>
+            <div class="spg-map-overlay-control__item-title">Google maps</div>
+        </li>
+        <li
+                *ngFor="let overlay of mapOverlayItems"
+                class="spg-map-overlay-control__item"
+                [ngClass]="{'spg-map-overlay-control__item--is-top': overlay.isTop}"
+                (click)="onItemClicked(overlay)"
+        >
+            <div class="spg-map-overlay-control__item-dated">{{overlay.dated}}</div>
+            <div
+                class="spg-map-overlay-control__item-title"
+            >{{overlay.name}}</div>
+            <div class="spg-map-overlay-control__item-controls" *ngIf="overlay.isTop">
+                <mat-slider
+                    class="spg-map-overlay-control__item-opacity-slider"
+                    [min]="0"
+                    [max]="100"
+                    [(ngModel)]="overlay.opacity"
+                ></mat-slider>
+                <span class="spg-map-overlay-control__item-zoom-to-boundaries">Zoom to boundaries</span>
+            </div>
+        </li>
+    </ul>
+</mat-card>
