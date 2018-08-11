@@ -19,44 +19,50 @@ export class AppComponent {
         id: 'T-2000',
         name: 'Ezredforduló',
         src: 'http://tabanatlas.hspartacus.hu/trkp/b3_22clr.gif',
-        north: 50,
-        south: 48,
-        east: 20,
-        west: 17,
         minZoom: 5,
         maxZoom: 12,
         isDisplayed: false,
         opacity: 100,
-        dated: 2000
+        dated: 2000,
+        bounds: {
+            north: 50,
+            south: 48,
+            east: 20,
+            west: 17,
+        }
     },
     {
         id: 'T-1930',
         name: 'Tabán 1930',
         src: 'http://tabanatlas.hspartacus.hu/trkp/b2_22clr.gif',
-        north: 50,
-        south: 48,
-        east: 20,
-        west: 17,
         minZoom: 5,
         maxZoom: 12,
         isDisplayed: true,
         isTop: true,
         opacity: 100,
-        dated: 1920
+        dated: 1920,
+        bounds: {
+            north: 50,
+            south: 48,
+            east: 20,
+            west: 17,
+        }
     },
     {
         id: 'T-1900',
         name: 'Tabán századforduló',
         src: 'http://tabanatlas.hspartacus.hu/trkp/b1_22clr.gif',
-        north: 50,
-        south: 48,
-        east: 20,
-        west: 17,
         minZoom: 5,
         maxZoom: 12,
         isDisplayed: false,
         opacity: 100,
-        dated: 1900
+        dated: 1900,
+        bounds: {
+            north: 50,
+            south: 48,
+            east: 20,
+            west: 17,
+        }
     }
   ];
 

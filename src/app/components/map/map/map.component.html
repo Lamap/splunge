@@ -5,19 +5,18 @@
         [isGoogleMapOnTop]="isGoogleMapOnTop"
         ($onItemSelected)="onOverlayControlItemSelected($event)"
         ($onGoogleMapsSelected)="onGoogleMapsSelected($event)"
+        ($onFitToMapBounds)="onFitTomMapBounds($event)"
     ></spg-map-control>
     <agm-map
         [latitude]="mapOptions.latitude"
         [longitude]="mapOptions.longitude"
         [zoom]="mapOptions.zoom"
         [styles]="mapOptions.styles"
+        [fitBounds]="mapOptions.fitBounds"
+        (boundsChange) = "onBoundsChange($event)"
     >
     <spg-map-overlay
         *ngFor="let overlay of mapOverlayItems"
-        [north]="overlay.north"
-        [west]="overlay.west"
-        [east]="overlay.east"
-        [south]="overlay.south"
         [minZoomDisplay]="overlay.minZoom"
         [maxZoomDisplay]="overlay.maxZoom"
         [opacity]="overlay.opacity"
@@ -25,6 +24,7 @@
         [src] = "overlay.src"
         [zIndex]="overlay.zIndex"
         [id]="overlay.id"
+        [bounds]="overlay.bounds"
     ></spg-map-overlay>
     </agm-map>
 </div>

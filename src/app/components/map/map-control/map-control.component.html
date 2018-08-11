@@ -26,7 +26,10 @@
                     [max]="100"
                     [(ngModel)]="overlay.opacity"
                 ></mat-slider>
-                <span class="spg-map-overlay-control__item-zoom-to-boundaries">Zoom to boundaries</span>
+                <span
+                    class="spg-map-overlay-control__item-zoom-to-boundaries"
+                    (click)="onFitBoundsClicked(overlay)"
+                >Zoom to boundaries</span>
             </div>
         </li>
     </ul>

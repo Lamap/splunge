@@ -1,6 +1,9 @@
+import { TweenLite } from 'gsap';
 import {AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import { GoogleMapsAPIWrapper } from '@agm/core';
-import { TweenLite } from 'gsap';
+
+// TODO: figuring out why not found even if the ./map.component uses the same link
+import { LatLngBoundsLiteral } from '../../../../../node_modules/@agm/core/services/google-maps-types';
 
 declare var google: any; // TODO: get proper typing
 
@@ -13,10 +16,7 @@ export class MapOverlayComponent implements OnInit, OnChanges, AfterViewInit {
   @ViewChild('content', { read: ElementRef }) template: ElementRef;
 
   // TODO: convert to 1 option object
-  @Input() north: number;
-  @Input() west: number;
-  @Input() east: number;
-  @Input() south: number;
+  @Input() bounds: LatLngBoundsLiteral;
   @Input() minZoomDisplay: number;
   @Input() maxZoomDisplay: number;
   @Input() defaultZoom: number;
@@ -44,8 +44,8 @@ export class MapOverlayComponent implements OnInit, OnChanges, AfterViewInit {
 
         overlayView.draw = () => {
             const zoomIndex = gMap.getZoom();
-            const northWestCoords = new google.maps.LatLng(this.north, this.west);
-            const southEastCoords = new google.maps.LatLng(this.south, this.east);
+            const northWestCoords = new google.maps.LatLng(this.bounds.north, this.bounds.west);
+            const southEastCoords = new google.maps.LatLng(this.bounds.south, this.bounds.east);
             const projection = overlayView.getProjection();
             const northWestPixel = projection.fromLatLngToDivPixel(northWestCoords);
             const southEastPixel = projection.fromLatLngToDivPixel(southEastCoords);

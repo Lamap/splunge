@@ -11,6 +11,7 @@ import { IMapOverlayItem } from '../map/map.component';
 export class MapControlComponent implements OnInit {
   @Output() $onItemSelected = new EventEmitter<IMapOverlayItem>();
   @Output() $onGoogleMapsSelected = new EventEmitter<Boolean>();
+  @Output() $onFitToMapBounds = new EventEmitter<IMapOverlayItem>();
   @Input() mapOverlayItems: IMapOverlayItem[];
   @Input() isGoogleMapOnTop: boolean;
 
@@ -32,5 +33,9 @@ export class MapControlComponent implements OnInit {
       return;
     }
     this.$onGoogleMapsSelected.emit(true);
+  }
+
+  onFitBoundsClicked(overlay: IMapOverlayItem) {
+    this.$onFitToMapBounds.emit(overlay);
   }
 }
