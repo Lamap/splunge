@@ -12,7 +12,7 @@
         <li
                 *ngFor="let overlay of mapOverlayItems"
                 class="spg-map-overlay-control__item"
-                [ngClass]="{'spg-map-overlay-control__item--is-top': overlay.isTop}"
+                [ngClass]="{'spg-map-overlay-control__item--is-top': overlay.isTop, 'spg-map-overlay-control__item--is-under-top': overlay.isUnderTop}"
                 (click)="onItemClicked(overlay)"
         >
             <div class="spg-map-overlay-control__item-dated">{{overlay.dated}}</div>

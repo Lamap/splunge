@@ -39,12 +39,10 @@ export class MapOverlayComponent implements OnInit, OnChanges, AfterViewInit {
 
         this.overlayElement = this.template.nativeElement.children[0];
         this.overlayImage = this.overlayElement.children[0];
-        console.log(this.overlayElement, this.overlayElement.children[0], gMap);
 
         overlayView.setMap(gMap);
 
         overlayView.draw = () => {
-            console.log(gMap.getZoom());
             const zoomIndex = gMap.getZoom();
             const northWestCoords = new google.maps.LatLng(this.north, this.west);
             const southEastCoords = new google.maps.LatLng(this.south, this.east);
@@ -77,14 +75,12 @@ export class MapOverlayComponent implements OnInit, OnChanges, AfterViewInit {
 
   ngOnChanges(change: SimpleChanges) {
     if (change.zIndex && this.overlayElement) {
-      console.log('zIndex changed', this.id, change.zIndex);
       this.overlayElement.style.zIndex = this.zIndex;
       this.overlayElement.style.opacity = 0;
       this.overlayElement.style.display = 'block';
       TweenLite.to(this.overlayElement, 1, {opacity: this.opacity / 100});
     }
     if (change.isDisplayed && this.overlayElement) {
-        console.log ('display changed', this.id, change.isDisplayed);
         if (!change.isDisplayed.currentValue) {
             this.overlayElement.style.opacity = this.opacity / 100;
             TweenLite.to(this.overlayElement, 1, {
@@ -97,7 +93,6 @@ export class MapOverlayComponent implements OnInit, OnChanges, AfterViewInit {
     }
 
     if (change.opacity && !change.zIndex && !change.isDisplayed && this.overlayElement) {
-        console.log('opacity', this.opacity);
         TweenLite.to(this.overlayElement, 1, {opacity: this.opacity / 100});
     }
   }

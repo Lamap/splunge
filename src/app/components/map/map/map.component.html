@@ -1,29 +1,30 @@
 <div class="spg-map">
-  <spg-map-control
-    class="spg-map__mapoverlay-control-wrapper"
-    [mapOverlayItems]="mapOverlayItems"
-    [isGoogleMapOnTop]="isGoogleMapOnTop"
-    ($onItemSelected)="onOverlayControlItemSelected($event)"
-    ($onGoogleMapsSelected)="onGoogleMapsSelected($event)"
-  ></spg-map-control>
-  <agm-map
-    [latitude]="mapOptions.latitude"
-    [longitude]="mapOptions.longitude"
-    [zoom]="mapOptions.zoom"
-  >
+    <spg-map-control
+        class="spg-map__mapoverlay-control-wrapper"
+        [mapOverlayItems]="mapOverlayItems"
+        [isGoogleMapOnTop]="isGoogleMapOnTop"
+        ($onItemSelected)="onOverlayControlItemSelected($event)"
+        ($onGoogleMapsSelected)="onGoogleMapsSelected($event)"
+    ></spg-map-control>
+    <agm-map
+        [latitude]="mapOptions.latitude"
+        [longitude]="mapOptions.longitude"
+        [zoom]="mapOptions.zoom"
+        [styles]="mapOptions.styles"
+    >
     <spg-map-overlay
-      *ngFor="let overlay of mapOverlayItems"
-      [north]="overlay.north"
-      [west]="overlay.west"
-      [east]="overlay.east"
-      [south]="overlay.south"
-      [minZoomDisplay]="overlay.minZoom"
-      [maxZoomDisplay]="overlay.maxZoom"
-      [opacity]="overlay.opacity"
-      [isDisplayed]="overlay.isDisplayed"
-      [src] = "overlay.src"
-      [zIndex]="overlay.zIndex"
-      [id]="overlay.id"
+        *ngFor="let overlay of mapOverlayItems"
+        [north]="overlay.north"
+        [west]="overlay.west"
+        [east]="overlay.east"
+        [south]="overlay.south"
+        [minZoomDisplay]="overlay.minZoom"
+        [maxZoomDisplay]="overlay.maxZoom"
+        [opacity]="overlay.opacity"
+        [isDisplayed]="overlay.isDisplayed"
+        [src] = "overlay.src"
+        [zIndex]="overlay.zIndex"
+        [id]="overlay.id"
     ></spg-map-overlay>
-  </agm-map>
+    </agm-map>
 </div>

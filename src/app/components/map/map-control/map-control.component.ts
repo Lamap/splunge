@@ -21,7 +21,6 @@ export class MapControlComponent implements OnInit {
   }
 
   onItemClicked(overlay: IMapOverlayItem) {
-    console.log(overlay);
     if (overlay.isTop) {
       return;
     }
@@ -29,6 +28,9 @@ export class MapControlComponent implements OnInit {
   }
 
   onGoogleMapsClicked() {
+    if (this.isGoogleMapOnTop) {
+      return;
+    }
     this.$onGoogleMapsSelected.emit(true);
   }
 }
