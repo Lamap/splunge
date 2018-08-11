@@ -2,7 +2,8 @@
   "name": "splunge",
   "version": "1.0.0",
   "engines": {
-    "node": "10.6.0"
+    "node": "10.6.0",
+    "npm": "6.1.0"
   },
   "license": "MIT",
   "scripts": {
