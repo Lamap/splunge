@@ -26,10 +26,10 @@ export class AppComponent {
         opacity: 100,
         dated: 2000,
         bounds: {
-            north: 47.495749,
+            north: 47.495809,
             south: 47.488865,
             east: 19.048340,
-            west: 19.034941
+            west: 19.034961
         },
     },
     {
@@ -42,10 +42,10 @@ export class AppComponent {
         opacity: 100,
         dated: 1920,
         bounds: {
-            north: 47.495749,
+            north: 47.495809,
             south: 47.488865,
             east: 19.048340,
-            west: 19.034941
+            west: 19.034961
         }
     },
     {
@@ -58,10 +58,10 @@ export class AppComponent {
         opacity: 100,
         dated: 1900,
         bounds: {
-            north: 47.495749,
+            north: 47.495809,
             south: 47.488865,
             east: 19.048340,
-            west: 19.034941
+            west: 19.034961
         }
     }
   ];

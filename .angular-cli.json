@@ -21,7 +21,8 @@
       "prefix": "spg",
       "styles": [
         "../node_modules/bootstrap/dist/css/bootstrap.min.css",
-        "styles.less"
+        "styles.less",
+        "../node_modules/material-design-icons/iconfont/material-icons.css"
       ],
       "scripts": [],
       "environmentSource": "environments/environment.ts",

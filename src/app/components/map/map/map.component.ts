@@ -1,5 +1,5 @@
-import {Component, Input, OnInit, AfterViewInit, ViewChild} from '@angular/core';
-import _ from 'lodash';
+import { Component, Input, OnInit } from '@angular/core';
+import * as _ from 'lodash';
 import { LatLngBoundsLiteral, MapTypeStyle } from '../../../../../node_modules/@agm/core/services/google-maps-types';
 import * as mapConfig from './mapConfig.json';
 
@@ -36,9 +36,8 @@ export interface IMapOverlayItem {
 })
 // TODO: get all the props, looks that agm doesnt have an interface???
 
-export class MapComponent implements OnInit, AfterViewInit {
+export class MapComponent implements OnInit {
     private mapStyles = (<any>mapConfig).styles as MapTypeStyle[];
-    public fitBounds: LatLngBoundsLiteral;
 
     public isGoogleMapOnTop = false;
 
@@ -48,13 +47,7 @@ export class MapComponent implements OnInit, AfterViewInit {
     @Input() mapOptions: IMapOptions;
     @Input() mapOverlayItems: IMapOverlayItem[];
 
-    @ViewChild('AgmMap') agmMap;
-
     constructor() {
-    }
-
-    ngAfterViewInit() {
-        console.log(this.agmMap);
     }
 
     ngOnInit() {
@@ -65,7 +58,6 @@ export class MapComponent implements OnInit, AfterViewInit {
             zoom: 10,
             styles: this.mapStyles
         };
-
         this.mapOptions = _.merge(this._defaultMapOptions, this.mapOptions);
         this.topZindex = this.mapOverlayItems.length;
         const displayedOverlay = this.mapOverlayItems.filter (overlay => overlay.isDisplayed ).pop();
