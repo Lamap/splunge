@@ -1,4 +1,6 @@
 <div class="spg-map">
+    <div class="spg-map-frame">
+    </div>
     <spg-map-control
         class="spg-map__mapoverlay-control-wrapper"
         [mapOverlayItems]="mapOverlayItems"
@@ -14,6 +16,8 @@
         [styles]="mapOptions.styles"
         [fitBounds]="mapOptions.fitBounds"
         (boundsChange) = "onBoundsChange($event)"
+        [zoomControl]="false"
+        [streetViewControl]="false"
     >
     <spg-map-overlay
         *ngFor="let overlay of mapOverlayItems"

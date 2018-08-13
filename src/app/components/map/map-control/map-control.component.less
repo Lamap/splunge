@@ -1,7 +1,10 @@
+@import '../map/map.component.less';
 .spg-map-overlay-control {
   background: #ffffff;
   @top-border-width: 4px;
   @secondtop-border-width: 2px;
+  @date-line-height: 22px;
+
   &__title {
     text-transform: uppercase;
   }
@@ -14,10 +17,9 @@
     padding: 5px;
     user-select: none;
     color: #333;
+    display: flex;
     &--is-top,
     &:hover {
-      border-left: @top-border-width solid #999;
-      margin: 0 -@top-border-width;
       font-weight: 600;
     }
     &--is-under-top {
@@ -28,8 +30,20 @@
   &__item-dated {
     font-size: 14px;
     color: #555;
+    display: flex;
+    &:after {
+      content: '';
+      border-bottom: 1px solid #555555;
+      display: block;
+      margin-top: @date-line-height / 2;
+      flex-grow: 1;
+    }
+    width: 33%;
   }
   &__item-title {
+  }
+  &__item-content {
+    width: 66%;
   }
   &__item-controls {
     display: flex;
