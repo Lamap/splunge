@@ -53,9 +53,9 @@ export class MapComponent implements OnInit {
     ngOnInit() {
 
         this._defaultMapOptions = {
-            longitude: 47,
-            latitude: 19,
-            zoom: 10,
+            longitude: 47.4852067018603,
+            latitude: 19.04982070177425,
+            zoom: 18,
             styles: this.mapStyles
         };
         this.mapOptions = _.merge(this._defaultMapOptions, this.mapOptions);
@@ -113,5 +113,13 @@ export class MapComponent implements OnInit {
     onBoundsChange($event) {
         console.log($event);
         this.mapOptions.fitBounds = null;
+    }
+
+    onZoomChange($event) {
+        console.log('zoom', $event);
+    }
+
+    onCenterChange($event) {
+        console.log('center', $event);
     }
 }

@@ -4,6 +4,8 @@
   @top-border-width: 4px;
   @secondtop-border-width: 2px;
   @date-line-height: 22px;
+  @border-color: #ccc;
+  font-family: lora, serif;
 
   &__title {
     text-transform: uppercase;
@@ -12,41 +14,72 @@
     list-style-type: none;
     margin: 0;
     padding: 0;
+    position: relative;
   }
   &__item {
     padding: 5px;
     user-select: none;
     color: #333;
     display: flex;
-    &--is-top,
-    &:hover {
+    align-items: flex-start;
+    position: relative;
+    &--is-top {
       font-weight: 600;
+      .spg-map-overlay-control__item-dated-number {
+        border: 1px solid #bbbbbb;
+        border-radius: 4px;
+      }
+      .spg-map-overlay-control__item-dated-line {
+        display: block;
+        border-bottom: 1px solid @border-color;
+        margin: 0 5px;
+        flex-grow: 1;
+      }
+      .spg-map-overlay-control__item-content {
+        border: 1px solid @border-color;
+        border-radius: 4px;
+        padding: 10px;
+      }
+    }
+    &:hover {
+      .spg-map-overlay-control__item-dated-number {
+        border: 1px solid #bbbbbb;
+        border-radius: 4px;
+        padding: 2px 4px;
+      }
     }
     &--is-under-top {
-      border-left: @secondtop-border-width solid #999;
-      margin: 0 -@secondtop-border-width;
+
+    }
+    &:after {
+      content: '';
+      border-left: 1px solid @border-color;
+      display: block;
+      position: absolute;
+      height: 100%;
+      left: 8%;
     }
   }
   &__item-dated {
     font-size: 14px;
     color: #555;
     display: flex;
-    &:after {
-      content: '';
-      border-bottom: 1px solid #555555;
-      display: block;
-      margin-top: @date-line-height / 2;
-      flex-grow: 1;
-    }
-    width: 33%;
+    align-items: center;
+    width: 25%;
+  }
+  .spg-map-overlay-control__item-dated-number {
+    padding: 3px 5px;
+    background-color: white;
+    z-index: 10;
   }
   &__item-title {
   }
   &__item-content {
-    width: 66%;
+    width: 75%;
   }
   &__item-controls {
     display: flex;
+    align-items: center;
   }
   &__item-opacity-slider {
     width: 100%;
@@ -56,5 +89,9 @@
     margin-left: auto;
     font-size: 11px;
     font-weight: normal;
+    color: #bbbbbb;
+    &:hover {
+      color: #999;
+    }
   }
 }

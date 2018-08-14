@@ -9,9 +9,9 @@ import {IMapOptions, IMapOverlayItem} from './components/map/map/map.component';
 export class AppComponent {
 
   public agmMapOptions: IMapOptions = {
-    longitude: 19.038091,
-    latitude: 47.493741,
-    zoom: 18,
+    longitude: 19.04,
+    latitude: 47.49,
+    zoom: 16,
   };
   // TODO: convert to JSON or load from db and within map compoent
   public mapOverlayItems: IMapOverlayItem[] = [
@@ -21,8 +21,7 @@ export class AppComponent {
         src: 'http://tabanatlas.hspartacus.hu/trkp/b3_22clr.gif',
         minZoom: 15,
         maxZoom: 20,
-        isDisplayed: true,
-        isTop: true,
+        isDisplayed: false,
         opacity: 100,
         dated: 2000,
         bounds: {
@@ -70,14 +69,15 @@ export class AppComponent {
           src: 'http://tabanatlas.hspartacus.hu/trkp/K3_25clr.gif',
           minZoom: 15,
           maxZoom: 20,
-          isDisplayed: false,
+          isDisplayed: true,
+          isTop: true,
           opacity: 100,
           dated: 2000,
           bounds: {
-              north: 47.495909,
-              south: 47.488665,
-              east: 19.048440,
-              west: 19.034761
+              north: 47.497600,
+              west: 19.024800,
+              south: 47.483150,
+              east: 19.0536900
           }
       },
       {
@@ -88,12 +88,12 @@ export class AppComponent {
           maxZoom: 20,
           isDisplayed: false,
           opacity: 100,
-          dated: 2000,
+          dated: 1930,
           bounds: {
-              north: 47.495909,
-              south: 47.488665,
-              east: 19.048440,
-              west: 19.034761
+              north: 47.497600,
+              west: 19.024800,
+              south: 47.483150,
+              east: 19.0536900
           }
       },
       {
@@ -104,12 +104,12 @@ export class AppComponent {
           maxZoom: 20,
           isDisplayed: false,
           opacity: 100,
-          dated: 2000,
+          dated: 1880,
           bounds: {
-              north: 47.495909,
-              south: 47.488665,
-              east: 19.048440,
-              west: 19.034761
+              north: 47.497600,
+              west: 19.024800,
+              south: 47.483150,
+              east: 19.0536900
           }
       }
   ];

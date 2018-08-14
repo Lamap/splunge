@@ -16,6 +16,8 @@
         [styles]="mapOptions.styles"
         [fitBounds]="mapOptions.fitBounds"
         (boundsChange) = "onBoundsChange($event)"
+        (zoomChange) = "onZoomChange($event)"
+        (centerChange) = "onCenterChange($event)"
         [zoomControl]="false"
         [streetViewControl]="false"
     >
