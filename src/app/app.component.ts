@@ -111,6 +111,22 @@ export class AppComponent {
               south: 47.483150,
               east: 19.0536900
           }
+      },
+      {
+          id: 'TK-1840',
+          name: 'Budapest a 19. század közepén',
+          src: 'http://tabanatlas.hspartacus.hu/trkp/693151265311-2018-08-16T19_37_21.799135Z.png',
+          minZoom: 8,
+          maxZoom: 15,
+          isDisplayed: false,
+          opacity: 100,
+          dated: 1830,
+          bounds: {
+              north: 47.549428,
+              west: 18.993773,
+              south: 47.476171,
+              east: 19.092831
+          }
       }
   ];
 

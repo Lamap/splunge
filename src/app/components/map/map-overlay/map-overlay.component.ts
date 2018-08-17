@@ -41,7 +41,6 @@ export class MapOverlayComponent implements OnInit, OnChanges, AfterViewInit {
         this.overlayImage = this.overlayElement.children[0];
 
         overlayView.setMap(gMap);
-
         overlayView.draw = () => {
             const zoomIndex = gMap.getZoom();
             const northWestCoords = new google.maps.LatLng(this.bounds.north, this.bounds.west);
@@ -64,7 +63,8 @@ export class MapOverlayComponent implements OnInit, OnChanges, AfterViewInit {
         };
 
         overlayView.onAdd = () => {
-            overlayView.getPanes().overlayImage.appendChild(this.overlayElement);
+            const targetPane = overlayView.getPanes().mapPane;
+            targetPane.appendChild(this.overlayElement);
         };
 
         overlayView.getDiv = () => {

@@ -29,6 +29,12 @@ export interface IMapOverlayItem {
     isTop?: boolean;
     isUnderTop?: boolean;
 }
+
+export interface ISpgPoint {
+    latitude: number;
+    longitude: number;
+}
+
 @Component({
     selector: 'spg-map',
     templateUrl: './map.component.html',
@@ -40,6 +46,10 @@ export class MapComponent implements OnInit {
     private mapStyles = (<any>mapConfig).styles as MapTypeStyle[];
 
     public isGoogleMapOnTop = false;
+    public points: ISpgPoint[] = [{
+        longitude: 19.044967451095545,
+        latitude: 47.488866737655705
+    }];
 
     private _defaultMapOptions: IMapOptions
     private topZindex: number;
@@ -121,5 +131,13 @@ export class MapComponent implements OnInit {
 
     onCenterChange($event) {
         console.log('center', $event);
+    }
+
+    onMapClick($event) {
+        console.log('mapClick', $event);
+        this.points.push({
+           longitude: $event.coords.lng,
+           latitude: $event.coords.lat
+        });
     }
 }

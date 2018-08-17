@@ -12,13 +12,15 @@ import { MapControlComponent } from './components/map/map-control/map-control.co
 import { MapOverlayComponent } from './components/map/map-overlay/map-overlay.component';
 import { MatCardModule, MatSliderModule } from '@angular/material';
 import 'hammerjs';
+import { MarkerComponent } from './components/map/marker/marker.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MapComponent,
     MapControlComponent,
-    MapOverlayComponent
+    MapOverlayComponent,
+    MarkerComponent
   ],
   imports: [
     FormsModule,

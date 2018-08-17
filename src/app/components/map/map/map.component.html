@@ -20,17 +20,22 @@
         (centerChange) = "onCenterChange($event)"
         [zoomControl]="false"
         [streetViewControl]="false"
+        (mapClick)="onMapClick($event)"
     >
-    <spg-map-overlay
-        *ngFor="let overlay of mapOverlayItems"
-        [minZoomDisplay]="overlay.minZoom"
-        [maxZoomDisplay]="overlay.maxZoom"
-        [opacity]="overlay.opacity"
-        [isDisplayed]="overlay.isDisplayed"
-        [src] = "overlay.src"
-        [zIndex]="overlay.zIndex"
-        [id]="overlay.id"
-        [bounds]="overlay.bounds"
-    ></spg-map-overlay>
+        <spg-marker
+            *ngFor="let point of points"
+            [options]="point"
+        ></spg-marker>
+        <spg-map-overlay
+            *ngFor="let overlay of mapOverlayItems"
+            [minZoomDisplay]="overlay.minZoom"
+            [maxZoomDisplay]="overlay.maxZoom"
+            [opacity]="overlay.opacity"
+            [isDisplayed]="overlay.isDisplayed"
+            [src] = "overlay.src"
+            [zIndex]="overlay.zIndex"
+            [id]="overlay.id"
+            [bounds]="overlay.bounds"
+        ></spg-map-overlay>
     </agm-map>
 </div>
