@@ -13,6 +13,7 @@ import { MapOverlayComponent } from './components/map/map-overlay/map-overlay.co
 import { MatCardModule, MatSliderModule } from '@angular/material';
 import 'hammerjs';
 import { MarkerComponent } from './components/map/marker/marker.component';
+import {SymbolFactoryService} from './services/symbol-factory.service';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,7 @@ import { MarkerComponent } from './components/map/marker/marker.component';
     MatCardModule,
     MatSliderModule
   ],
-  providers: [],
+  providers: [SymbolFactoryService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
