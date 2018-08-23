@@ -13,7 +13,8 @@ import { MapOverlayComponent } from './components/map/map-overlay/map-overlay.co
 import { MatCardModule, MatSliderModule } from '@angular/material';
 import 'hammerjs';
 import { MarkerComponent } from './components/map/marker/marker.component';
-import {SymbolFactoryService} from './services/symbol-factory.service';
+import { SymbolFactoryService } from './services/symbol-factory.service';
+import { AgmJsMarkerClustererModule } from '@agm/js-marker-clusterer';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import {SymbolFactoryService} from './services/symbol-factory.service';
     BrowserModule,
     BrowserAnimationsModule,
     MatCardModule,
-    MatSliderModule
+    MatSliderModule,
+    AgmJsMarkerClustererModule
   ],
   providers: [SymbolFactoryService],
   bootstrap: [AppComponent]

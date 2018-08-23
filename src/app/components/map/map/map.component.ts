@@ -3,6 +3,8 @@ import * as _ from 'lodash';
 import { LatLngBoundsLiteral, MapTypeStyle } from '../../../../../node_modules/@agm/core/services/google-maps-types';
 import * as mapConfig from './mapConfig.json';
 
+declare var google: any; // TODO: get proper typing
+
 export interface IMapOptions {
     longitude?: number;
     latitude?: number;
@@ -33,6 +35,7 @@ export interface IMapOverlayItem {
 export interface ISpgPoint {
     latitude: number;
     longitude: number;
+    iconUrl?: any;
 }
 
 @Component({
@@ -43,13 +46,18 @@ export interface ISpgPoint {
 // TODO: get all the props, looks that agm doesnt have an interface???
 
 export class MapComponent implements OnInit {
-    private mapStyles = (<any>mapConfig).styles as MapTypeStyle[];
+    private mapStyles = null;//(<any>mapConfig).styles as MapTypeStyle[];
+
+    public clusterStyles = [
+        {
+            textColor: '#FF0000',
+            textSize: 30
+        }
+    ];
+    public clusterImagePath;
 
     public isGoogleMapOnTop = false;
-    public points: ISpgPoint[] = [{
-        longitude: 19.044967451095545,
-        latitude: 47.488866737655705
-    }];
+    public points: ISpgPoint[] = [];
 
     private _defaultMapOptions: IMapOptions
     private topZindex: number;
@@ -61,6 +69,7 @@ export class MapComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.clusterImagePath = './assets/images/test.png';// 'https://dummyimage.com/50x50/ad2fad/fff'
 
         this._defaultMapOptions = {
             longitude: 47.4852067018603,
@@ -136,8 +145,12 @@ export class MapComponent implements OnInit {
     onMapClick($event) {
         console.log('mapClick', $event);
         this.points.push({
-           longitude: $event.coords.lng,
-           latitude: $event.coords.lat
+            longitude: $event.coords.lng,
+            latitude: $event.coords.lat,
+            iconUrl: {
+                path: google.maps.SymbolPath.CIRCLE,
+                scale: 10
+            }
         });
     }
 }

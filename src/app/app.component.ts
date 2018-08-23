@@ -17,7 +17,7 @@ export class AppComponent {
   public mapOverlayItems: IMapOverlayItem[] = [
     {
         id: 'T-2000',
-        name: 'Ezredforduló',
+        name: 'Tabán az ezredfordulón (L. Ákos)',
         src: 'http://tabanatlas.hspartacus.hu/trkp/b3_22clr.gif',
         minZoom: 15,
         maxZoom: 20,
@@ -31,46 +31,13 @@ export class AppComponent {
             west: 19.034961
         },
     },
-    {
-        id: 'T-1930',
-        name: 'Tabán 1930',
-        src: 'http://tabanatlas.hspartacus.hu/trkp/b2_22clr.gif',
-        minZoom: 15,
-        maxZoom: 20,
-        isDisplayed: false,
-        opacity: 100,
-        dated: 1920,
-        bounds: {
-            north: 47.495809,
-            south: 47.488865,
-            east: 19.048340,
-            west: 19.034961
-        }
-    },
-    {
-        id: 'T-1900',
-        name: 'Tabán századforduló',
-        src: 'http://tabanatlas.hspartacus.hu/trkp/b1_22clr.gif',
-        minZoom: 15,
-        maxZoom: 20,
-        isDisplayed: false,
-        opacity: 100,
-        dated: 1900,
-        bounds: {
-            north: 47.495809,
-            south: 47.488865,
-            east: 19.048340,
-            west: 19.034961
-        }
-    },
       {
           id: 'TK-2000',
-          name: 'Tabán és környéke ezredfordulón',
+          name: 'Tabán és környéke ezredfordulón (L. Ákos)',
           src: 'http://tabanatlas.hspartacus.hu/trkp/K3_25clr.gif',
           minZoom: 15,
           maxZoom: 20,
-          isDisplayed: true,
-          isTop: true,
+          isDisplayed: false,
           opacity: 100,
           dated: 2000,
           bounds: {
@@ -81,8 +48,41 @@ export class AppComponent {
           }
       },
       {
+          id: 'TK-1944',
+          name: 'Légifotó a 2. világháború végéről',
+          src: 'http://tabanatlas.hspartacus.hu/trkp/Aerial_1944_cropped_W1800.jpg',
+          minZoom: 10,
+          maxZoom: 20,
+          isDisplayed: true,
+          isTop: true,
+          opacity: 100,
+          dated: 1944,
+          bounds: {
+              north: 47.499400,
+              west: 19.032295,
+              south: 47.4879400,
+              east: 19.047728
+          }
+      },
+      {
+        id: 'T-1930',
+        name: 'A lebontás előtti Tabán (L. Ákos)',
+        src: 'http://tabanatlas.hspartacus.hu/trkp/b2_22clr.gif',
+        minZoom: 15,
+        maxZoom: 20,
+        isDisplayed: false,
+        opacity: 100,
+        dated: 1930,
+        bounds: {
+            north: 47.495809,
+            south: 47.488865,
+            east: 19.048340,
+            west: 19.034961
+        }
+    },
+      {
           id: 'TK-1930',
-          name: 'Tabán és környéke a lebontás előtt',
+          name: 'Tabán és környéke a lebontás előtt (L. Ákos)',
           src: 'http://tabanatlas.hspartacus.hu/trkp/K2_25clr.gif',
           minZoom: 15,
           maxZoom: 20,
@@ -97,14 +97,30 @@ export class AppComponent {
           }
       },
       {
+        id: 'T-1900',
+        name: 'A Tabán a századfordulón (L. Ákos)',
+        src: 'http://tabanatlas.hspartacus.hu/trkp/b1_22clr.gif',
+        minZoom: 15,
+        maxZoom: 20,
+        isDisplayed: false,
+        opacity: 100,
+        dated: 1900,
+        bounds: {
+            north: 47.495809,
+            south: 47.488865,
+            east: 19.048340,
+            west: 19.034961
+        }
+    },
+      {
           id: 'TK-1900',
-          name: 'Tabán és környéke a századforduló előtt',
+          name: 'Tabán és környéke a századfordulón (L. Ákos)',
           src: 'http://tabanatlas.hspartacus.hu/trkp/K1_28clr.gif',
           minZoom: 15,
           maxZoom: 20,
           isDisplayed: false,
           opacity: 100,
-          dated: 1880,
+          dated: 1900,
           bounds: {
               north: 47.497600,
               west: 19.024800,
@@ -113,19 +129,49 @@ export class AppComponent {
           }
       },
       {
-          id: 'TK-1840',
-          name: 'Budapest a 19. század közepén',
-          src: 'http://tabanatlas.hspartacus.hu/trkp/693151265311-2018-08-16T19_37_21.799135Z.png',
+          id: 'Marek-1874',
+          name: 'Marek féle budai felmérés',
+          src: 'http://tabanatlas.hspartacus.hu/trkp/1874_marek.jpg',
+          minZoom: 10,
+          maxZoom: 22,
+          opacity: 100,
+          dated: 1874,
+          bounds: {
+              north: 47.49827798 + 0.00252274,
+              west: 19.022684,
+              south: 47.48575498229675 + 0.00252274,
+              east: 19.047886
+          }
+      },
+      {
+          id: 'Buda-1824',
+          name: 'Buda a 19. század első felében',
+          src: 'http://tabanatlas.hspartacus.hu/trkp/1824_buda.png',
+          minZoom: 10,
+          maxZoom: 20,
+          opacity: 100,
+          dated: 1824,
+          bounds: {
+              north: 47.505324,
+              west: 19.020713,
+              south: 47.484108,
+              east: 19.049125
+          }
+      },
+      {
+          id: 'TK-1760',
+          name: 'Budapest a 18. század közepén',
+          src: 'http://tabanatlas.hspartacus.hu/trkp/btm_1760.png',
           minZoom: 8,
           maxZoom: 15,
           isDisplayed: false,
           opacity: 100,
           dated: 1830,
           bounds: {
-              north: 47.549428,
-              west: 18.993773,
-              south: 47.476171,
-              east: 19.092831
+              north: 47.545427,
+              west: 19.002246,
+              south: 47.478336,
+              east: 19.085228
           }
       }
   ];

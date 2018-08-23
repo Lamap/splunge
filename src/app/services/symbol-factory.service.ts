@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 const svg = 'data:image/svg+xml;utf-8, \
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="{{width}}" height="{{height}}"> \
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="{{width}}" height="{{height}}"\
+    style="pointer-events: none;"\
+    > \
         <defs><linearGradient id="mygx"> \
             <stop offset="0%" stop-color="#35aedc" stop-opacity="1"/> \
             <stop offset="100%" stop-color="#35aedc" stop-opacity="0"/> \

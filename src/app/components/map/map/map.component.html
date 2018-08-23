@@ -22,11 +22,19 @@
         [streetViewControl]="false"
         (mapClick)="onMapClick($event)"
     >
-        <spg-marker
-            *ngFor="let point of points"
-            [options]="point"
-        ></spg-marker>
-        <spg-map-overlay
+        <agm-marker-cluster
+                [styles]="clusterStyles"
+                [averageCenter]="true"
+                imagePath="./assets/images/test.png"
+                [gridSize]="400"
+        >
+            <spg-marker
+                    *ngFor="let point of points"
+                    [options]="point"
+            ></spg-marker>
+
+        </agm-marker-cluster>
+          <spg-map-overlay
             *ngFor="let overlay of mapOverlayItems"
             [minZoomDisplay]="overlay.minZoom"
             [maxZoomDisplay]="overlay.maxZoom"

@@ -1,6 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
 import {ISpgPoint} from '../map/map.component';
 import {SymbolFactoryService} from '../../../services/symbol-factory.service';
+import {GoogleMapsAPIWrapper} from '../../../../../node_modules/@agm/core/services/google-maps-api-wrapper';
 // import { google } from '../../../../../node_modules/@agm/core/services/google-maps-types';
 declare var google: any; // TODO: get proper typing
 
@@ -9,27 +10,28 @@ declare var google: any; // TODO: get proper typing
   templateUrl: './marker.component.html',
   styleUrls: ['./marker.component.less']
 })
-export class MarkerComponent implements OnInit {
+export class MarkerComponent implements OnInit, AfterViewInit {
 
-  @Input() options: ISpgPoint;
+    @Input() options: ISpgPoint;
 
-  public iconUrl;
+    public iconUrl;
 
-  private width = 400;
-  private height = 400;
+    private width = 400;
+    private height = 400;
 
-  constructor(private markerGenerator: SymbolFactoryService) {
-  }
+    constructor(protected _mapsWrapper: GoogleMapsAPIWrapper, private markerGenerator: SymbolFactoryService) {
+    }
 
-  ngOnInit() {
-    console.log('marker added', this.options);
+    ngOnInit() {}
 
-
-      this.iconUrl = {
-          url: this.markerGenerator.generate(0, this.width, this.height),
-          scale: 1,
-          anchor: new google.maps.Point(200, 200)
-      };;
-  }
-
+    ngAfterViewInit() {
+        console.log('marker added', this.options);
+        this._mapsWrapper.getNativeMap().then(gMap => {
+            this.iconUrl = {
+                url: this.markerGenerator.generate(0, this.width, this.height),
+                scale: 1,
+                anchor: new google.maps.Point(200, 200)
+            };
+        });
+    }
 }
