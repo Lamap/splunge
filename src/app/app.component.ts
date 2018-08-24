@@ -9,9 +9,9 @@ import {IMapOptions, IMapOverlayItem} from './components/map/map/map.component';
 export class AppComponent {
 
   public agmMapOptions: IMapOptions = {
-    longitude: 19.04,
-    latitude: 47.49,
-    zoom: 16,
+    longitude: 19.045,
+    latitude: 47.49258698962108,
+    zoom: 18,
   };
   // TODO: convert to JSON or load from db and within map compoent
   public mapOverlayItems: IMapOverlayItem[] = [
@@ -53,8 +53,6 @@ export class AppComponent {
           src: 'http://tabanatlas.hspartacus.hu/trkp/Aerial_1944_cropped_W1800.jpg',
           minZoom: 10,
           maxZoom: 20,
-          isDisplayed: true,
-          isTop: true,
           opacity: 100,
           dated: 1944,
           bounds: {
@@ -62,7 +60,8 @@ export class AppComponent {
               west: 19.032295,
               south: 47.4879400,
               east: 19.047728
-          }
+          },
+          isDisplayed: false
       },
       {
         id: 'T-1930',
@@ -135,12 +134,14 @@ export class AppComponent {
           minZoom: 10,
           maxZoom: 22,
           opacity: 100,
+          isDisplayed: true,
+          isTop: true,
           dated: 1874,
           bounds: {
-              north: 47.49827798 + 0.00252274,
-              west: 19.022684,
-              south: 47.48575498229675 + 0.00252274,
-              east: 19.047886
+              north: 47.500050,
+              west: 19.022950,
+              south: 47.488900,
+              east: 19.047600
           }
       },
       {
@@ -156,7 +157,8 @@ export class AppComponent {
               west: 19.020713,
               south: 47.484108,
               east: 19.049125
-          }
+          },
+          isDisplayed: false
       },
       {
           id: 'TK-1760',
