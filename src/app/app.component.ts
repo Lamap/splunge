@@ -130,7 +130,7 @@ export class AppComponent {
       {
           id: 'Marek-1874',
           name: 'Marek féle budai felmérés',
-          src: 'http://tabanatlas.hspartacus.hu/trkp/1874_marek.jpg',
+          src: 'http://tabanatlas.hspartacus.hu/trkp/1874_marek_v2.jpg',
           minZoom: 10,
           maxZoom: 22,
           opacity: 100,
@@ -138,10 +138,10 @@ export class AppComponent {
           isTop: true,
           dated: 1874,
           bounds: {
-              north: 47.500050,
-              west: 19.022950,
-              south: 47.488900,
-              east: 19.047600
+              north: 47.500400,
+              west: 19.022782,
+              south: 47.486973803423446,
+              east: 19.047611525575803
           }
       },
       {
