@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import * as _ from 'lodash';
-import { LatLngBoundsLiteral, MapTypeStyle } from '../../../../../node_modules/@agm/core/services/google-maps-types';
+import {
+    LatLngBoundsLiteral, MapTypeStyle, ZoomControlOptions
+} from '../../../../../node_modules/@agm/core/services/google-maps-types';
 import * as mapConfig from './mapConfig.json';
 
 declare var google: any; // TODO: get proper typing
@@ -11,6 +13,8 @@ export interface IMapOptions {
     zoom?: number;
     styles?: MapTypeStyle[];
     fitBounds?: LatLngBoundsLiteral;
+    zoomControlOptions?: ZoomControlOptions;
+    maxZoom?: number;
 }
 export interface IDateRange {
     from: number;
@@ -50,8 +54,11 @@ export class MapComponent implements OnInit {
 
     public clusterStyles = [
         {
-            textColor: '#FF0000',
-            textSize: 30
+            textColor: '#555',
+            textSize: 25,
+            url: './assets/images/clusterIcon.svg',
+            width: 46,
+            height: 46
         }
     ];
     public clusterImagePath;
@@ -75,7 +82,8 @@ export class MapComponent implements OnInit {
             longitude: 47.4852067018603,
             latitude: 19.04982070177425,
             zoom: 18,
-            styles: this.mapStyles
+            styles: this.mapStyles,
+            maxZoom: 22
         };
         this.mapOptions = _.merge(this._defaultMapOptions, this.mapOptions);
         this.topZindex = this.mapOverlayItems.length;
@@ -152,5 +160,19 @@ export class MapComponent implements OnInit {
                 scale: 10
             }
         });
+    }
+
+    zoomIn($event) {
+        if (this.mapOptions.zoom === this.mapOptions.maxZoom) {
+            return;
+        }
+        this.mapOptions.zoom++;
+    }
+    zoomOut($event) {
+        if (this.mapOptions.zoom === 0) {
+            return;
+        }
+        this.mapOptions.zoom--;
+
     }
 }

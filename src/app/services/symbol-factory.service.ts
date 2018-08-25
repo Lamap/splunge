@@ -14,7 +14,7 @@ const svg = 'data:image/svg+xml;utf-8, \
           d="M50 50 L100 40 L100 60 L50 50 0Z"\
           transform="rotate({{rotate}} 50 50)"\
         ></path> \
-        <circle cx="50" cy="50" r="2" stroke="#35aedc" stroke-width="2" fill="#FFF"> </circle> \
+        <circle cx="50" cy="50" r="2" stroke="#35aedc" stroke-width="1" fill="#FFF"> </circle> \
         </svg>';
 
 @Injectable()

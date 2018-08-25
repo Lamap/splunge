@@ -1,6 +1,10 @@
 <div class="spg-map">
     <div class="spg-map-frame">
     </div>
+    <div class="spg-map-zoom-control">
+        <div class="spg-map-zoom-control__item" (click)="zoomIn($event)">&#43;</div>
+        <div class="spg-map-zoom-control__item" (click)="zoomOut($event)">&#8722;</div>
+    </div>
     <spg-map-control
         class="spg-map__mapoverlay-control-wrapper"
         [mapOverlayItems]="mapOverlayItems"
@@ -15,18 +19,22 @@
         [zoom]="mapOptions.zoom"
         [styles]="mapOptions.styles"
         [fitBounds]="mapOptions.fitBounds"
+        [zoomControl]="false"
+        [zoomControlOptions]="mapOptions.zoomControlOptions"
+        [streetViewControl]="false"
+        [clickableIcons]="false"
+        [maxZoom]="mapOptions.maxZoom"
         (boundsChange) = "onBoundsChange($event)"
         (zoomChange) = "onZoomChange($event)"
         (centerChange) = "onCenterChange($event)"
-        [zoomControl]="false"
-        [streetViewControl]="false"
         (mapClick)="onMapClick($event)"
     >
         <agm-marker-cluster
                 [styles]="clusterStyles"
                 [averageCenter]="true"
-                imagePath="./assets/images/test.png"
-                [gridSize]="400"
+                [gridSize]="60"
+                [minimumClusterSize]="3"
+                [zoomOnClick] = "true"
         >
             <spg-marker
                     *ngFor="let point of points"

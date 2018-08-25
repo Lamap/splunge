@@ -36,3 +36,34 @@
 
 
 }
+
+@zooom-control-width: 60px;
+@zoom-control-height: 100px;
+@zoom-control-border-color: #bbb;
+.spg-map-zoom-control {
+  position: absolute;
+  bottom: 50%;
+  right: @map-frame-width;
+  width:@zooom-control-width;
+  height: @zoom-control-height;
+  z-index: @map-z-index + 1;
+  background: #ffffff;
+  font-size: 40px;
+  font-family: initial;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+  border: 1px solid @zoom-control-border-color;
+  color: #999;
+  user-select: none;
+  &__item {
+    text-align: center;
+    line-height: @zoom-control-height / 2;
+    &:first-child {
+      border-bottom: 1px solid @zoom-control-border-color;
+    }
+    &:hover {
+      color: #222;
+      cursor: pointer;
+    }
+  }
+}
