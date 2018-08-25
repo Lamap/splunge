@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
-const svg = 'data:image/svg+xml;utf-8, \
+
+// TODO: do it not like this shit
+
+const svgDirection = 'data:image/svg+xml;utf-8, \
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="{{width}}" height="{{height}}"\
     style="pointer-events: none;"\
     > \
@@ -14,8 +17,15 @@ const svg = 'data:image/svg+xml;utf-8, \
           d="M50 50 L100 40 L100 60 L50 50 0Z"\
           transform="rotate({{rotate}} 50 50)"\
         ></path> \
-        <circle cx="50" cy="50" r="2" stroke="#35aedc" stroke-width="1" fill="#FFF"> </circle> \
+        <circle cx="50" cy="50" r="2" stroke="#35aedc" stroke-width="{{strokeWidth}}" fill="#FFF"></circle> \
         </svg>';
+
+const svgNoDirection = 'data:image/svg+xml;utf-8, \
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="{{width}}" height="{{height}}"\
+    style="pointer-events: none;"\
+    > \
+        <circle cx="50" cy="50" r="2" stroke="#35aedc" stroke-width="{{strokeWidth}}" fill="#FFF"></circle> \
+    </svg>';
 
 @Injectable()
 export class SymbolFactoryService {
@@ -24,9 +34,12 @@ export class SymbolFactoryService {
     console.log('symbolfactory service');
   }
 
-  public generate(radius: number, width: number, height: number): string {
-    let output = svg.replace('{{rotate}}', radius.toString());
+  public generate(radius: number, width: number, height: number, hasDirection: boolean, isSelected: boolean): string {
+    const svg: string = hasDirection ? svgDirection : svgNoDirection;
+    const strokeWidth = isSelected ? 3 : 1;
+    let output: string = svg.replace('{{rotate}}', radius.toString());
     output = output.replace('{{width}}', width.toString());
+    output = output.replace('{{strokeWidth}}', strokeWidth.toString());
     return output.replace('{{height}}', height.toString());
   }
 

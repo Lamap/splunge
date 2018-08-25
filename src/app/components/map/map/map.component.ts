@@ -39,7 +39,10 @@ export interface IMapOverlayItem {
 export interface ISpgPoint {
     latitude: number;
     longitude: number;
-    iconUrl?: any;
+    direction?: number;
+    hasDirection?: boolean;
+    isActual?: boolean;
+    id: string;
 }
 
 @Component({
@@ -61,22 +64,24 @@ export class MapComponent implements OnInit {
             height: 46
         }
     ];
-    public clusterImagePath;
 
     public isGoogleMapOnTop = false;
     public points: ISpgPoint[] = [];
+
+    public markerCreateMode: boolean;
+    public selectedMarkerPoint: ISpgPoint;
 
     private _defaultMapOptions: IMapOptions
     private topZindex: number;
 
     @Input() mapOptions: IMapOptions;
     @Input() mapOverlayItems: IMapOverlayItem[];
+    @Input() isAdminMode: boolean;
 
     constructor() {
     }
 
     ngOnInit() {
-        this.clusterImagePath = './assets/images/test.png';// 'https://dummyimage.com/50x50/ad2fad/fff'
 
         this._defaultMapOptions = {
             longitude: 47.4852067018603,
@@ -152,14 +157,23 @@ export class MapComponent implements OnInit {
 
     onMapClick($event) {
         console.log('mapClick', $event);
-        this.points.push({
+
+        if (!this.markerCreateMode) {
+            return;
+        }
+
+        this.clearPrevSelectedPoint();
+
+        this.selectedMarkerPoint = {
             longitude: $event.coords.lng,
             latitude: $event.coords.lat,
-            iconUrl: {
-                path: google.maps.SymbolPath.CIRCLE,
-                scale: 10
-            }
-        });
+            isActual: true,
+            direction: 90,
+            id: Math.round(Math.random() * 10000000000).toString()
+        };
+
+        this.points.push(this.selectedMarkerPoint);
+        this.markerCreateMode = false;
     }
 
     zoomIn($event) {
@@ -174,5 +188,33 @@ export class MapComponent implements OnInit {
         }
         this.mapOptions.zoom--;
 
+    }
+
+    markerCreateModeChanged($event) {
+        this.markerCreateMode = $event;
+    }
+
+    markerDataUpdated($updatedPoint) {
+        const index = this.points.map(point => point.id).indexOf($updatedPoint.id);
+        this.points[index] = JSON.parse(JSON.stringify($updatedPoint));
+    }
+
+    markerSelected($updatedPoint) {
+        const index = this.points.map(point => point.id).indexOf($updatedPoint.id);
+
+        this.clearPrevSelectedPoint();
+
+        $updatedPoint.isActual = true;
+        this.selectedMarkerPoint = $updatedPoint;
+        this.points[index] = JSON.parse(JSON.stringify($updatedPoint));
+    }
+
+    private clearPrevSelectedPoint() {
+        if (!this.selectedMarkerPoint) {
+            return;
+        }
+        const prevIndex = this.points.map(point => point.id).indexOf(this.selectedMarkerPoint.id);
+        this.selectedMarkerPoint.isActual = false;
+        this.points[prevIndex] = JSON.parse(JSON.stringify(this.selectedMarkerPoint));
     }
 }

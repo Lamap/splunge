@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit, OnChanges, Output, EventEmitter } from '@angular/core';
 import {ISpgPoint} from '../map/map.component';
 import {SymbolFactoryService} from '../../../services/symbol-factory.service';
 import {GoogleMapsAPIWrapper} from '../../../../../node_modules/@agm/core/services/google-maps-api-wrapper';
@@ -10,9 +10,10 @@ declare var google: any; // TODO: get proper typing
   templateUrl: './marker.component.html',
   styleUrls: ['./marker.component.less']
 })
-export class MarkerComponent implements OnInit, AfterViewInit {
+export class MarkerComponent implements OnInit, AfterViewInit, OnChanges {
 
-    @Input() options: ISpgPoint;
+    @Input() markerPoint: ISpgPoint;
+    @Output() $markerSelected = new EventEmitter<ISpgPoint>();
 
     public iconUrl;
 
@@ -25,13 +26,25 @@ export class MarkerComponent implements OnInit, AfterViewInit {
     ngOnInit() {}
 
     ngAfterViewInit() {
-        console.log('marker added', this.options);
+        console.log('marker added', this.markerPoint);
         this._mapsWrapper.getNativeMap().then(gMap => {
             this.iconUrl = {
-                url: this.markerGenerator.generate(0, this.width, this.height),
+                url: this.markerGenerator.generate(
+                    this.markerPoint.direction,
+                    this.width, this.height,
+                    this.markerPoint.hasDirection,
+                    this.markerPoint.isActual),
                 scale: 1,
-                anchor: new google.maps.Point(200, 200)
+                anchor: new google.maps.Point(this.width / 2, this.height / 2)
             };
         });
+    }
+
+    ngOnChanges(simpleChange) {
+        console.log('markerChanged', simpleChange);
+    }
+
+    public markerClicked() {
+        this.$markerSelected.emit(this.markerPoint);
     }
 }

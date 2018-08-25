@@ -10,11 +10,12 @@ import { AgmOverlays } from 'agm-overlays';
 import { MapComponent } from './components/map/map/map.component';
 import { MapControlComponent } from './components/map/map-control/map-control.component';
 import { MapOverlayComponent } from './components/map/map-overlay/map-overlay.component';
-import { MatCardModule, MatSliderModule } from '@angular/material';
+import { MatCardModule, MatSliderModule, MatCheckboxModule } from '@angular/material';
 import 'hammerjs';
 import { MarkerComponent } from './components/map/marker/marker.component';
 import { SymbolFactoryService } from './services/symbol-factory.service';
 import { AgmJsMarkerClustererModule } from '@agm/js-marker-clusterer';
+import { MarkerEditorComponent } from './components/map/marker-editor/marker-editor.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { AgmJsMarkerClustererModule } from '@agm/js-marker-clusterer';
     MapComponent,
     MapControlComponent,
     MapOverlayComponent,
-    MarkerComponent
+    MarkerComponent,
+    MarkerEditorComponent
   ],
   imports: [
     FormsModule,
@@ -34,6 +36,7 @@ import { AgmJsMarkerClustererModule } from '@agm/js-marker-clusterer';
     BrowserAnimationsModule,
     MatCardModule,
     MatSliderModule,
+    MatCheckboxModule,
     AgmJsMarkerClustererModule
   ],
   providers: [SymbolFactoryService],

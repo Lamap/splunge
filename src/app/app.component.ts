@@ -7,6 +7,7 @@ import {IMapOptions, IMapOverlayItem} from './components/map/map/map.component';
   styleUrls: ['./app.component.less']
 })
 export class AppComponent {
+  public isAdminMode: boolean;
 
   public agmMapOptions: IMapOptions = {
     longitude: 19.045,

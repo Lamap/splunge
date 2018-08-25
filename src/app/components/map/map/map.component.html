@@ -5,6 +5,14 @@
         <div class="spg-map-zoom-control__item" (click)="zoomIn($event)">&#43;</div>
         <div class="spg-map-zoom-control__item" (click)="zoomOut($event)">&#8722;</div>
     </div>
+    <div class="spg-map__marker-editor-wrapper" *ngIf="isAdminMode">
+        <spg-marker-editor
+            [markerCreateMode]="markerCreateMode"
+            [markerPoint]="selectedMarkerPoint"
+            ($markerCreatedModeSwitched)="markerCreateModeChanged($event)"
+            ($markerUpdated)="markerDataUpdated($event)"
+        ></spg-marker-editor>
+    </div>
     <spg-map-control
         class="spg-map__mapoverlay-control-wrapper"
         [mapOverlayItems]="mapOverlayItems"
@@ -38,7 +46,8 @@
         >
             <spg-marker
                     *ngFor="let point of points"
-                    [options]="point"
+                    [markerPoint]="point"
+                    ($markerSelected)="markerSelected($event)"
             ></spg-marker>
 
         </agm-marker-cluster>

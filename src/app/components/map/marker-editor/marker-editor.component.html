@@ -1,0 +1,34 @@
+<div class="spg-marker-editor">
+  <h4 class="spg-marker-editor__header">Manage markers</h4>
+  <div class="spg-marker-editor__description">Select a marker to edit or click to create a new one</div>
+  <div class="spg-marker-editor__actions">
+    <span class="spg-marker-editor__action-item" (click)="setCreatedMode()">
+      <i class="material-icons" title="Create new marker">
+        add_circle_outline
+      </i>
+    </span>
+    <span class="spg-marker-editor__action-item" (click)="deleteMarker()" *ngIf="markerPoint">
+      <i class="material-icons" title="Delete this marker" >
+        delete_forever
+      </i>
+    </span>
+  </div>
+  <div class="spg-marker-editor__messages" *ngIf="markerCreateMode">
+    Now you can click on the map to add a new marker
+  </div>
+  <div class="spg-marker-editor__settings" *ngIf="markerPoint">
+    <mat-checkbox
+        class="spg-marker-editor__has-direction"
+        [(ngModel)]="markerPoint.hasDirection"
+        (change)="markerIsUpdated($event)"
+    >Has direction</mat-checkbox>
+      <mat-slider
+        class="spg-marker-editor__direction-settings"
+        *ngIf="markerPoint.hasDirection"
+        [(ngModel)]="markerPoint.direction"
+        [min]="1"
+        [max]="360"
+        (change)="markerIsUpdated($event)"
+      ></mat-slider>
+  </div>
+</div>

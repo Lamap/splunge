@@ -1,9 +1,10 @@
 <span>
   <agm-marker
-      [latitude]="options.latitude"
-      [longitude]="options.longitude"
+      [latitude]="markerPoint.latitude"
+      [longitude]="markerPoint.longitude"
       [iconUrl]="iconUrl"
-      [markerClickable]="false"
+      [markerClickable]="true"
+      (markerClick)="markerClicked()"
   ></agm-marker>
   <!-- here comes the arrow/anchor sign -->
 </span>
