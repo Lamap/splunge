@@ -11,6 +11,7 @@
             [markerPoint]="selectedMarkerPoint"
             ($markerCreatedModeSwitched)="markerCreateModeChanged($event)"
             ($markerUpdated)="markerDataUpdated($event)"
+            ($markerDeleted)="markerDeleted($event)"
         ></spg-marker-editor>
     </div>
     <spg-map-control
@@ -32,6 +33,7 @@
         [streetViewControl]="false"
         [clickableIcons]="false"
         [maxZoom]="mapOptions.maxZoom"
+        [draggableCursor]="draggableCursor"
         (boundsChange) = "onBoundsChange($event)"
         (zoomChange) = "onZoomChange($event)"
         (centerChange) = "onCenterChange($event)"
@@ -47,7 +49,9 @@
             <spg-marker
                     *ngFor="let point of points"
                     [markerPoint]="point"
+                    [isAdminMode]="isAdminMode"
                     ($markerSelected)="markerSelected($event)"
+                    ($markerRepositioned)="markerDataUpdated($event)"
             ></spg-marker>
 
         </agm-marker-cluster>

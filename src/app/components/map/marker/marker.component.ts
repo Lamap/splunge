@@ -13,7 +13,10 @@ declare var google: any; // TODO: get proper typing
 export class MarkerComponent implements OnInit, AfterViewInit, OnChanges {
 
     @Input() markerPoint: ISpgPoint;
+    @Input() isAdminMode: boolean;
+
     @Output() $markerSelected = new EventEmitter<ISpgPoint>();
+    @Output() $markerRepositioned = new EventEmitter<ISpgPoint>();
 
     public iconUrl;
 
@@ -46,5 +49,11 @@ export class MarkerComponent implements OnInit, AfterViewInit, OnChanges {
 
     public markerClicked() {
         this.$markerSelected.emit(this.markerPoint);
+    }
+
+    public markerDropped($event) {
+        this.markerPoint.longitude = $event.coords.lng;
+        this.markerPoint.latitude = $event.coords.lat;
+        this.$markerRepositioned.emit(this.markerPoint);
     }
 }

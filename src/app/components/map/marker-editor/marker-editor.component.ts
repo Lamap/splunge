@@ -12,6 +12,7 @@ export class MarkerEditorComponent implements OnInit {
   @Input() markerCreateMode: boolean;
   @Output() $markerCreatedModeSwitched = new EventEmitter<Boolean>();
   @Output() $markerUpdated = new EventEmitter<ISpgPoint>();
+  @Output() $markerDeleted = new EventEmitter<ISpgPoint>();
 
   constructor() { }
 
@@ -25,6 +26,7 @@ export class MarkerEditorComponent implements OnInit {
 
   deleteMarker() {
     console.log('delete marker');
+      this.$markerDeleted.emit(this.markerPoint);
   }
 
   markerIsUpdated($event) {

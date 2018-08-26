@@ -3,8 +3,10 @@
       [latitude]="markerPoint.latitude"
       [longitude]="markerPoint.longitude"
       [iconUrl]="iconUrl"
+      [markerDraggable]="isAdminMode"
       [markerClickable]="true"
       (markerClick)="markerClicked()"
+      (dragEnd)="markerDropped($event)"
   ></agm-marker>
   <!-- here comes the arrow/anchor sign -->
 </span>

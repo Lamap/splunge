@@ -53,7 +53,7 @@ export interface ISpgPoint {
 // TODO: get all the props, looks that agm doesnt have an interface???
 
 export class MapComponent implements OnInit {
-    private mapStyles = null;//(<any>mapConfig).styles as MapTypeStyle[];
+    private mapStyles = null; // (<any>mapConfig).styles as MapTypeStyle[];
 
     public clusterStyles = [
         {
@@ -70,8 +70,9 @@ export class MapComponent implements OnInit {
 
     public markerCreateMode: boolean;
     public selectedMarkerPoint: ISpgPoint;
+    public draggableCursor: string;
 
-    private _defaultMapOptions: IMapOptions
+    private _defaultMapOptions: IMapOptions;
     private topZindex: number;
 
     @Input() mapOptions: IMapOptions;
@@ -143,7 +144,6 @@ export class MapComponent implements OnInit {
     }
 
     onBoundsChange($event) {
-        console.log($event);
         this.mapOptions.fitBounds = null;
     }
 
@@ -156,7 +156,6 @@ export class MapComponent implements OnInit {
     }
 
     onMapClick($event) {
-        console.log('mapClick', $event);
 
         if (!this.markerCreateMode) {
             return;
@@ -174,6 +173,7 @@ export class MapComponent implements OnInit {
 
         this.points.push(this.selectedMarkerPoint);
         this.markerCreateMode = false;
+        this.draggableCursor = 'move';
     }
 
     zoomIn($event) {
@@ -192,11 +192,21 @@ export class MapComponent implements OnInit {
 
     markerCreateModeChanged($event) {
         this.markerCreateMode = $event;
+        if ($event) {
+            this.draggableCursor = 'url("./assets/images/addCursor.svg"), auto';
+        }
     }
 
     markerDataUpdated($updatedPoint) {
         const index = this.points.map(point => point.id).indexOf($updatedPoint.id);
+
         this.points[index] = JSON.parse(JSON.stringify($updatedPoint));
+        this.selectedMarkerPoint = this.points[index];
+    }
+
+    markerDeleted($deletedPoint) {
+        const index = this.points.map(point => point.id).indexOf($deletedPoint.id);
+        this.points.splice(index, 1);
     }
 
     markerSelected($updatedPoint) {
