@@ -192,9 +192,7 @@ export class MapComponent implements OnInit {
 
     markerCreateModeChanged($event) {
         this.markerCreateMode = $event;
-        if ($event) {
-            this.draggableCursor = 'url("./assets/images/addCursor.svg"), auto';
-        }
+        this.draggableCursor = $event ? 'url("./assets/images/addCursor.svg"), auto' : 'move';
 
         this.selectedMarkerId = null;
         this.selectedMarkerPoint = null;

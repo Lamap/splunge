@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 // TODO: do it not like this shit
-
+/*
 const svgDirection = 'data:image/svg+xml;utf-8, \
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="{{width}}" height="{{height}}"\
     style="pointer-events: none;"\
@@ -19,12 +19,20 @@ const svgDirection = 'data:image/svg+xml;utf-8, \
         ></path> \
         <circle cx="50" cy="50" r="2" stroke="#35aedc" stroke-width="{{strokeWidth}}" fill="#FFF"></circle> \
         </svg>';
+*/
+const svgDirection = 'data:image/svg+xml;utf-8, \
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="{{width}}" height="{{height}}"\
+    style="pointer-events: none;"\
+    > \
+        <circle cx="50" cy="50" r="25" stroke="#35aedc" stroke-width="{{strokeWidth}}" fill="#FFF"></circle> \
+        <rect x="45" y="0" width="10" height="20" fill="#35aedc" transform="rotate({{rotate}} 50 50)"></rect> \
+        </svg>';
 
 const svgNoDirection = 'data:image/svg+xml;utf-8, \
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="{{width}}" height="{{height}}"\
     style="pointer-events: none;"\
     > \
-        <circle cx="50" cy="50" r="2" stroke="#35aedc" stroke-width="{{strokeWidth}}" fill="#FFF"></circle> \
+        <circle cx="50" cy="50" r="25" stroke="#35aedc" stroke-width="{{strokeWidth}}" fill="#FFF"></circle> \
     </svg>';
 
 @Injectable()
@@ -36,7 +44,7 @@ export class SymbolFactoryService {
 
   public generate(radius: number, width: number, height: number, hasDirection: boolean, isSelected: boolean): string {
     const svg: string = hasDirection ? svgDirection : svgNoDirection;
-    const strokeWidth = isSelected ? 3 : 1;
+    const strokeWidth = isSelected ? 16 : 8;
     let output: string = svg.replace('{{rotate}}', radius.toString());
     output = output.replace('{{width}}', width.toString());
     output = output.replace('{{strokeWidth}}', strokeWidth.toString());

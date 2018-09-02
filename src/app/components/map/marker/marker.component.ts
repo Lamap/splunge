@@ -21,8 +21,8 @@ export class MarkerComponent implements OnInit, AfterViewInit, OnChanges {
 
     public iconUrl;
 
-    private width = 400;
-    private height = 400;
+    private width = 40;
+    private height = 40;
 
     constructor(protected _mapsWrapper: GoogleMapsAPIWrapper, private markerGenerator: SymbolFactoryService) {
     }

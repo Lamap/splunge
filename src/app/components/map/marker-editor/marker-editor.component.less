@@ -1,9 +1,31 @@
 .spg-marker-editor {
-  background: #fff;
-  padding: 10px;
-  border: 1px solid #bbb;
-  border-bottom-left-radius: 4px;
-  color: #333;
+  display: flex;
+
+  &__independent-actions {
+    display: flex;
+    padding: 5px;
+  }
+
+  &__selected-content {
+    background: #fff;
+    padding: 10px;
+    border: 1px solid #bbb;
+    border-bottom-left-radius: 4px;
+    color: #333;
+    flex-grow: 1;
+  }
+
+  &__description-inner {
+    display: flex;
+    border-bottom: 1px solid #bbb;
+    margin-bottom: 10px;
+  }
+
+  &__exit-selected {
+    margin-left: auto;
+    cursor: pointer;
+    user-select: none;
+  }
 
   &__actions {
   }
@@ -20,7 +42,20 @@
   }
 
   &__action-item {
+    display: inline-block;
     cursor: pointer;
+    border-radius: 100%;
+    border: 1px solid #bbb;
+    background: #fff;
+    width: 40px;
+    padding: 6px;
+    height: 40px;
+    text-align: center;
+    margin: 2px;
+    color: #9e94c1;
+    &:hover {
+      color: #333;
+    }
   }
   &__direction-settings {
     flex-grow: 1;

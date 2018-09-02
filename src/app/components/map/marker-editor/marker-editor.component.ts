@@ -19,9 +19,9 @@ export class MarkerEditorComponent implements OnInit {
   ngOnInit() {
   }
 
-  setCreatedMode() {
-    console.log('add mode');
-    this.$markerCreatedModeSwitched.emit(true);
+  toggleCreateMode() {
+    console.log('toggle add mode');
+    this.$markerCreatedModeSwitched.emit(!this.markerCreateMode);
   }
 
   deleteMarker() {
@@ -31,6 +31,19 @@ export class MarkerEditorComponent implements OnInit {
 
   markerIsUpdated($event) {
       this.$markerUpdated.emit(this.markerPoint);
+  }
+
+  quitSelected() {
+    console.log('quit selected');
+  }
+  zoomToAllMarkers() {
+    console.log('zoomToAllMarkers');
+  }
+  panToSelectedMarker() {
+    console.log('pan to selected marker');
+  }
+  setCurrentZoomAsMaxVisibleDirection() {
+    console.log('setZoom to this marker');
   }
 
 }
