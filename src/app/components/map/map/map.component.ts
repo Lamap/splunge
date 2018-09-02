@@ -4,6 +4,9 @@ import {
     LatLngBoundsLiteral, MapTypeStyle, ZoomControlOptions
 } from '../../../../../node_modules/@agm/core/services/google-maps-types';
 import * as mapConfig from './mapConfig.json';
+import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
+import { Observable } from 'rxjs/Observable';
+import { MarkerCrudService } from '../../../services/marker-crud.service';
 
 declare var google: any; // TODO: get proper typing
 
@@ -36,13 +39,17 @@ export interface IMapOverlayItem {
     isUnderTop?: boolean;
 }
 
-export interface ISpgPoint {
+export interface ISpgCoords {
     latitude: number;
     longitude: number;
-    direction?: number;
+}
+
+export interface ISpgMarker {
+    id?: string;
+    coords: ISpgCoords;
     hasDirection?: boolean;
+    direction?: number;
     isActual?: boolean;
-    id: string;
 }
 
 @Component({
@@ -53,7 +60,9 @@ export interface ISpgPoint {
 // TODO: get all the props, looks that agm doesnt have an interface???
 
 export class MapComponent implements OnInit {
-    private mapStyles = null; // (<any>mapConfig).styles as MapTypeStyle[];
+    public markerFbsCollection: AngularFirestoreCollection<ISpgMarker>;
+    public markers$: Observable<ISpgMarker[]>;
+    public selectedMarkerId: string;
 
     public clusterStyles = [
         {
@@ -66,20 +75,22 @@ export class MapComponent implements OnInit {
     ];
 
     public isGoogleMapOnTop = false;
-    public points: ISpgPoint[] = [];
-
     public markerCreateMode: boolean;
-    public selectedMarkerPoint: ISpgPoint;
-    public draggableCursor: string;
 
+    public selectedMarkerPoint: ISpgMarker;
+    public draggableCursor: string;
     private _defaultMapOptions: IMapOptions;
+
+    private mapStyles = null; // (<any>mapConfig).styles as MapTypeStyle[];
     private topZindex: number;
 
     @Input() mapOptions: IMapOptions;
     @Input() mapOverlayItems: IMapOverlayItem[];
     @Input() isAdminMode: boolean;
 
-    constructor() {
+    constructor(store: AngularFirestore, private markerService: MarkerCrudService) {
+        this.markerFbsCollection = store.collection('markers');
+        this.markers$ = markerService.markers$;
     }
 
     ngOnInit() {
@@ -156,24 +167,13 @@ export class MapComponent implements OnInit {
     }
 
     onMapClick($event) {
-
-        if (!this.markerCreateMode) {
-            return;
+        if (this.markerCreateMode) {
+            this.addMarker({
+                // TODO: use google coords format everywhere
+                latitude: $event.coords.lat,
+                longitude: $event.coords.lng
+            });
         }
-
-        this.clearPrevSelectedPoint();
-
-        this.selectedMarkerPoint = {
-            longitude: $event.coords.lng,
-            latitude: $event.coords.lat,
-            isActual: true,
-            direction: 90,
-            id: Math.round(Math.random() * 10000000000).toString()
-        };
-
-        this.points.push(this.selectedMarkerPoint);
-        this.markerCreateMode = false;
-        this.draggableCursor = 'move';
     }
 
     zoomIn($event) {
@@ -195,36 +195,37 @@ export class MapComponent implements OnInit {
         if ($event) {
             this.draggableCursor = 'url("./assets/images/addCursor.svg"), auto';
         }
+
+        this.selectedMarkerId = null;
+        this.selectedMarkerPoint = null;
     }
 
-    markerDataUpdated($updatedPoint) {
-        const index = this.points.map(point => point.id).indexOf($updatedPoint.id);
+    addMarker(coords: ISpgCoords) {
+        this.selectedMarkerPoint = null;
+        this.selectedMarkerId = null;
+        this.markerCreateMode = false;
+        this.draggableCursor = 'move';
 
-        this.points[index] = JSON.parse(JSON.stringify($updatedPoint));
-        this.selectedMarkerPoint = this.points[index];
+        this.markerService.addMarker(coords).then(newMarker => {
+            this.selectedMarkerPoint = newMarker;
+            this.selectedMarkerId = newMarker.id;
+        });
     }
 
-    markerDeleted($deletedPoint) {
-        const index = this.points.map(point => point.id).indexOf($deletedPoint.id);
-        this.points.splice(index, 1);
+    updateMarker($updatedPoint) {
+        this.markerService.updateMarker($updatedPoint);
     }
 
-    markerSelected($updatedPoint) {
-        const index = this.points.map(point => point.id).indexOf($updatedPoint.id);
-
-        this.clearPrevSelectedPoint();
-
-        $updatedPoint.isActual = true;
-        this.selectedMarkerPoint = $updatedPoint;
-        this.points[index] = JSON.parse(JSON.stringify($updatedPoint));
+    deleteMarker($deletedPoint) {
+        this.markerService.deleteMarker($deletedPoint).then(() => {
+            this.selectedMarkerPoint = null;
+        });
     }
 
-    private clearPrevSelectedPoint() {
-        if (!this.selectedMarkerPoint) {
-            return;
-        }
-        const prevIndex = this.points.map(point => point.id).indexOf(this.selectedMarkerPoint.id);
-        this.selectedMarkerPoint.isActual = false;
-        this.points[prevIndex] = JSON.parse(JSON.stringify(this.selectedMarkerPoint));
+    selectMarker($selectedPoint) {
+        console.log($selectedPoint);
+        this.selectedMarkerId = $selectedPoint.id;
+        this.selectedMarkerPoint = $selectedPoint;
+        this.markerCreateMode = false;
     }
 }

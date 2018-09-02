@@ -13,9 +13,15 @@ import { MapOverlayComponent } from './components/map/map-overlay/map-overlay.co
 import { MatCardModule, MatSliderModule, MatCheckboxModule } from '@angular/material';
 import 'hammerjs';
 import { MarkerComponent } from './components/map/marker/marker.component';
-import { SymbolFactoryService } from './services/symbol-factory.service';
 import { AgmJsMarkerClustererModule } from '@agm/js-marker-clusterer';
 import { MarkerEditorComponent } from './components/map/marker-editor/marker-editor.component';
+
+import { environment } from '../environments/environment';
+import { AngularFireModule } from 'angularfire2';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
+
+import { SymbolFactoryService } from './services/symbol-factory.service';
+import { MarkerCrudService } from './services/marker-crud.service';
 
 @NgModule({
   declarations: [
@@ -37,9 +43,11 @@ import { MarkerEditorComponent } from './components/map/marker-editor/marker-edi
     MatCardModule,
     MatSliderModule,
     MatCheckboxModule,
-    AgmJsMarkerClustererModule
+    AgmJsMarkerClustererModule,
+    AngularFireModule.initializeApp(environment.firebase, 'splunge'),
+    AngularFirestoreModule
   ],
-  providers: [SymbolFactoryService],
+  providers: [SymbolFactoryService, MarkerCrudService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

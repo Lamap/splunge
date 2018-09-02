@@ -10,8 +10,8 @@
             [markerCreateMode]="markerCreateMode"
             [markerPoint]="selectedMarkerPoint"
             ($markerCreatedModeSwitched)="markerCreateModeChanged($event)"
-            ($markerUpdated)="markerDataUpdated($event)"
-            ($markerDeleted)="markerDeleted($event)"
+            ($markerUpdated)="updateMarker($event)"
+            ($markerDeleted)="deleteMarker($event)"
         ></spg-marker-editor>
     </div>
     <spg-map-control
@@ -47,11 +47,12 @@
                 [zoomOnClick] = "true"
         >
             <spg-marker
-                    *ngFor="let point of points"
+                    *ngFor="let point of markers$ | async"
+                    [isSelected] = "point.id === selectedMarkerId"
                     [markerPoint]="point"
                     [isAdminMode]="isAdminMode"
-                    ($markerSelected)="markerSelected($event)"
-                    ($markerRepositioned)="markerDataUpdated($event)"
+                    ($markerSelected)="selectMarker($event)"
+                    ($markerRepositioned)="updateMarker($event)"
             ></spg-marker>
 
         </agm-marker-cluster>

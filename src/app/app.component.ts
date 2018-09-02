@@ -135,8 +135,8 @@ export class AppComponent {
           minZoom: 10,
           maxZoom: 22,
           opacity: 100,
-          isDisplayed: true,
-          isTop: true,
+          isDisplayed: false,
+          isTop: false,
           dated: 1874,
           bounds: {
               north: 47.500400,

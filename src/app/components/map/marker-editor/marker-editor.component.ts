@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import {ISpgPoint} from '../map/map.component';
+import { ISpgMarker } from '../map/map.component';
 
 @Component({
   selector: 'spg-marker-editor',
@@ -8,11 +8,11 @@ import {ISpgPoint} from '../map/map.component';
 })
 export class MarkerEditorComponent implements OnInit {
 
-  @Input() markerPoint: ISpgPoint;
+  @Input() markerPoint: ISpgMarker;
   @Input() markerCreateMode: boolean;
   @Output() $markerCreatedModeSwitched = new EventEmitter<Boolean>();
-  @Output() $markerUpdated = new EventEmitter<ISpgPoint>();
-  @Output() $markerDeleted = new EventEmitter<ISpgPoint>();
+  @Output() $markerUpdated = new EventEmitter<ISpgMarker>();
+  @Output() $markerDeleted = new EventEmitter<ISpgMarker>();
 
   constructor() { }
 
@@ -26,7 +26,7 @@ export class MarkerEditorComponent implements OnInit {
 
   deleteMarker() {
     console.log('delete marker');
-      this.$markerDeleted.emit(this.markerPoint);
+    this.$markerDeleted.emit(this.markerPoint);
   }
 
   markerIsUpdated($event) {
