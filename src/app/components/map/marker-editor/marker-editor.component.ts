@@ -13,6 +13,10 @@ export class MarkerEditorComponent implements OnInit {
   @Output() $markerCreatedModeSwitched = new EventEmitter<Boolean>();
   @Output() $markerUpdated = new EventEmitter<ISpgMarker>();
   @Output() $markerDeleted = new EventEmitter<ISpgMarker>();
+  @Output() $quitSelection = new EventEmitter<void>();
+  @Output() $zoomToAllMarkers = new EventEmitter<void>();
+  @Output() $panToSelected = new EventEmitter<ISpgMarker>();
+  @Output() $setMinZoomOnSelected = new EventEmitter<ISpgMarker>();
 
   constructor() { }
 
@@ -20,12 +24,10 @@ export class MarkerEditorComponent implements OnInit {
   }
 
   toggleCreateMode() {
-    console.log('toggle add mode');
     this.$markerCreatedModeSwitched.emit(!this.markerCreateMode);
   }
 
   deleteMarker() {
-    console.log('delete marker');
     this.$markerDeleted.emit(this.markerPoint);
   }
 
@@ -34,13 +36,13 @@ export class MarkerEditorComponent implements OnInit {
   }
 
   quitSelected() {
-    console.log('quit selected');
+    this.$quitSelection.emit();
   }
   zoomToAllMarkers() {
     console.log('zoomToAllMarkers');
   }
   panToSelectedMarker() {
-    console.log('pan to selected marker');
+    this.$panToSelected.emit(this.markerPoint);
   }
   setCurrentZoomAsMaxVisibleDirection() {
     console.log('setZoom to this marker');

@@ -9,9 +9,11 @@
         <spg-marker-editor
             [markerCreateMode]="markerCreateMode"
             [markerPoint]="selectedMarkerPoint"
+            ($quitSelection)="quitMarkerSelection()"
             ($markerCreatedModeSwitched)="markerCreateModeChanged($event)"
             ($markerUpdated)="updateMarker($event)"
             ($markerDeleted)="deleteMarker($event)"
+            ($panToSelected)="panToSelectedMarker($event)"
         ></spg-marker-editor>
     </div>
     <spg-map-control

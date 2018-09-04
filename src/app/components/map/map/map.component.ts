@@ -192,15 +192,13 @@ export class MapComponent implements OnInit {
 
     markerCreateModeChanged($event) {
         this.markerCreateMode = $event;
-        this.draggableCursor = $event ? 'url("./assets/images/addCursor.svg"), auto' : 'move';
+        this.draggableCursor = $event ? 'crosshair' : 'move';
 
-        this.selectedMarkerId = null;
-        this.selectedMarkerPoint = null;
+        this.quitMarkerSelection();
     }
 
     addMarker(coords: ISpgCoords) {
-        this.selectedMarkerPoint = null;
-        this.selectedMarkerId = null;
+        this.quitMarkerSelection();
         this.markerCreateMode = false;
         this.draggableCursor = 'move';
 
@@ -225,5 +223,16 @@ export class MapComponent implements OnInit {
         this.selectedMarkerId = $selectedPoint.id;
         this.selectedMarkerPoint = $selectedPoint;
         this.markerCreateMode = false;
+    }
+
+    quitMarkerSelection() {
+        this.selectedMarkerPoint = null;
+        this.selectedMarkerId = null;
+    }
+
+    panToSelectedMarker($selectedPoint) {
+        this.mapOptions.longitude = $selectedPoint.coords.longitude;
+        this.mapOptions.latitude = $selectedPoint.coords.latitude;
+        this.mapOptions = JSON.parse(JSON.stringify(this.mapOptions));
     }
 }

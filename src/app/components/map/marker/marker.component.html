@@ -1,5 +1,6 @@
 <span>
   <agm-marker
+      #agmMarker
       [latitude]="markerPoint.coords.latitude"
       [longitude]="markerPoint.coords.longitude"
       [iconUrl]="iconUrl"
@@ -9,4 +10,27 @@
       (dragEnd)="markerDropped($event)"
   ></agm-marker>
   <!-- here comes the arrow/anchor sign -->
+  <div #svgContent>
+    <div style="position: absolute; cursor: pointer;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
+        <defs>
+          <linearGradient id="markergradient">
+            <stop offset="0%" stop-color="#35aedc" stop-opacity="1"></stop>
+            <stop offset="100%" stop-color="#35aedc" stop-opacity="0"></stop>
+          </linearGradient>
+        </defs>
+        <!--
+        <path
+              fill="url(\u0023markergradient)"
+              stroke-width="0"
+              stroke="black"
+              d="M50 50 L100 40 L100 60 L50 50 0Z"
+              transform="rotate(0 50 50)"
+        ></path>
+        -->
+        <circle cx="0" cy="0" r="50" fill="#35aedc" opacity="0.5"></circle>
+
+      </svg>
+    </div>
+  </div>
 </span>

@@ -1,3 +1,5 @@
+@icon-color: #9e94c1;
+
 .spg-marker-editor {
   display: flex;
 
@@ -45,16 +47,17 @@
     display: inline-block;
     cursor: pointer;
     border-radius: 100%;
-    border: 1px solid #bbb;
+    border: 1px solid @icon-color;
     background: #fff;
     width: 40px;
     padding: 6px;
     height: 40px;
     text-align: center;
     margin: 2px;
-    color: #9e94c1;
+    color: @icon-color;
     &:hover {
       color: #333;
+      border-color: #333;
     }
   }
   &__direction-settings {
