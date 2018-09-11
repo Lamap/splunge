@@ -7,6 +7,7 @@ import * as mapConfig from './mapConfig.json';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { Observable } from 'rxjs/Observable';
 import { MarkerCrudService } from '../../../services/marker-crud.service';
+import { AuthService } from '../../../services/auth.service';
 
 declare var google: any; // TODO: get proper typing
 
@@ -74,23 +75,30 @@ export class MapComponent implements OnInit {
         }
     ];
 
+    public isAdminMode: boolean;
     public isGoogleMapOnTop = false;
-    public markerCreateMode: boolean;
 
+    public markerCreateMode: boolean;
     public selectedMarkerPoint: ISpgMarker;
     public draggableCursor: string;
+
     private _defaultMapOptions: IMapOptions;
-
     private mapStyles = null; // (<any>mapConfig).styles as MapTypeStyle[];
-    private topZindex: number;
 
+    private topZindex: number;
     @Input() mapOptions: IMapOptions;
     @Input() mapOverlayItems: IMapOverlayItem[];
-    @Input() isAdminMode: boolean;
 
-    constructor(store: AngularFirestore, private markerService: MarkerCrudService) {
+    constructor(store: AngularFirestore, private markerService: MarkerCrudService, authService: AuthService) {
         this.markerFbsCollection = store.collection('markers');
         this.markers$ = markerService.markers$;
+        authService.user$.subscribe(user => {
+            if (user) {
+                this.isAdminMode = true;
+            } else {
+                this.isAdminMode = false;
+            }
+        });
     }
 
     ngOnInit() {

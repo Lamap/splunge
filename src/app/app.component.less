@@ -1,8 +1,47 @@
-.test-class2 {
-    color: aqua;
-}
+@import './components/map/map/map.component.less';
 
-.map-placeholder {
+.spg-layout {
+    display: flex;
+    .aut-button {
+        color: white;
+        cursor: pointer;
+        font-size: 11px;
+    }
+    &__auth-box {
+        position: absolute;
+        right: 4px;
+        top: 4px;
+    }
+    &__auth-login {
+        .aut-button;
+    }
+    &__auth-logout {
+        .aut-button;
+        display: flex;
+        align-items: center;
+    }
+    &__header {
+        position: absolute;
+        background: @map-frame-color;
+        z-index: 10;
+        height: @map-frame-width;
+        width: 100%;
+    }
+    &__auth-username {
+        cursor: default;
+        margin-right: 10px;
+    }
+}
+.spg-map-placeholder {
     width: 100%;
     height: 100vh;
+}
+.spg-images-placeholder {
+    height: 300px;
+    width: 200px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    z-index: 10000;
+    background: #fff;
 }

@@ -1,9 +1,36 @@
-<div class="map-placeholder">
-  <spg-map
-    [mapOptions]="agmMapOptions"
-    [mapOverlayItems]="mapOverlayItems"
-    [isAdminMode]="true"
-  >
-  </spg-map>
+<div class="spg-layout">
+  <div class="spg-layout__header">
+    <div class="spg-layout__auth-box">
+    <span
+            class="spg-layout__auth-login"
+            *ngIf="!(user$ | async)"
+            (click)="logIn()"
+    >
+        <i class="material-icons md-18">
+          account_circle
+        </i>
+    </span>
+    <div
+              class="spg-layout__auth-logout"
+              *ngIf="user$ | async"
+              (click)="logOut()"
+    >
+      <span class="spg-layout__auth-username" >{{userEmail}}</span>
+      <i class="material-icons md-18">
+        exit_to_app
+      </i>
+    </div>
+    </div>
+  </div>
+  <div class="spg-map-placeholder">
+    <spg-map
+            [mapOptions]="agmMapOptions"
+            [mapOverlayItems]="mapOverlayItems"
+    >
+    </spg-map>
+  </div>
+  <div class="spg-images-placeholder">
+    <spg-image-control></spg-image-control>
+  </div>
 </div>
 

@@ -1,5 +1,10 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import {IMapOptions, IMapOverlayItem} from './components/map/map/map.component';
+import { IMapOptions, IMapOverlayItem } from './components/map/map/map.component';
+import { AuthService } from './services/auth.service';
+import { Observable } from 'rxjs/Observable';
+import * as firebase from 'firebase';
+import { MatDialog, MatDialogRef } from '@angular/material';
+import {AuthDialogComponent, IUserAuthData} from './components/common/auth-dialog/auth-dialog.component';
 
 @Component({
   selector: 'app-root',
@@ -8,6 +13,7 @@ import {IMapOptions, IMapOverlayItem} from './components/map/map/map.component';
 })
 export class AppComponent {
   public isAdminMode: boolean;
+  public user$: Observable<firebase.User>;
 
   public agmMapOptions: IMapOptions = {
     longitude: 19.045,
@@ -178,6 +184,31 @@ export class AppComponent {
           }
       }
   ];
+  public userAuthData: IUserAuthData;
+  public userEmail: string = '';
+  private authDialogRef: MatDialogRef<AuthDialogComponent, IUserAuthData>;
 
-  constructor () {}
+  constructor (private authService: AuthService, private dialog: MatDialog) {
+      this.userAuthData = {
+          email: null,
+          password: null
+      };
+      this.user$ = this.authService.user$;
+      this.authService.user$.subscribe(user => {
+         console.log('user::::::::: ', user);
+         this.userEmail = user ? user.email : '';
+      });
+  }
+  logIn() {
+      this.authDialogRef = this.dialog.open(AuthDialogComponent, {
+          data: this.userAuthData
+      });
+      this.authDialogRef.afterClosed().subscribe(result => {
+          console.log('The dialog was closed', result, this.userAuthData);
+          this.authService.logIn(this.userAuthData.email, this.userAuthData.password);
+      });
+  }
+  logOut() {
+      this.authService.logOut();
+  }
 }

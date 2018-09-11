@@ -10,7 +10,7 @@ export const environment = {
     authDomain: 'splunge-1532551630532.firebaseapp.com',
     databaseURL: 'https://splunge-1532551630532.firebaseio.com',
     projectId: 'splunge-1532551630532',
-    storageBucket: 'splunge-1532551630532.appspot.com',
+    storageBucket: 'gs://splunge-1532551630532',
     messagingSenderId: '96384098107'
   }
 };

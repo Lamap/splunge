@@ -9,7 +9,7 @@
 
   &__mapoverlay-control-wrapper {
     position: absolute;
-    top: 10px;
+    top: 20px;
     left: 10px;
     width: 350px;
     z-index: @map-z-index + 1;
@@ -18,10 +18,10 @@
 
 .spg-map-frame {
   position: absolute;
-  top: @map-frame-width;
+  top: @map-frame-width * 2;
   left: @map-frame-width;
   width: ~"calc(100% - 2 * @{map-frame-width})";
-  height: ~"calc(100% - 2 * @{map-frame-width})";
+  height: ~"calc(100% - 3 * @{map-frame-width})";
   z-index: @map-z-index + 2;
   pointer-events: none;
   border-radius: 10px;
@@ -70,7 +70,7 @@
 
 .spg-map__marker-editor-wrapper {
   position: absolute;
-  top: @map-frame-width;
+  top: 2 * @map-frame-width;
   right: @map-frame-width;
   z-index: @map-z-index + 1;
   width: 500px;
