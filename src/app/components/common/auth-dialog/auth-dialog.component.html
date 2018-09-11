@@ -1,0 +1,15 @@
+<div class="spg-auth-dialog">
+  <input
+    class="spg-auth-dialog__email form-control"
+    type="text"
+    placeholder="email"
+    [(ngModel)]="data.email"
+  />
+  <input
+    class="spg-auth-dialog__password form-control"
+    type="password"
+    placeholder="password"
+    [(ngModel)]="data.password"
+  />
+  <button class="spg-auth-dialog__submit btn btn-light" (click)="submit()">Login</button>
+</div>

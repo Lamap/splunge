@@ -1,0 +1,15 @@
+<div class="spg-image-uploader">
+    <input
+        class="spg-image-uploader__file-input"
+        type="file"
+        (change)="fileAdded($event)"
+        multiple
+        #fileupload
+    >
+    <span (click)="browseFiles()">
+        Select files to upload
+    </span>
+    <span (click)="uploadFiles()">
+        Submit
+    </span>
+</div>
