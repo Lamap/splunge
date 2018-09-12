@@ -8,12 +8,12 @@ import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/cor
 export class FileUploaderComponent implements OnInit {
 
   @ViewChild('fileupload') fileInput;
-  @Output() uploadFiles$ = new EventEmitter<any>();
+  @Output() uploadFiles$ = new EventEmitter<File>();
 
-  private tempFile: any;
-  private files: Set<File>;
+  public tempLoadedFile;
+  private selectedFile: File;
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
   }
@@ -23,21 +23,31 @@ export class FileUploaderComponent implements OnInit {
   }
 
   fileAdded($event) {
-      const file = $event.target.files.item(0);
-      this.tempFile = file;
-      console.log('sejhajdihó', file);
-      if (file.type.match('image.*')) {
-          console.log('we have the file');
-          // this.selectedFiles = $event.target.files;
+      this.selectedFile = $event.target.files.item(0);
+      const hasError: string | boolean = this.isInvalid(this.selectedFile);
+      if (!hasError) {
+          const reader = new FileReader();
+          reader.readAsDataURL(this.selectedFile);
+          reader.onload = (event) => {
+             this.tempLoadedFile = (<any>event.target).result;
+          };
       } else {
-          alert('invalid format!');
+          alert(hasError);
       }
-      //this.imageService.create();
   }
 
   uploadFiles() {
-    console.log('now we upload them all');
-    this.uploadFiles$.emit(this.tempFile);
+    this.uploadFiles$.emit(this.selectedFile);
+  }
+
+  isInvalid(file: File) {
+    if (!file.type.match('image\/.*jpg|image\/.*jpeg|image\/.*png|image\/.*gif')) {
+        return 'The supported image formats are: jpg, jpeg, png and gif';
+    }
+    if (file.size > 300000) {
+        return 'The maximum image size is 300 kb';
+    }
+    return false;
   }
 
 }

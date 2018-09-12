@@ -11,18 +11,19 @@ export class AuthService {
     constructor (private afAuth: AngularFireAuth) {
         this.user$ = this.afAuth.authState;
     }
-
+    // TODO: show visual feedback on errors (eg. infobar)
     logIn(email: string, psw: string) {
         this.afAuth.auth.signInWithEmailAndPassword(email, psw)
-            .then(success => console.log('logged:', success))
-            .catch(error => console.log('ohohohoo:', error));
+            .then(success => console.log('Logged in'))
+            .catch(error => console.warn('Failed to authenticate:', error));
     }
 
     logOut() {
         this.afAuth.auth.signOut()
-            .then((success) => {
-                console.log('logged out', success);
-            });
+            .then(success => {
+                console.log('logged out');
+            })
+            .catch(error => console.warn('Failed to log out:', error));
     }
 
 }
