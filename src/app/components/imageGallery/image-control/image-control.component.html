@@ -6,6 +6,6 @@
         ></spg-head-image>
     </div>
     <div class="spg-image-control__image-list">
-        <spg-image-list></spg-image-list>
+        <spg-image-list (imageSelected$)="imageLoadFromList($event)"></spg-image-list>
     </div>
 </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ImageCrudService, ImageData } from '../../../services/image-crud.service';
 
 @Component({
@@ -10,6 +10,8 @@ export class ImageListComponent implements OnInit {
 
   public imageListFirstCol: ImageData[] = [];
   public imageListSecondCol: ImageData[] = [];
+
+  @Output() imageSelected$ = new EventEmitter<ImageData>();
 
   constructor(imageService: ImageCrudService) {
     imageService.imageList$.subscribe(images => {
@@ -23,6 +25,11 @@ export class ImageListComponent implements OnInit {
         }
       });
     });
+  }
+
+  itemClicked ($image) {
+    console.log($image);
+    this.imageSelected$.emit($image);
   }
 
   ngOnInit() {

@@ -4,12 +4,12 @@
     </div>
     <div class="spg-image-list__items">
         <div class="spg-image-list__first-col">
-            <div class="spg-image-list__item" *ngFor="let image of imageListFirstCol">
+            <div class="spg-image-list__item" *ngFor="let image of imageListFirstCol" (click)="itemClicked(image)">
                 <img class="spg-image-list__img" [src]="image.url" />
             </div>
         </div>
         <div class="spg-image-list__second-col" >
-            <div class="spg-image-list__item" *ngFor="let image of imageListSecondCol">
+            <div class="spg-image-list__item" *ngFor="let image of imageListSecondCol" (click)="itemClicked(image)">
                 <img class="spg-image-list__img" [src]="image.url" />
             </div>
         </div>

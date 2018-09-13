@@ -22,6 +22,10 @@ export class ImageControlComponent implements OnInit {
       });
   }
 
+  imageLoadFromList($event) {
+    this.image = $event;
+  }
+
   ngOnInit() {
   }
 }
