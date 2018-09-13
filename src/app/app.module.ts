@@ -27,8 +27,10 @@ import { MarkerCrudService } from './services/marker-crud.service';
 import { AuthService } from './services/auth.service';
 import { ImageCrudService} from './services/image-crud.service';
 import { ImageControlComponent } from './components/imageGallery/image-control/image-control.component';
-import { FileUploaderComponent } from './components/imageGallery/file-uploader/file-uploader.component';
+import { FileSelectorComponent } from './components/imageGallery/file-selector/file-selector.component';
 import { AuthDialogComponent } from './components/common/auth-dialog/auth-dialog.component';
+import { HeadImageComponent } from './components/imageGallery/head-image/head-image.component';
+import { ImageListComponent } from './components/imageGallery/image-list/image-list.component';
 
 @NgModule({
   declarations: [
@@ -39,8 +41,10 @@ import { AuthDialogComponent } from './components/common/auth-dialog/auth-dialog
     MarkerComponent,
     MarkerEditorComponent,
     ImageControlComponent,
-    FileUploaderComponent,
-    AuthDialogComponent
+    FileSelectorComponent,
+    AuthDialogComponent,
+    HeadImageComponent,
+    ImageListComponent
   ],
   entryComponents: [
       AuthDialogComponent

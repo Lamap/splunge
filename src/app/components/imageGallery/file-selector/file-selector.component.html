@@ -1,0 +1,14 @@
+<span class="spg-image-selector">
+    <span class="spg-image-selector__button" (click)=browseFiles()>
+        <i class="material-icons" title="Add new image">
+            add_box
+        </i>
+    </span>
+    <input
+        class="spg-image-selector__file-input"
+        type="file"
+        (change)="fileAdded($event)"
+        multiple
+        #fileupload
+    >
+</span>

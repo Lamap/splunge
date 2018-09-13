@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ImageCrudService } from '../../../services/image-crud.service';
+import { ImageData } from '../../../services/image-crud.service';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'spg-image-control',
@@ -8,18 +9,19 @@ import { ImageCrudService } from '../../../services/image-crud.service';
 })
 export class ImageControlComponent implements OnInit {
 
-  constructor(private imageService: ImageCrudService) {}
+  public isAdminMode = false;
+  public image: ImageData;
+
+  constructor(private authService: AuthService) {
+      authService.user$.subscribe(user => {
+          if (user) {
+              this.isAdminMode = true;
+          } else {
+              this.isAdminMode = false;
+          }
+      });
+  }
 
   ngOnInit() {
   }
-
-  uploadFiles($event) {
-    console.log('uploadFiles', $event);
-    /*
-      const storageRef = firebase.storage().ref();
-      const uploadTask = storageRef.child(`${this.basePath}/${fileUpload.file.name}`).put(fileUpload.file);
-      */
-      this.imageService.upload($event);
-  }
-
 }

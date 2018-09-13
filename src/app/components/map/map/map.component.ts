@@ -4,7 +4,7 @@ import {
     LatLngBoundsLiteral, MapTypeStyle, ZoomControlOptions
 } from '../../../../../node_modules/@agm/core/services/google-maps-types';
 import * as mapConfig from './mapConfig.json';
-import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
+import { AngularFirestoreCollection } from 'angularfire2/firestore';
 import { Observable } from 'rxjs/Observable';
 import { MarkerCrudService } from '../../../services/marker-crud.service';
 import { AuthService } from '../../../services/auth.service';
@@ -89,8 +89,7 @@ export class MapComponent implements OnInit {
     @Input() mapOptions: IMapOptions;
     @Input() mapOverlayItems: IMapOverlayItem[];
 
-    constructor(store: AngularFirestore, private markerService: MarkerCrudService, authService: AuthService) {
-        this.markerFbsCollection = store.collection('markers');
+    constructor(private markerService: MarkerCrudService, authService: AuthService) {
         this.markers$ = markerService.markers$;
         authService.user$.subscribe(user => {
             if (user) {

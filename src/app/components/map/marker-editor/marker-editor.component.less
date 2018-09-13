@@ -1,4 +1,4 @@
-@icon-color: #9e94c1;
+@import "../../../app.component.less";
 
 .spg-marker-editor {
   display: flex;
@@ -44,21 +44,7 @@
   }
 
   &__action-item {
-    display: inline-block;
-    cursor: pointer;
-    border-radius: 100%;
-    border: 1px solid @icon-color;
-    background: #fff;
-    width: 40px;
-    padding: 6px;
-    height: 40px;
-    text-align: center;
-    margin: 2px;
-    color: @icon-color;
-    &:hover {
-      color: #333;
-      border-color: #333;
-    }
+    .spg-rounded-icon-button;
   }
   &__direction-settings {
     flex-grow: 1;

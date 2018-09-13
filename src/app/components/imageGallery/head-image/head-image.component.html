@@ -1,0 +1,25 @@
+<div class="spg-head-image">
+    <spg-file-selector
+        class="spg-head-image__add-new"
+        *ngIf="isAdminMode"
+        (fileSelected$)="fileSelected($event)"
+    ></spg-file-selector>
+    <div class="spg-head-image__img" *ngIf="image">
+        <img
+                class="spg-head-image__img-content"
+                [src]="image.url"
+        />
+        <div *ngIf="!isAdminMode">
+            <div class="spg-head-image__img-date">{{image.dated}}</div>
+            <div class="spg-head-image__img-title">{{image.title}}</div>
+            <div class="spg-head-image__img-description">{{image.description}}</div>
+        </div>
+        <div *ngIf="isAdminMode">
+            <input type="text" class="spg-head-image__img-date" [(ngModel)]="image.dated" />
+            <input type="text" class="spg-head-image__img-title" [(ngModel)]="image.title" />
+            <input type="text" class="spg-head-image__img-description" [(ngModel)]="image.description" />
+        </div>
+    </div>
+
+    <h5 *ngIf="!image">No image is selected</h5>
+</div>

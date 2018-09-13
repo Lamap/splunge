@@ -195,7 +195,6 @@ export class AppComponent {
       };
       this.user$ = this.authService.user$;
       this.authService.user$.subscribe(user => {
-         console.log('user::::::::: ', user);
          this.userEmail = user ? user.email : '';
       });
   }
@@ -204,7 +203,6 @@ export class AppComponent {
           data: this.userAuthData
       });
       this.authDialogRef.afterClosed().subscribe(result => {
-          console.log('The dialog was closed', result, this.userAuthData);
           this.authService.logIn(this.userAuthData.email, this.userAuthData.password);
       });
   }

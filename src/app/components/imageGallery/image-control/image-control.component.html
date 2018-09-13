@@ -1,10 +1,11 @@
-<div>
-    Here goes the images
-    <spg-file-uploader
-        (uploadFiles$)="uploadFiles($event)"
-    ></spg-file-uploader>
-    <div class="spg-selected-image">
-
+<div class="spg-image-control">
+    <div class="spg-image-control__head-image">
+        <spg-head-image
+            [isAdminMode]="isAdminMode"
+            [image]="image"
+        ></spg-head-image>
     </div>
-    <div class="spg-image-list"></div>
+    <div class="spg-image-control__image-list">
+        <spg-image-list></spg-image-list>
+    </div>
 </div>

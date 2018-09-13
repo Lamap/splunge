@@ -1,14 +1,15 @@
 import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
 
 @Component({
-  selector: 'spg-file-uploader',
-  templateUrl: './file-uploader.component.html',
-  styleUrls: ['./file-uploader.component.less']
+  selector: 'spg-file-selector',
+  templateUrl: './file-selector.component.html',
+  styleUrls: ['./file-selector.component.less']
 })
-export class FileUploaderComponent implements OnInit {
+// TODO: rename to fileSelector
+export class FileSelectorComponent implements OnInit {
 
   @ViewChild('fileupload') fileInput;
-  @Output() uploadFiles$ = new EventEmitter<File>();
+  @Output() fileSelected$ = new EventEmitter<File>();
 
   public tempLoadedFile;
   private selectedFile: File;
@@ -30,21 +31,18 @@ export class FileUploaderComponent implements OnInit {
           reader.readAsDataURL(this.selectedFile);
           reader.onload = (event) => {
              this.tempLoadedFile = (<any>event.target).result;
+             this.fileSelected$.emit(this.selectedFile);
           };
       } else {
           alert(hasError);
       }
   }
 
-  uploadFiles() {
-    this.uploadFiles$.emit(this.selectedFile);
-  }
-
   isInvalid(file: File) {
     if (!file.type.match('image\/.*jpg|image\/.*jpeg|image\/.*png|image\/.*gif')) {
         return 'The supported image formats are: jpg, jpeg, png and gif';
     }
-    if (file.size > 300000) {
+    if (file.size > 350000) {
         return 'The maximum image size is 300 kb';
     }
     return false;

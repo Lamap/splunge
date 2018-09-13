@@ -1,0 +1,17 @@
+<div class="spg-image-list">
+    <div class="spg-image-list__control">
+      filters and sorters
+    </div>
+    <div class="spg-image-list__items">
+        <div class="spg-image-list__first-col">
+            <div class="spg-image-list__item" *ngFor="let image of imageListFirstCol">
+                <img class="spg-image-list__img" [src]="image.url" />
+            </div>
+        </div>
+        <div class="spg-image-list__second-col" >
+            <div class="spg-image-list__item" *ngFor="let image of imageListSecondCol">
+                <img class="spg-image-list__img" [src]="image.url" />
+            </div>
+        </div>
+    </div>
+</div>

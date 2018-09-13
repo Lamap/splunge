@@ -1,5 +1,8 @@
 @import './components/map/map/map.component.less';
 
+@image-block-width: 400px;
+@icon-color: #9e94c1;
+
 .spg-layout {
     display: flex;
     .aut-button {
@@ -33,15 +36,34 @@
     }
 }
 .spg-map-placeholder {
-    width: 100%;
+    width: ~"calc(100% - @{image-block-width})";
     height: 100vh;
+    position: relative;
 }
 .spg-images-placeholder {
-    height: 300px;
-    width: 200px;
+    height: ~"calc(100% - @{map-frame-width})";
+    width: @image-block-width;
     position: absolute;
     right: 0;
-    bottom: 0;
-    z-index: 10000;
+    padding-top: 10px;
+    top: @map-frame-width;
+    background: @map-frame-color;
+}
+
+.spg-rounded-icon-button {
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 100%;
+    border: 1px solid @icon-color;
     background: #fff;
+    width: 40px;
+    padding: 6px;
+    height: 40px;
+    text-align: center;
+    margin: 2px;
+    color: @icon-color;
+    &:hover {
+        color: #333;
+        border-color: #333;
+    }
 }
