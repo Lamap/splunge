@@ -31,6 +31,7 @@ import { FileSelectorComponent } from './components/imageGallery/file-selector/f
 import { AuthDialogComponent } from './components/common/auth-dialog/auth-dialog.component';
 import { HeadImageComponent } from './components/imageGallery/head-image/head-image.component';
 import { ImageListComponent } from './components/imageGallery/image-list/image-list.component';
+import { ImageListItemComponent } from './components/imageGallery/image-list-item/image-list-item.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { ImageListComponent } from './components/imageGallery/image-list/image-l
     FileSelectorComponent,
     AuthDialogComponent,
     HeadImageComponent,
-    ImageListComponent
+    ImageListComponent,
+    ImageListItemComponent
   ],
   entryComponents: [
       AuthDialogComponent

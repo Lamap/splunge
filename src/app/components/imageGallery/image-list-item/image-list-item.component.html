@@ -1,0 +1,12 @@
+<div class="spg-image-list-item">
+    <span
+        *ngIf="isAdminMode"
+        class="spg-image-list-item__delete"
+        (click)="deleteImage(image)"
+    >
+        <i class="material-icons" title="Delete this image" >
+          delete_forever
+        </i>
+    </span>
+  <img class="spg-image-list-item__img" [src]="image.url" (click)="itemClicked(image)"/>
+</div>

@@ -1,5 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { ImageCrudService, ImageData } from '../../../services/image-crud.service';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { ImageData } from '../../../services/image-crud.service';
 
 @Component({
   selector: 'spg-head-image',
@@ -8,20 +8,16 @@ import { ImageCrudService, ImageData } from '../../../services/image-crud.servic
 })
 export class HeadImageComponent implements OnInit {
 
+  @Output() deleteImage$ = new EventEmitter<ImageData>();
   @Input() isAdminMode = false;
   @Input() image: ImageData;
-  constructor(private imageService: ImageCrudService) { }
+  constructor() { }
 
   ngOnInit() {
   }
 
-  fileSelected($event: File) {
-    this.imageService.upload($event, image => this.onImageSaved(image));
-  }
-
-  onImageSaved(newImage: ImageData) {
-    this.image = newImage;
-    // TODO: message - This image is already uploaded, now you can add information either delete if you do not need
+  deleteImage($image) {
+    this.deleteImage$.emit($image);
   }
 
 }

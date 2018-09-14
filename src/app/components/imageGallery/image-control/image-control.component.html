@@ -1,11 +1,21 @@
 <div class="spg-image-control">
     <div class="spg-image-control__head-image">
+        <spg-file-selector
+                class="spg-head-image__add-new"
+                *ngIf="isAdminMode"
+                (fileSelected$)="fileSelected($event)"
+        ></spg-file-selector>
         <spg-head-image
             [isAdminMode]="isAdminMode"
-            [image]="image"
+            [image]="selectedImage"
+            (deleteImage$)="deleteImage($event)"
         ></spg-head-image>
     </div>
     <div class="spg-image-control__image-list">
-        <spg-image-list (imageSelected$)="imageLoadFromList($event)"></spg-image-list>
+        <spg-image-list
+            (imageSelected$)="imageLoadFromList($event)"
+            [isAdminMode]="isAdminMode"
+            [imageList]="imageList"
+        ></spg-image-list>
     </div>
 </div>

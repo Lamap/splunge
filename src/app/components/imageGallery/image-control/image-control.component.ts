@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ImageData } from '../../../services/image-crud.service';
+import { ImageCrudService, ImageData } from '../../../services/image-crud.service';
 import { AuthService } from '../../../services/auth.service';
 
 @Component({
@@ -10,9 +10,11 @@ import { AuthService } from '../../../services/auth.service';
 export class ImageControlComponent implements OnInit {
 
   public isAdminMode = false;
-  public image: ImageData;
+  public imageList: ImageData[];
+  public selectedImageId: string;
+  public selectedImage: ImageData;
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, private imageService: ImageCrudService) {
       authService.user$.subscribe(user => {
           if (user) {
               this.isAdminMode = true;
@@ -20,11 +22,36 @@ export class ImageControlComponent implements OnInit {
               this.isAdminMode = false;
           }
       });
+      this.imageService.imageList$.subscribe(images => {
+          this.imageList = images;
+          this.selectedImage = this.getSelectedImage(this.selectedImageId);
+      });
   }
 
   imageLoadFromList($event) {
-    this.image = $event;
+    this.selectedImageId = $event.id;
+    this.selectedImage = this.getSelectedImage($event.id);
   }
+
+  getSelectedImage(id: string): ImageData {
+    return this.imageList.filter(image => {
+        return image.id === id;
+    }).pop();
+  }
+
+  fileSelected($event: File) {
+    this.imageService.upload($event, image => this.onImageSaved(image));
+  }
+
+  onImageSaved(newImage: ImageData) {
+    this.selectedImageId = newImage.id;
+    this.selectedImage = this.getSelectedImage(this.selectedImageId);
+  }
+
+  deleteImage($image) {
+      this.imageService.delete($image);
+  }
+
 
   ngOnInit() {
   }

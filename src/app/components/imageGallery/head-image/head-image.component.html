@@ -1,10 +1,14 @@
 <div class="spg-head-image">
-    <spg-file-selector
-        class="spg-head-image__add-new"
-        *ngIf="isAdminMode"
-        (fileSelected$)="fileSelected($event)"
-    ></spg-file-selector>
     <div class="spg-head-image__img" *ngIf="image">
+        <span
+                 *ngIf="isAdminMode"
+                 class="spg-head-image__delete"
+                 (click)="deleteImage(image)"
+         >
+           <i class="material-icons" title="Delete this image" >
+              delete_forever
+           </i>
+        </span>
         <img
                 class="spg-head-image__img-content"
                 [src]="image.url"

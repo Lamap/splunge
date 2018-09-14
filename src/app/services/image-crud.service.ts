@@ -7,6 +7,7 @@ import { Observable } from 'rxjs/Observable';
 export interface ImageData {
     url: string;
     originalName: string;
+    filePath: string;
     author: string;
     id?: string;
     title?: string;
@@ -22,11 +23,12 @@ export class ImageCrudService {
   private imagesFbsCollection: AngularFirestoreCollection<ImageData>;
   private basePath = '/BTM';
   private author: string;
+  private storageRef;
 
   constructor(store: AngularFirestore, private auth: AuthService) {
     console.log('imageCRUD service');
     this.imagesFbsCollection = store.collection('images');
-
+    this.storageRef = firebase.storage().ref();
     auth.user$.subscribe(user => {
        this.author = user ? user.email : null;
     });
@@ -44,12 +46,12 @@ export class ImageCrudService {
 
   upload(file: File, done: Function) {
       console.log('upload new image', file);
-      const storageRef = firebase.storage().ref();
       const origFileName = file.name;
       const fileName = 'spg-' + (new Date()).getTime().toString();
-      const uploadTask = storageRef.child(`${this.basePath}/${fileName}`).put(file);
+      const filePath = `${this.basePath}/${fileName}`;
+      const uploadTask = this.storageRef.child(filePath).put(file);
       uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
-snapshot => {
+            snapshot => {
                 // in progress
                 const snap = snapshot as firebase.storage.UploadTaskSnapshot;
                 this.taskProgress = Math.round((snap.bytesTransferred / snap.totalBytes) * 100);
@@ -62,13 +64,28 @@ snapshot => {
           () => {
               // completed successfully
               console.log(uploadTask.snapshot.downloadURL);
-              this.createNewImageData(uploadTask.snapshot.downloadURL, origFileName, done);
+              this.createNewImageData(uploadTask.snapshot.downloadURL, origFileName, filePath, done);
             });
   }
 
-  createNewImageData(url: string, originalName: string, done: Function) {
+  delete(image: ImageData) {
+      if (!image.filePath && !image.id) {
+          return;
+      }
+      this.storageRef.child(image.filePath).delete()
+          .then(success => {
+            console.log('image deleted', success);
+            this.deleteFromStore(image);
+          })
+          .catch(error => {
+              console.warn('Image delete failed:', error);
+          });
+  }
+
+  createNewImageData(url: string, originalName: string, filePath: string, done: Function) {
       const newItem: ImageData = {
           url: url,
+          filePath: filePath,
           originalName: originalName,
           author: this.author
       };
@@ -77,6 +94,16 @@ snapshot => {
           newItem.id = doc.id;
           done(newItem);
       });
+  }
+
+  deleteFromStore(image: ImageData) {
+      this.imagesFbsCollection.doc(image.id).delete()
+          .then(() => {
+              console.log('Image deleted');
+          })
+          .catch(error => {
+              console.warn('Failed to delete: ', error);
+          });
   }
 
 }

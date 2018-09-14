@@ -1,34 +1,38 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { ImageCrudService, ImageData } from '../../../services/image-crud.service';
+import { Component, OnInit, Output, Input, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { ImageData } from '../../../services/image-crud.service';
 
 @Component({
   selector: 'spg-image-list',
   templateUrl: './image-list.component.html',
   styleUrls: ['./image-list.component.less']
 })
-export class ImageListComponent implements OnInit {
+export class ImageListComponent implements OnInit, OnChanges {
 
   public imageListFirstCol: ImageData[] = [];
   public imageListSecondCol: ImageData[] = [];
 
+  @Input() isAdminMode: boolean;
+  @Input() imageList: ImageData[];
   @Output() imageSelected$ = new EventEmitter<ImageData>();
 
-  constructor(imageService: ImageCrudService) {
-    imageService.imageList$.subscribe(images => {
+  constructor() {}
+
+    // TODO: doit it with subscribe instead of ngChange
+    ngOnChanges(changes: SimpleChanges) {
+    if (changes && changes.imageList && changes.imageList.currentValue) {
       this.imageListFirstCol = [];
       this.imageListSecondCol = [];
-      images.forEach((image, index) => {
-        if (index % 2 === 0) {
-          this.imageListFirstCol.push(image);
-        } else {
-          this.imageListSecondCol.push(image);
-        }
+      changes.imageList.currentValue.forEach((image, index) => {
+          if (index % 2 === 0) {
+              this.imageListFirstCol.push(image);
+          } else {
+              this.imageListSecondCol.push(image);
+          }
       });
-    });
+    }
   }
 
-  itemClicked ($image) {
-    console.log($image);
+  onItemClicked ($image) {
     this.imageSelected$.emit($image);
   }
 
