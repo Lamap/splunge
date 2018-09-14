@@ -3,6 +3,8 @@ import * as firebase from 'firebase';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { AuthService } from './auth.service';
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import { switchMap } from 'rxjs/operators';
 
 export interface ImageData {
     url: string;
@@ -15,33 +17,67 @@ export interface ImageData {
     dated?: number;
 }
 
+export interface ImageQuery {
+    sortDesc: Boolean;
+    searchText: String;
+}
+
 @Injectable()
 export class ImageCrudService {
 
   public taskProgress = 0;
   public imageList$:  Observable<ImageData[]>;
+  public query$ = new Subject<ImageQuery>();
+
   private imagesFbsCollection: AngularFirestoreCollection<ImageData>;
   private basePath = '/BTM';
   private author: string;
   private storageRef;
 
   constructor(store: AngularFirestore, private auth: AuthService) {
-    console.log('imageCRUD service');
-    this.imagesFbsCollection = store.collection('images');
-    this.storageRef = firebase.storage().ref();
-    auth.user$.subscribe(user => {
-       this.author = user ? user.email : null;
-    });
+        console.log('imageCRUD service');
+        auth.user$.subscribe(user => {
+          this.author = user ? user.email : null;
+        });
 
-    this.imageList$ = this.imagesFbsCollection.snapshotChanges().map(
-      actions => {
-          return actions.map(action => {
-              const data = action.payload.doc.data() as ImageData;
-              data.id = action.payload.doc.id;
-              return data;
-          });
-      }
-    ) as Observable<ImageData[]>;
+        this.imagesFbsCollection = store.collection('images',
+            ref => ref.orderBy('filePath', 'desc'));
+        this.storageRef = firebase.storage().ref();
+        this.imageList$ = this.imagesFbsCollection.snapshotChanges().map(
+            actions => {
+              return actions.map(action => {
+                  const data = action.payload.doc.data() as ImageData;
+                  data.id = action.payload.doc.id;
+                  return data;
+              });
+            }
+        ) as Observable<ImageData[]>;
+
+      /*
+    this.query$.pipe(
+        switchMap( query => {
+            console.log('query', query);
+        })
+    );
+    */
+    this.query$.subscribe(query => {
+        console.log('queryChanged', query);
+
+        this.imagesFbsCollection = store.collection('images',
+            ref => {
+                    let fbQuery: any = ref;
+                    if (query.sortDesc) {
+                        fbQuery.orderBy('filePath', 'desc');
+                    } else {
+                        fbQuery.orderBy('filePath');
+                    }
+                    if (query.searchText) {
+                        fbQuery = fbQuery.where('title', '==', query.searchText);
+                    };
+                    return fbQuery;
+                }
+            );
+    });
   }
 
   upload(file: File, done: Function) {
@@ -55,6 +91,7 @@ export class ImageCrudService {
                 // in progress
                 const snap = snapshot as firebase.storage.UploadTaskSnapshot;
                 this.taskProgress = Math.round((snap.bytesTransferred / snap.totalBytes) * 100);
+                console.log(this.taskProgress + '%');
             },
             error => {
               // error
@@ -80,6 +117,13 @@ export class ImageCrudService {
           .catch(error => {
               console.warn('Image delete failed:', error);
           });
+  }
+
+  update(image: ImageData) {
+      if (!image.id) {
+          return;
+      }
+      this.imagesFbsCollection.doc(image.id).update(image);
   }
 
   createNewImageData(url: string, originalName: string, filePath: string, done: Function) {

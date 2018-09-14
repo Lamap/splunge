@@ -18,11 +18,37 @@
             <div class="spg-head-image__img-title">{{image.title}}</div>
             <div class="spg-head-image__img-description">{{image.description}}</div>
         </div>
-        <div *ngIf="isAdminMode">
-            <input type="text" class="spg-head-image__img-date" [(ngModel)]="image.dated" />
-            <input type="text" class="spg-head-image__img-title" [(ngModel)]="image.title" />
-            <input type="text" class="spg-head-image__img-description" [(ngModel)]="image.description" />
+        <div
+            *ngIf="isAdminMode"
+            class="spg-head-image__form"
+        >
+            <input
+                type="number"
+                class="spg-head-image__img-date"
+                [(ngModel)]="image.dated"
+                placeholder="Dated"
+            />
+            <input
+                type="text"
+                class="spg-head-image__img-title"
+                [(ngModel)]="image.title"
+                placeholder="Title"
+            />
+            <input
+                type="text"
+                class="spg-head-image__img-description"
+                [(ngModel)]="image.description"
+                placeholder="Description"
+            />
         </div>
+        <span
+            class="spg-head-image__save"
+            (click)="save(image)"
+        >
+           <i class="material-icons" title="Save the changes" >
+              save
+           </i>
+        </span>
     </div>
 
     <h5 *ngIf="!image">No image is selected</h5>

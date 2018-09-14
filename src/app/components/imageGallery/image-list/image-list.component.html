@@ -1,6 +1,11 @@
 <div class="spg-image-list">
     <div class="spg-image-list__control">
-      filters and sorters
+      <span class="spg-image-list__sorter" (click)="toggleUploadSort()">
+          <span *ngIf="sortedDesc">Last Uploaded</span>
+          <span *ngIf="!sortedDesc">First Uploaded</span>
+      </span>
+      <input type="text" [(ngModel)]="searchText" />
+      <span (click)="filter()">filter</span>
     </div>
     <div class="spg-image-list__items">
         <div class="spg-image-list__first-col">

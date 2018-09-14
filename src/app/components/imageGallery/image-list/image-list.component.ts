@@ -10,10 +10,13 @@ export class ImageListComponent implements OnInit, OnChanges {
 
   public imageListFirstCol: ImageData[] = [];
   public imageListSecondCol: ImageData[] = [];
+  public sortedDesc = true;
+  public searchText = '';
 
   @Input() isAdminMode: boolean;
   @Input() imageList: ImageData[];
   @Output() imageSelected$ = new EventEmitter<ImageData>();
+  @Output() queryChanged$ = new EventEmitter<any>();
 
   constructor() {}
 
@@ -37,6 +40,21 @@ export class ImageListComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
+  }
+
+  toggleUploadSort() {
+    this.sortedDesc = !this.sortedDesc;
+    this.queryChanged$.emit({
+        sortedDesc: this.sortedDesc,
+        searchText: this.searchText
+    });
+  }
+
+  filter() {
+      this.queryChanged$.emit({
+          sortedDesc: this.sortedDesc,
+          searchText: this.searchText
+      });
   }
 
 }

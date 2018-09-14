@@ -52,6 +52,14 @@ export class ImageControlComponent implements OnInit {
       this.imageService.delete($image);
   }
 
+  updateImage($image) {
+      this.imageService.update($image);
+  }
+
+  queryChanged($event) {
+      console.log('query', $event);
+      this.imageService.query$.next($event);
+  }
 
   ngOnInit() {
   }

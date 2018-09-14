@@ -9,11 +9,13 @@
             [isAdminMode]="isAdminMode"
             [image]="selectedImage"
             (deleteImage$)="deleteImage($event)"
+            (updateImage$)="updateImage($event)"
         ></spg-head-image>
     </div>
     <div class="spg-image-control__image-list">
         <spg-image-list
             (imageSelected$)="imageLoadFromList($event)"
+            (queryChanged$)="queryChanged($event)"
             [isAdminMode]="isAdminMode"
             [imageList]="imageList"
         ></spg-image-list>

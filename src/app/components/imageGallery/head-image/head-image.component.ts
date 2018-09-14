@@ -9,6 +9,7 @@ import { ImageData } from '../../../services/image-crud.service';
 export class HeadImageComponent implements OnInit {
 
   @Output() deleteImage$ = new EventEmitter<ImageData>();
+  @Output() updateImage$ = new EventEmitter<ImageData>();
   @Input() isAdminMode = false;
   @Input() image: ImageData;
   constructor() { }
@@ -19,5 +20,7 @@ export class HeadImageComponent implements OnInit {
   deleteImage($image) {
     this.deleteImage$.emit($image);
   }
-
+  save($image) {
+    this.updateImage$.emit($image);
+  }
 }
