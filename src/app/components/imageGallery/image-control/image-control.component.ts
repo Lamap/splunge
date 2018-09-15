@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ImageCrudService, ImageData } from '../../../services/image-crud.service';
 import { AuthService } from '../../../services/auth.service';
 import { ImageModalComponent } from '../image-modal/image-modal.component';
@@ -16,6 +16,7 @@ export class ImageControlComponent implements OnInit {
   public imageList: ImageData[];
   public selectedImageId: string;
   public selectedImage: ImageData;
+  @Input() selectedMarkerId: string;
 
   private imageModalRef: MatDialogRef<ImageModalComponent, ImageData>;
 
@@ -71,6 +72,9 @@ export class ImageControlComponent implements OnInit {
       this.imageModalRef = this.dialog.open(ImageModalComponent, {
           data: $image
       });
+  }
+  toggleMarker($image) {
+      this.imageService.toggleMarker($image, this.selectedMarkerId);
   }
 
   ngOnInit() {

@@ -26,11 +26,14 @@
     <spg-map
             [mapOptions]="agmMapOptions"
             [mapOverlayItems]="mapOverlayItems"
+            (markerSelectionChanged$)="markerSelectionChanged($event)"
     >
     </spg-map>
   </div>
   <div class="spg-images-placeholder">
-    <spg-image-control></spg-image-control>
+    <spg-image-control
+      [selectedMarkerId]="selectedMarkerId"
+    ></spg-image-control>
   </div>
 </div>
 

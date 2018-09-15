@@ -11,6 +11,7 @@ export class HeadImageComponent implements OnInit {
   @Output() deleteImage$ = new EventEmitter<ImageData>();
   @Output() updateImage$ = new EventEmitter<ImageData>();
   @Output() openImageModal$ = new EventEmitter<ImageData>();
+  @Output() toggleMarkerLink$ = new EventEmitter<ImageData | null>();
   @Input() isAdminMode = false;
   @Input() image: ImageData;
   constructor() { }
@@ -26,5 +27,8 @@ export class HeadImageComponent implements OnInit {
   }
   openModal($image) {
     this.openImageModal$.emit($image);
+  }
+  toggleLinkToMarker($image) {
+    this.toggleMarkerLink$.emit($image);
   }
 }

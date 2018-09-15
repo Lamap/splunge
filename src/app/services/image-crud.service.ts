@@ -11,6 +11,7 @@ export interface ImageData {
     originalName: string;
     filePath: string;
     author: string;
+    marker?: string;
     id?: string;
     title?: string;
     description?: string;
@@ -122,6 +123,17 @@ export class ImageCrudService {
           return;
       }
       this.imagesFbsCollection.doc(image.id).update(image);
+  }
+
+  toggleMarker(image: ImageData, markerId: string) {
+      if (!image.marker) {
+          if (!markerId) {
+              return console.warn('Select a marker that u link the image to');
+          }
+          console.log('add image to the selected marker');
+      } else {
+          console.log('unlink image from the marker');
+      }
   }
 
   createNewImageData(url: string, originalName: string, filePath: string, done: Function) {

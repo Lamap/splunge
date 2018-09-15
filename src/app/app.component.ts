@@ -186,6 +186,7 @@ export class AppComponent {
   ];
   public userAuthData: IUserAuthData;
   public userEmail = '';
+  public selectedMarkerId: string;
   private authDialogRef: MatDialogRef<AuthDialogComponent, IUserAuthData>;
 
   constructor (private authService: AuthService, private dialog: MatDialog) {
@@ -208,5 +209,9 @@ export class AppComponent {
   }
   logOut() {
       this.authService.logOut();
+  }
+  markerSelectionChanged(markerId: string | null) {
+      this.selectedMarkerId = markerId;
+      console.log(this.selectedMarkerId);
   }
 }

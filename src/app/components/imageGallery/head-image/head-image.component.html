@@ -17,6 +17,17 @@
               open_in_new
             </i>
         </span>
+        <span
+                class="spg-head-image__toggle-marker"
+                (click)="toggleLinkToMarker(image)"
+        >
+            <i class="material-icons" title="Link to marker" *ngIf="!image.marker">
+              link
+            </i>
+            <i class="material-icons" title="Unlink from marker" *ngIf="image.marker">
+              link__off
+            </i>
+        </span>
         <img
                 class="spg-head-image__img-content"
                 [src]="image.url"

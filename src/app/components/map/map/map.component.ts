@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import * as _ from 'lodash';
 import {
     LatLngBoundsLiteral, MapTypeStyle, ZoomControlOptions
@@ -86,6 +86,7 @@ export class MapComponent implements OnInit {
     private mapStyles = null; // (<any>mapConfig).styles as MapTypeStyle[];
 
     private topZindex: number;
+    @Output() markerSelectionChanged$ = new EventEmitter<string>();
     @Input() mapOptions: IMapOptions;
     @Input() mapOverlayItems: IMapOverlayItem[];
 
@@ -212,6 +213,7 @@ export class MapComponent implements OnInit {
         this.markerService.addMarker(coords).then(newMarker => {
             this.selectedMarkerPoint = newMarker;
             this.selectedMarkerId = newMarker.id;
+            this.markerSelectionChanged$.emit(this.selectedMarkerId);
         });
     }
 
@@ -230,11 +232,13 @@ export class MapComponent implements OnInit {
         this.selectedMarkerId = $selectedPoint.id;
         this.selectedMarkerPoint = $selectedPoint;
         this.markerCreateMode = false;
+        this.markerSelectionChanged$.emit(this.selectedMarkerId);
     }
 
     quitMarkerSelection() {
         this.selectedMarkerPoint = null;
         this.selectedMarkerId = null;
+        this.markerSelectionChanged$.emit(null);
     }
 
     panToSelectedMarker($selectedPoint) {
