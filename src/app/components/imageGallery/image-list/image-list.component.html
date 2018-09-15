@@ -14,6 +14,7 @@
                 [image]="image"
                 [isAdminMode]="isAdminMode"
                 (imageClicked$)="onItemClicked($event)"
+                (openImageModal$)="openImageModal($event)"
             ></spg-image-list-item>
         </div>
         <div class="spg-image-list__second-col" >
@@ -22,6 +23,7 @@
                     [image]="image"
                     [isAdminMode]="isAdminMode"
                     (imageClicked$)="onItemClicked($event)"
+                    (openImageModal$)="openImageModal($event)"
             ></spg-image-list-item>
         </div>
     </div>

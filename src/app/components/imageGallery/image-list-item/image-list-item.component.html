@@ -8,5 +8,13 @@
           delete_forever
         </i>
     </span>
+    <span
+            class="spg-image-list-item__open-modal"
+            (click)="openModal(image)"
+    >
+        <i class="material-icons" title="Open in modal" >
+          open_in_new
+        </i>
+    </span>
   <img class="spg-image-list-item__img" [src]="image.url" (click)="itemClicked(image)"/>
 </div>

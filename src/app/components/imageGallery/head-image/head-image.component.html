@@ -9,6 +9,14 @@
               delete_forever
            </i>
         </span>
+        <span
+            class="spg-head-image__open-modal"
+            (click)="openModal(image)"
+        >
+            <i class="material-icons" title="Open in modal" >
+              open_in_new
+            </i>
+        </span>
         <img
                 class="spg-head-image__img-content"
                 [src]="image.url"
@@ -43,6 +51,7 @@
         </div>
         <span
             class="spg-head-image__save"
+            *ngIf="isAdminMode"
             (click)="save(image)"
         >
            <i class="material-icons" title="Save the changes" >

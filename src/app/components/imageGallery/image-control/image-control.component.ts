@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ImageCrudService, ImageData } from '../../../services/image-crud.service';
 import { AuthService } from '../../../services/auth.service';
+import { ImageModalComponent } from '../image-modal/image-modal.component';
+import { MatDialog, MatDialogRef } from '@angular/material';
+
 
 @Component({
   selector: 'spg-image-control',
@@ -14,7 +17,9 @@ export class ImageControlComponent implements OnInit {
   public selectedImageId: string;
   public selectedImage: ImageData;
 
-  constructor(private authService: AuthService, private imageService: ImageCrudService) {
+  private imageModalRef: MatDialogRef<ImageModalComponent, ImageData>;
+
+  constructor(private authService: AuthService, private imageService: ImageCrudService, private dialog: MatDialog) {
       authService.user$.subscribe(user => {
           if (user) {
               this.isAdminMode = true;
@@ -59,6 +64,13 @@ export class ImageControlComponent implements OnInit {
   queryChanged($event) {
       console.log('query', $event);
       this.imageService.query$.next($event);
+  }
+
+  openImageModal($image) {
+      console.log($image);
+      this.imageModalRef = this.dialog.open(ImageModalComponent, {
+          data: $image
+      });
   }
 
   ngOnInit() {

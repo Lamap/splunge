@@ -35,7 +35,7 @@ export class ImageCrudService {
   private storageRef;
 
   constructor(store: AngularFirestore, private auth: AuthService) {
-        console.log('imageCRUD service');
+
         auth.user$.subscribe(user => {
           this.author = user ? user.email : null;
         });
@@ -100,7 +100,6 @@ export class ImageCrudService {
             },
           () => {
               // completed successfully
-              console.log(uploadTask.snapshot.downloadURL);
               this.createNewImageData(uploadTask.snapshot.downloadURL, origFileName, filePath, done);
             });
   }
@@ -111,7 +110,6 @@ export class ImageCrudService {
       }
       this.storageRef.child(image.filePath).delete()
           .then(success => {
-            console.log('image deleted', success);
             this.deleteFromStore(image);
           })
           .catch(error => {

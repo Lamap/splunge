@@ -11,6 +11,7 @@ export class ImageListItemComponent implements OnInit {
   @Input() image: ImageData;
   @Input() isAdminMode: boolean;
   @Output() imageClicked$ = new EventEmitter<ImageData>();
+  @Output() openImageModal$ = new EventEmitter<ImageData>();
   constructor(private imageService: ImageCrudService) { }
 
   ngOnInit() {
@@ -21,5 +22,8 @@ export class ImageListItemComponent implements OnInit {
   }
   itemClicked($image) {
     this.imageClicked$.emit($image);
+  }
+  openModal($image) {
+    this.openImageModal$.emit($image);
   }
 }

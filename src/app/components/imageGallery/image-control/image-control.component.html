@@ -10,12 +10,14 @@
             [image]="selectedImage"
             (deleteImage$)="deleteImage($event)"
             (updateImage$)="updateImage($event)"
+            (openImageModal$)="openImageModal($event)"
         ></spg-head-image>
     </div>
     <div class="spg-image-control__image-list">
         <spg-image-list
             (imageSelected$)="imageLoadFromList($event)"
             (queryChanged$)="queryChanged($event)"
+            (openImageModal$)="openImageModal($event)"
             [isAdminMode]="isAdminMode"
             [imageList]="imageList"
         ></spg-image-list>

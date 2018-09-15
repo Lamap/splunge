@@ -10,6 +10,7 @@ export class HeadImageComponent implements OnInit {
 
   @Output() deleteImage$ = new EventEmitter<ImageData>();
   @Output() updateImage$ = new EventEmitter<ImageData>();
+  @Output() openImageModal$ = new EventEmitter<ImageData>();
   @Input() isAdminMode = false;
   @Input() image: ImageData;
   constructor() { }
@@ -22,5 +23,8 @@ export class HeadImageComponent implements OnInit {
   }
   save($image) {
     this.updateImage$.emit($image);
+  }
+  openModal($image) {
+    this.openImageModal$.emit($image);
   }
 }

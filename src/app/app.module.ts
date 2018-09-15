@@ -32,6 +32,7 @@ import { AuthDialogComponent } from './components/common/auth-dialog/auth-dialog
 import { HeadImageComponent } from './components/imageGallery/head-image/head-image.component';
 import { ImageListComponent } from './components/imageGallery/image-list/image-list.component';
 import { ImageListItemComponent } from './components/imageGallery/image-list-item/image-list-item.component';
+import { ImageModalComponent } from './components/imageGallery/image-modal/image-modal.component';
 
 @NgModule({
   declarations: [
@@ -46,10 +47,12 @@ import { ImageListItemComponent } from './components/imageGallery/image-list-ite
     AuthDialogComponent,
     HeadImageComponent,
     ImageListComponent,
-    ImageListItemComponent
+    ImageListItemComponent,
+    ImageModalComponent
   ],
   entryComponents: [
-      AuthDialogComponent
+      AuthDialogComponent,
+      ImageModalComponent
   ],
   imports: [
     FormsModule,

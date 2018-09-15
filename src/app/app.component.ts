@@ -185,7 +185,7 @@ export class AppComponent {
       }
   ];
   public userAuthData: IUserAuthData;
-  public userEmail: string = '';
+  public userEmail = '';
   private authDialogRef: MatDialogRef<AuthDialogComponent, IUserAuthData>;
 
   constructor (private authService: AuthService, private dialog: MatDialog) {

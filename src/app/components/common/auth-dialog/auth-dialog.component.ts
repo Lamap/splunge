@@ -19,7 +19,6 @@ export class AuthDialogComponent implements OnInit {
   }
 
   submit() {
-    console.log('submit');
     this.dialogRef.close();
   }
 

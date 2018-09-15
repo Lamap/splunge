@@ -17,6 +17,7 @@ export class ImageListComponent implements OnInit, OnChanges {
   @Input() imageList: ImageData[];
   @Output() imageSelected$ = new EventEmitter<ImageData>();
   @Output() queryChanged$ = new EventEmitter<any>();
+  @Output() openImageModal$ = new EventEmitter<ImageData>();
 
   constructor() {}
 
@@ -37,6 +38,10 @@ export class ImageListComponent implements OnInit, OnChanges {
 
   onItemClicked ($image) {
     this.imageSelected$.emit($image);
+  }
+
+  openImageModal ($image) {
+    this.openImageModal$.emit($image);
   }
 
   ngOnInit() {

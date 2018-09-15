@@ -3,13 +3,19 @@
 .spg-head-image {
   width: 100%;
   position: relative;
-  .spg-head-image__delete {
+  &__open-modal {
+    .spg-rounded-icon-button;
+    position: absolute;
+    bottom: -6px;
+    right: -6px;
+  }
+  &__delete {
     .spg-rounded-icon-button;
     position: absolute;
     top: -12px;
     right: -12px;
   }
-  .spg-head-image__save {
+  &__save {
     .spg-rounded-icon-button;
     position: absolute;
     top: -12px;
