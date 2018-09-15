@@ -5,6 +5,7 @@ import { AuthService } from './auth.service';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { switchMap } from 'rxjs/operators';
+import { ISpgMarker } from '../components/map/map/map.component';
 
 export interface ImageData {
     url: string;
@@ -125,15 +126,13 @@ export class ImageCrudService {
       this.imagesFbsCollection.doc(image.id).update(image);
   }
 
-  toggleMarker(image: ImageData, markerId: string) {
-      if (!image.marker) {
-          if (!markerId) {
-              return console.warn('Select a marker that u link the image to');
-          }
-          console.log('add image to the selected marker');
-      } else {
-          console.log('unlink image from the marker');
-      }
+  addImageToMarker(image: ImageData, marker: ISpgMarker) {
+      console.log('add image to the selected marker');
+      this.imagesFbsCollection.doc(image.id).update({marker: marker.id});
+  }
+  removeImageFromMarker(image: ImageData) {
+      console.log('unlink image from the marker');
+      this.imagesFbsCollection.doc(image.id).update({marker: null});
   }
 
   createNewImageData(url: string, originalName: string, filePath: string, done: Function) {

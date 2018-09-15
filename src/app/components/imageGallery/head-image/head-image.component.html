@@ -17,17 +17,13 @@
               open_in_new
             </i>
         </span>
-        <span
-                class="spg-head-image__toggle-marker"
-                (click)="toggleLinkToMarker(image)"
+        <spg-markerlink-manager
+            *ngIf="isAdminMode"
+            class="spg-head-image__markerlinker"
+            [image]="image"
+            [selectedMarker]="selectedMarker"
         >
-            <i class="material-icons" title="Link to marker" *ngIf="!image.marker">
-              link
-            </i>
-            <i class="material-icons" title="Unlink from marker" *ngIf="image.marker">
-              link__off
-            </i>
-        </span>
+        </spg-markerlink-manager>
         <img
                 class="spg-head-image__img-content"
                 [src]="image.url"

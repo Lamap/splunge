@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ImageData } from '../../../services/image-crud.service';
+import { ISpgMarker } from '../../map/map/map.component';
 
 @Component({
   selector: 'spg-head-image',
@@ -14,6 +15,7 @@ export class HeadImageComponent implements OnInit {
   @Output() toggleMarkerLink$ = new EventEmitter<ImageData | null>();
   @Input() isAdminMode = false;
   @Input() image: ImageData;
+  @Input() selectedMarker: ISpgMarker;
   constructor() { }
 
   ngOnInit() {
@@ -27,8 +29,5 @@ export class HeadImageComponent implements OnInit {
   }
   openModal($image) {
     this.openImageModal$.emit($image);
-  }
-  toggleLinkToMarker($image) {
-    this.toggleMarkerLink$.emit($image);
   }
 }

@@ -1,0 +1,19 @@
+<div class="spg-markerlink-manager">
+    <span
+        class="spg-markerlink-manager__link"
+        (click)="attach()"
+        *ngIf="selectedMarker && image.marker !== selectedMarker.id"
+    >
+        <i class="material-icons" title="Link to the selected marker">
+          link
+        </i>
+    </span>
+    <span
+        class="spg-markerlink-manager__remove"
+        (click)="clear()"
+        *ngIf="image.marker"
+    >
+        <i class="spg-link-off-button-replace" title="Remove from the actual marker">
+        </i>
+    </span>
+</div>

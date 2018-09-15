@@ -3,6 +3,7 @@ import { ImageCrudService, ImageData } from '../../../services/image-crud.servic
 import { AuthService } from '../../../services/auth.service';
 import { ImageModalComponent } from '../image-modal/image-modal.component';
 import { MatDialog, MatDialogRef } from '@angular/material';
+import { ISpgMarker } from '../../map/map/map.component';
 
 
 @Component({
@@ -16,7 +17,7 @@ export class ImageControlComponent implements OnInit {
   public imageList: ImageData[];
   public selectedImageId: string;
   public selectedImage: ImageData;
-  @Input() selectedMarkerId: string;
+  @Input() selectedMarker: ISpgMarker;
 
   private imageModalRef: MatDialogRef<ImageModalComponent, ImageData>;
 
@@ -72,9 +73,6 @@ export class ImageControlComponent implements OnInit {
       this.imageModalRef = this.dialog.open(ImageModalComponent, {
           data: $image
       });
-  }
-  toggleMarker($image) {
-      this.imageService.toggleMarker($image, this.selectedMarkerId);
   }
 
   ngOnInit() {

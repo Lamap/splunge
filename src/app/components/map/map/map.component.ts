@@ -86,7 +86,7 @@ export class MapComponent implements OnInit {
     private mapStyles = null; // (<any>mapConfig).styles as MapTypeStyle[];
 
     private topZindex: number;
-    @Output() markerSelectionChanged$ = new EventEmitter<string>();
+    @Output() markerSelectionChanged$ = new EventEmitter<ISpgMarker | null>();
     @Input() mapOptions: IMapOptions;
     @Input() mapOverlayItems: IMapOverlayItem[];
 
@@ -213,7 +213,7 @@ export class MapComponent implements OnInit {
         this.markerService.addMarker(coords).then(newMarker => {
             this.selectedMarkerPoint = newMarker;
             this.selectedMarkerId = newMarker.id;
-            this.markerSelectionChanged$.emit(this.selectedMarkerId);
+            this.markerSelectionChanged$.emit(this.selectedMarkerPoint);
         });
     }
 
@@ -232,7 +232,7 @@ export class MapComponent implements OnInit {
         this.selectedMarkerId = $selectedPoint.id;
         this.selectedMarkerPoint = $selectedPoint;
         this.markerCreateMode = false;
-        this.markerSelectionChanged$.emit(this.selectedMarkerId);
+        this.markerSelectionChanged$.emit(this.selectedMarkerPoint);
     }
 
     quitMarkerSelection() {

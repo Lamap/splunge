@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, Input, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { ImageData } from '../../../services/image-crud.service';
+import { ISpgMarker } from '../../map/map/map.component';
 
 @Component({
   selector: 'spg-image-list',
@@ -15,6 +16,7 @@ export class ImageListComponent implements OnInit, OnChanges {
 
   @Input() isAdminMode: boolean;
   @Input() imageList: ImageData[];
+  @Input() selectedMarker: ISpgMarker;
   @Output() imageSelected$ = new EventEmitter<ImageData>();
   @Output() queryChanged$ = new EventEmitter<any>();
   @Output() openImageModal$ = new EventEmitter<ImageData>();

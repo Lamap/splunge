@@ -33,6 +33,7 @@ import { HeadImageComponent } from './components/imageGallery/head-image/head-im
 import { ImageListComponent } from './components/imageGallery/image-list/image-list.component';
 import { ImageListItemComponent } from './components/imageGallery/image-list-item/image-list-item.component';
 import { ImageModalComponent } from './components/imageGallery/image-modal/image-modal.component';
+import { MarkerlinkManagerComponent } from './components/imageGallery/markerlink-manager/markerlink-manager.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { ImageModalComponent } from './components/imageGallery/image-modal/image
     HeadImageComponent,
     ImageListComponent,
     ImageListItemComponent,
-    ImageModalComponent
+    ImageModalComponent,
+    MarkerlinkManagerComponent
   ],
   entryComponents: [
       AuthDialogComponent,

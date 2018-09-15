@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ImageCrudService, ImageData } from '../../../services/image-crud.service';
+import { ISpgMarker } from '../../map/map/map.component';
 
 @Component({
   selector: 'spg-image-list-item',
@@ -10,6 +11,7 @@ export class ImageListItemComponent implements OnInit {
 
   @Input() image: ImageData;
   @Input() isAdminMode: boolean;
+  @Input() selectedMarker: ISpgMarker;
   @Output() imageClicked$ = new EventEmitter<ImageData>();
   @Output() openImageModal$ = new EventEmitter<ImageData>();
   constructor(private imageService: ImageCrudService) { }

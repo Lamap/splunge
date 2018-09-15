@@ -1,10 +1,10 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { IMapOptions, IMapOverlayItem } from './components/map/map/map.component';
+import { IMapOptions, IMapOverlayItem, ISpgMarker } from './components/map/map/map.component';
 import { AuthService } from './services/auth.service';
 import { Observable } from 'rxjs/Observable';
 import * as firebase from 'firebase';
 import { MatDialog, MatDialogRef } from '@angular/material';
-import {AuthDialogComponent, IUserAuthData} from './components/common/auth-dialog/auth-dialog.component';
+import { AuthDialogComponent, IUserAuthData } from './components/common/auth-dialog/auth-dialog.component';
 
 @Component({
   selector: 'app-root',
@@ -186,7 +186,7 @@ export class AppComponent {
   ];
   public userAuthData: IUserAuthData;
   public userEmail = '';
-  public selectedMarkerId: string;
+  public selectedMarker: ISpgMarker;
   private authDialogRef: MatDialogRef<AuthDialogComponent, IUserAuthData>;
 
   constructor (private authService: AuthService, private dialog: MatDialog) {
@@ -210,8 +210,7 @@ export class AppComponent {
   logOut() {
       this.authService.logOut();
   }
-  markerSelectionChanged(markerId: string | null) {
-      this.selectedMarkerId = markerId;
-      console.log(this.selectedMarkerId);
+  markerSelectionChanged(marker: ISpgMarker | null) {
+      this.selectedMarker = marker;
   }
 }

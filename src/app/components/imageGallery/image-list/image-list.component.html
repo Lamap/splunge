@@ -13,6 +13,7 @@
                 *ngFor="let image of imageListFirstCol"
                 [image]="image"
                 [isAdminMode]="isAdminMode"
+                [selectedMarker]="selectedMarker"
                 (imageClicked$)="onItemClicked($event)"
                 (openImageModal$)="openImageModal($event)"
             ></spg-image-list-item>
@@ -22,6 +23,7 @@
                     *ngFor="let image of imageListSecondCol"
                     [image]="image"
                     [isAdminMode]="isAdminMode"
+                    [selectedMarker]="selectedMarker"
                     (imageClicked$)="onItemClicked($event)"
                     (openImageModal$)="openImageModal($event)"
             ></spg-image-list-item>
