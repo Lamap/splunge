@@ -2,7 +2,7 @@
     <span
         class="spg-markerlink-manager__link"
         (click)="attach()"
-        *ngIf="selectedMarker && image.marker !== selectedMarker.id"
+        *ngIf="selectedMarker && (!image.marker || image.marker.id !== selectedMarker.id)"
     >
         <i class="material-icons" title="Link to the selected marker">
           link

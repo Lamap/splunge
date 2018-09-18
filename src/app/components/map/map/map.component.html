@@ -34,6 +34,7 @@
         [zoomControlOptions]="mapOptions.zoomControlOptions"
         [streetViewControl]="false"
         [clickableIcons]="false"
+        [usePanning]="true"
         [maxZoom]="mapOptions.maxZoom"
         [draggableCursor]="draggableCursor"
         (boundsChange) = "onBoundsChange($event)"
@@ -51,6 +52,7 @@
             <spg-marker
                     *ngFor="let point of markers$ | async"
                     [isSelected] = "point.id === selectedMarkerId"
+                    [isPointed]="pointedMarker && point.id === pointedMarker.id"
                     [markerPoint]="point"
                     [isAdminMode]="isAdminMode"
                     ($markerSelected)="selectMarker($event)"

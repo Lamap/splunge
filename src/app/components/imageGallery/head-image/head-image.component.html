@@ -17,6 +17,15 @@
               open_in_new
             </i>
         </span>
+        <span
+                class="spg-head-image__point-marker"
+                (click)="pointImageMarker(image)"
+                *ngIf="image.marker"
+        >
+            <i class="material-icons" title="Point the marker" >
+              my_location
+            </i>
+        </span>
         <spg-markerlink-manager
             *ngIf="isAdminMode"
             class="spg-head-image__markerlinker"

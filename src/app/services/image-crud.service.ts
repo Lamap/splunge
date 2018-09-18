@@ -12,7 +12,7 @@ export interface ImageData {
     originalName: string;
     filePath: string;
     author: string;
-    marker?: string;
+    marker?: ISpgMarker;
     id?: string;
     title?: string;
     description?: string;
@@ -126,11 +126,11 @@ export class ImageCrudService {
       this.imagesFbsCollection.doc(image.id).update(image);
   }
 
-  addImageToMarker(image: ImageData, marker: ISpgMarker) {
+  addMarkerToImage(image: ImageData, marker: ISpgMarker) {
       console.log('add image to the selected marker');
-      this.imagesFbsCollection.doc(image.id).update({marker: marker.id});
+      this.imagesFbsCollection.doc(image.id).update({marker: marker});
   }
-  removeImageFromMarker(image: ImageData) {
+  removeMarkerFromImage(image: ImageData) {
       console.log('unlink image from the marker');
       this.imagesFbsCollection.doc(image.id).update({marker: null});
   }

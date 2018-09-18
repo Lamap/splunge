@@ -20,6 +20,7 @@ export class ImageListComponent implements OnInit, OnChanges {
   @Output() imageSelected$ = new EventEmitter<ImageData>();
   @Output() queryChanged$ = new EventEmitter<any>();
   @Output() openImageModal$ = new EventEmitter<ImageData>();
+  @Output() pointImageMarker$ = new EventEmitter<ImageData>();
 
   constructor() {}
 
@@ -62,6 +63,10 @@ export class ImageListComponent implements OnInit, OnChanges {
           sortedDesc: this.sortedDesc,
           searchText: this.searchText
       });
+  }
+
+  pointImageMarker($image) {
+      this.pointImageMarker$.emit($image);
   }
 
 }

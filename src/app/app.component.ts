@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import * as firebase from 'firebase';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { AuthDialogComponent, IUserAuthData } from './components/common/auth-dialog/auth-dialog.component';
+import { ImageData } from './services/image-crud.service';
 
 @Component({
   selector: 'app-root',
@@ -187,6 +188,8 @@ export class AppComponent {
   public userAuthData: IUserAuthData;
   public userEmail = '';
   public selectedMarker: ISpgMarker;
+  public pointedMarker: ISpgMarker;
+
   private authDialogRef: MatDialogRef<AuthDialogComponent, IUserAuthData>;
 
   constructor (private authService: AuthService, private dialog: MatDialog) {
@@ -212,5 +215,9 @@ export class AppComponent {
   }
   markerSelectionChanged(marker: ISpgMarker | null) {
       this.selectedMarker = marker;
+  }
+  pointImageMarker($image: ImageData) {
+    console.log('point:', $image);
+    this.pointedMarker = JSON.parse(JSON.stringify($image.marker));
   }
 }

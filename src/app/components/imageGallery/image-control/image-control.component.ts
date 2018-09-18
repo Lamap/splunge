@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ImageCrudService, ImageData } from '../../../services/image-crud.service';
 import { AuthService } from '../../../services/auth.service';
 import { ImageModalComponent } from '../image-modal/image-modal.component';
@@ -17,6 +17,8 @@ export class ImageControlComponent implements OnInit {
   public imageList: ImageData[];
   public selectedImageId: string;
   public selectedImage: ImageData;
+
+  @Output() pointImageMarker$ = new EventEmitter<ImageData>();
   @Input() selectedMarker: ISpgMarker;
 
   private imageModalRef: MatDialogRef<ImageModalComponent, ImageData>;
@@ -68,11 +70,16 @@ export class ImageControlComponent implements OnInit {
       this.imageService.query$.next($event);
   }
 
-  openImageModal($image) {
+  openImageModal($image: ImageData) {
       console.log($image);
       this.imageModalRef = this.dialog.open(ImageModalComponent, {
           data: $image
       });
+  }
+
+  pointImageMarker($image: ImageData) {
+      console.log('point', $image)
+      this.pointImageMarker$.emit($image);
   }
 
   ngOnInit() {

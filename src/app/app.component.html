@@ -26,6 +26,7 @@
     <spg-map
             [mapOptions]="agmMapOptions"
             [mapOverlayItems]="mapOverlayItems"
+            [pointedMarker]="pointedMarker"
             (markerSelectionChanged$)="markerSelectionChanged($event)"
     >
     </spg-map>
@@ -33,6 +34,7 @@
   <div class="spg-images-placeholder">
     <spg-image-control
       [selectedMarker]="selectedMarker"
+      (pointImageMarker$)="pointImageMarker($event)"
     ></spg-image-control>
   </div>
 </div>

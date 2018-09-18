@@ -1,4 +1,4 @@
-import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter, OnChanges } from '@angular/core';
 import * as _ from 'lodash';
 import {
     LatLngBoundsLiteral, MapTypeStyle, ZoomControlOptions
@@ -8,6 +8,7 @@ import { AngularFirestoreCollection } from 'angularfire2/firestore';
 import { Observable } from 'rxjs/Observable';
 import { MarkerCrudService } from '../../../services/marker-crud.service';
 import { AuthService } from '../../../services/auth.service';
+import {SimpleChanges} from "../../../../../node_modules/@angular/core/src/metadata/lifecycle_hooks";
 
 declare var google: any; // TODO: get proper typing
 
@@ -60,8 +61,7 @@ export interface ISpgMarker {
 })
 // TODO: get all the props, looks that agm doesnt have an interface???
 
-export class MapComponent implements OnInit {
-    public markerFbsCollection: AngularFirestoreCollection<ISpgMarker>;
+export class MapComponent implements OnInit, OnChanges {
     public markers$: Observable<ISpgMarker[]>;
     public selectedMarkerId: string;
 
@@ -89,6 +89,7 @@ export class MapComponent implements OnInit {
     @Output() markerSelectionChanged$ = new EventEmitter<ISpgMarker | null>();
     @Input() mapOptions: IMapOptions;
     @Input() mapOverlayItems: IMapOverlayItem[];
+    @Input() pointedMarker: ISpgMarker;
 
     constructor(private markerService: MarkerCrudService, authService: AuthService) {
         this.markers$ = markerService.markers$;
@@ -99,6 +100,16 @@ export class MapComponent implements OnInit {
                 this.isAdminMode = false;
             }
         });
+    }
+
+    ngOnChanges(simpleChanges: SimpleChanges) {
+        if (simpleChanges && simpleChanges.pointedMarker && simpleChanges.pointedMarker.currentValue) {
+            const options: IMapOptions = JSON.parse(JSON.stringify(this.mapOptions));
+            options.latitude = this.pointedMarker.coords.latitude;
+            options.longitude = this.pointedMarker.coords.longitude;
+            options.zoom = 19;
+            this.mapOptions = options;
+        }
     }
 
     ngOnInit() {

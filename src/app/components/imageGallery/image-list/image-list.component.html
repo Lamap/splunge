@@ -16,6 +16,7 @@
                 [selectedMarker]="selectedMarker"
                 (imageClicked$)="onItemClicked($event)"
                 (openImageModal$)="openImageModal($event)"
+                (pointImageMarker$)="pointImageMarker($event)"
             ></spg-image-list-item>
         </div>
         <div class="spg-image-list__second-col" >
@@ -26,6 +27,7 @@
                     [selectedMarker]="selectedMarker"
                     (imageClicked$)="onItemClicked($event)"
                     (openImageModal$)="openImageModal($event)"
+                    (pointImageMarker$)="pointImageMarker($event)"
             ></spg-image-list-item>
         </div>
     </div>

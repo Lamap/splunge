@@ -13,6 +13,7 @@
             (deleteImage$)="deleteImage($event)"
             (updateImage$)="updateImage($event)"
             (openImageModal$)="openImageModal($event)"
+            (pointImageMarker$)="pointImageMarker($event)"
         ></spg-head-image>
     </div>
     <div class="spg-image-control__image-list">
@@ -23,6 +24,7 @@
             [isAdminMode]="isAdminMode"
             [imageList]="imageList"
             [selectedMarker]="selectedMarker"
+            (pointImageMarker$)="pointImageMarker($event)"
         ></spg-image-list>
     </div>
 </div>

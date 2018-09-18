@@ -14,6 +14,7 @@ export class ImageListItemComponent implements OnInit {
   @Input() selectedMarker: ISpgMarker;
   @Output() imageClicked$ = new EventEmitter<ImageData>();
   @Output() openImageModal$ = new EventEmitter<ImageData>();
+  @Output() pointImageMarker$ = new EventEmitter<ImageData>();
   constructor(private imageService: ImageCrudService) { }
 
   ngOnInit() {
@@ -27,5 +28,8 @@ export class ImageListItemComponent implements OnInit {
   }
   openModal($image) {
     this.openImageModal$.emit($image);
+  }
+  pointImageMarker($image) {
+    this.pointImageMarker$.emit($image);
   }
 }

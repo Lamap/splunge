@@ -19,14 +19,14 @@ export class MarkerlinkManagerComponent implements OnInit {
   clear() {
     console.log('clear', this.selectedMarker);
     if (this.image.marker) {
-        this.imageService.removeImageFromMarker(this.image);
+        this.imageService.removeMarkerFromImage(this.image);
     }
   }
 
   attach() {
     console.log('attahc', this.selectedMarker);
-    if (this.selectedMarker && this.image.marker !== this.selectedMarker.id) {
-        this.imageService.addImageToMarker(this.image, this.selectedMarker);
+    if (this.selectedMarker && (!this.image.marker || this.image.marker.id !== this.selectedMarker.id)) {
+        this.imageService.addMarkerToImage(this.image, this.selectedMarker);
     }
   }
 }

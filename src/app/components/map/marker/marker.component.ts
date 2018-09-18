@@ -18,6 +18,7 @@ export class MarkerComponent implements OnInit, AfterViewInit, OnChanges {
     @Input() markerPoint: ISpgMarker;
     @Input() isAdminMode: boolean;
     @Input() isSelected: boolean;
+    @Input() isPointed: boolean;
 
     @Output() $markerSelected = new EventEmitter<ISpgMarker>();
     @Output() $markerRepositioned = new EventEmitter<ISpgMarker>();
@@ -72,7 +73,7 @@ console.log('markerItself', this.agmMarker.nativeElement.isDisplayed);
     }
 
     ngOnChanges(simpleChange) {
-        if (simpleChange && simpleChange.isSelected) {
+        if (simpleChange && (simpleChange.isSelected || simpleChange.isPointed)) {
             this.drawMarker();
         }
     }
@@ -93,7 +94,8 @@ console.log('markerItself', this.agmMarker.nativeElement.isDisplayed);
                 this.markerPoint.direction,
                 this.width, this.height,
                 this.markerPoint.hasDirection,
-                this.isSelected),
+                this.isSelected,
+                this.isPointed),
             scale: 1,
             anchor: new google.maps.Point(this.width / 2, this.height / 2)
         };
