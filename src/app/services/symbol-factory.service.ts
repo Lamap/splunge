@@ -51,7 +51,7 @@ export class SymbolFactoryService {
     let output: string = svg.replace('{{rotate}}', radius.toString());
     output = output.replace('{{width}}', width.toString());
     output = output.replace('{{strokeWidth}}', strokeWidth.toString());
-    output =  output.replace('{{isPointed}}', isPointed ? 8 : 0);
+    output =  output.replace('{{isPointed}}', isPointed ? '8' : '0');
     return output.replace('{{height}}', height.toString());
   }
 
