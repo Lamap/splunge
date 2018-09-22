@@ -1,4 +1,4 @@
-import { Component, Input, Output, OnInit, EventEmitter, OnChanges } from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import * as _ from 'lodash';
 import {
     LatLngBoundsLiteral, MapTypeStyle, ZoomControlOptions
@@ -8,7 +8,7 @@ import { AngularFirestoreCollection } from 'angularfire2/firestore';
 import { Observable } from 'rxjs/Observable';
 import { MarkerCrudService } from '../../../services/marker-crud.service';
 import { AuthService } from '../../../services/auth.service';
-import {SimpleChanges} from "../../../../../node_modules/@angular/core/src/metadata/lifecycle_hooks";
+import { ImageCrudService } from '../../../services/image-crud.service';
 
 declare var google: any; // TODO: get proper typing
 
@@ -87,11 +87,12 @@ export class MapComponent implements OnInit, OnChanges {
 
     private topZindex: number;
     @Output() markerSelectionChanged$ = new EventEmitter<ISpgMarker | null>();
+    @Output() loadImagesOfMarker$ = new EventEmitter<ISpgMarker>();
     @Input() mapOptions: IMapOptions;
     @Input() mapOverlayItems: IMapOverlayItem[];
     @Input() pointedMarker: ISpgMarker;
 
-    constructor(private markerService: MarkerCrudService, authService: AuthService) {
+    constructor(private markerService: MarkerCrudService, authService: AuthService, private imageService: ImageCrudService) {
         this.markers$ = markerService.markers$;
         authService.user$.subscribe(user => {
             if (user) {
@@ -256,5 +257,12 @@ export class MapComponent implements OnInit, OnChanges {
         this.mapOptions.longitude = $selectedPoint.coords.longitude;
         this.mapOptions.latitude = $selectedPoint.coords.latitude;
         this.mapOptions = JSON.parse(JSON.stringify(this.mapOptions));
+    }
+
+    loadImagesOfMarker($marker) {
+        console.log($marker);
+        const query = this.imageService.query$.getValue() || {};
+        query.markerId = $marker.id;
+        this.imageService.query$.next(query);
     }
 }

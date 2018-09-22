@@ -14,6 +14,7 @@ export class HeadImageComponent implements OnInit {
   @Output() openImageModal$ = new EventEmitter<ImageData>();
   @Output() toggleMarkerLink$ = new EventEmitter<ImageData | null>();
   @Output() pointImageMarker$ = new EventEmitter<ImageData>();
+  @Output() clearHeadImage$ = new EventEmitter<void>();
   @Input() isAdminMode = false;
   @Input() image: ImageData;
   @Input() selectedMarker: ISpgMarker;
@@ -33,5 +34,8 @@ export class HeadImageComponent implements OnInit {
   }
   pointImageMarker($image) {
     this.pointImageMarker$.emit($image);
+  }
+  close() {
+    this.clearHeadImage$.emit();
   }
 }

@@ -4,6 +4,7 @@ import { AuthService } from '../../../services/auth.service';
 import { ImageModalComponent } from '../image-modal/image-modal.component';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { ISpgMarker } from '../../map/map/map.component';
+import * as _ from 'lodash';
 
 
 @Component({
@@ -31,9 +32,12 @@ export class ImageControlComponent implements OnInit {
               this.isAdminMode = false;
           }
       });
-      this.imageService.imageList$.subscribe(images => {
+      this.imageService.imageListExtended$.subscribe(images => {
           this.imageList = images;
           this.selectedImage = this.getSelectedImage(this.selectedImageId);
+      });
+      this.imageService.imageListExtended$.subscribe(images => {
+          console.log(images);
       });
   }
 
@@ -67,7 +71,8 @@ export class ImageControlComponent implements OnInit {
 
   queryChanged($event) {
       console.log('query', $event);
-      this.imageService.query$.next($event);
+      const newQuery = _.merge(this.imageService.query$.getValue(), $event);
+      this.imageService.query$.next(newQuery);
   }
 
   openImageModal($image: ImageData) {
@@ -78,8 +83,13 @@ export class ImageControlComponent implements OnInit {
   }
 
   pointImageMarker($image: ImageData) {
-      console.log('point', $image)
+      console.log('point', $image);
       this.pointImageMarker$.emit($image);
+  }
+
+  clearHeadImage() {
+      this.selectedImageId = null;
+      this.selectedImage = null;
   }
 
   ngOnInit() {

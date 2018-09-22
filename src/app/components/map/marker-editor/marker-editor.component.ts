@@ -17,6 +17,7 @@ export class MarkerEditorComponent implements OnInit {
   @Output() $zoomToAllMarkers = new EventEmitter<void>();
   @Output() $panToSelected = new EventEmitter<ISpgMarker>();
   @Output() $setMinZoomOnSelected = new EventEmitter<ISpgMarker>();
+  @Output() loadImagesOfMarker$ = new EventEmitter<ISpgMarker>();
 
   constructor() { }
 
@@ -46,6 +47,9 @@ export class MarkerEditorComponent implements OnInit {
   }
   setCurrentZoomAsMaxVisibleDirection() {
     console.log('setZoom to this marker');
+  }
+  loadImagesOfMarker() {
+    this.loadImagesOfMarker$.emit(this.markerPoint);
   }
 
 }

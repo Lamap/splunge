@@ -42,6 +42,11 @@
           arrow_upward
         </i>
       </span>
+      <span class="spg-marker-editor__action-item" (click)="loadImagesOfMarker()">
+        <i class="material-icons" title="List images that belongs to this marker" >
+          photo_library
+        </i>
+      </span>
     </div>
     <div class="spg-marker-editor__settings" *ngIf="markerPoint">
       <mat-checkbox

@@ -3,33 +3,52 @@ import * as firebase from 'firebase';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { AuthService } from './auth.service';
 import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
 import { switchMap } from 'rxjs/operators';
 import { ISpgMarker } from '../components/map/map/map.component';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 export interface ImageData {
+    id?: string;
     url: string;
     originalName: string;
     filePath: string;
     author: string;
     marker?: ISpgMarker;
-    id?: string;
+    markerId?: string;
     title?: string;
     description?: string;
     dated?: number;
 }
 
 export interface ImageQuery {
-    sortDesc: Boolean;
-    searchText: String;
+    searchText?: string;
+    markerId?: string;
+    sort?: {
+        by: string;
+        desc: boolean;
+    };
+    timeInterval?: {
+      from: number;
+      to: number;
+    };
+    pagination?: {
+        pageSize: number;
+        pageIndex: number;
+    };
+    noLocation?: boolean;
 }
 
 @Injectable()
 export class ImageCrudService {
 
   public taskProgress = 0;
-  public imageList$:  Observable<ImageData[]>;
-  public query$ = new Subject<ImageQuery>();
+  public imageListExtended$:  Observable<ImageData[]>;
+  public query$ = new BehaviorSubject<ImageQuery | null>({
+      sort: {
+          by: 'filePath',
+          desc: true
+      }
+  });
 
   private imagesFbsCollection: AngularFirestoreCollection<ImageData>;
   private basePath = '/BTM';
@@ -38,48 +57,65 @@ export class ImageCrudService {
 
   constructor(store: AngularFirestore, private auth: AuthService) {
 
-        auth.user$.subscribe(user => {
+      auth.user$.subscribe(user => {
           this.author = user ? user.email : null;
-        });
+      });
 
-        this.imagesFbsCollection = store.collection('images',
-            ref => ref.orderBy('filePath', 'desc'));
-        this.storageRef = firebase.storage().ref();
-        this.imageList$ = this.imagesFbsCollection.snapshotChanges().map(
-            actions => {
-              return actions.map(action => {
-                  const data = action.payload.doc.data() as ImageData;
-                  data.id = action.payload.doc.id;
-                  return data;
-              });
-            }
-        ) as Observable<ImageData[]>;
+      this.storageRef = firebase.storage().ref();
+      this.imagesFbsCollection = store.collection('images');
 
-      /*
-    this.query$.pipe(
-        switchMap( query => {
-            console.log('query', query);
-        })
-    );
-    */
-    this.query$.subscribe(query => {
-        console.log('queryChanged', query);
+      this.imageListExtended$ = this.query$.pipe(switchMap(queryData => {
+          console.log('querychanged:::::', queryData);
+          return store.collection('images',
+              ref => {
+                  let query: any = ref; // TODO: solve typescript error when using firebase.firestore.CollectionReference
+                  if (!queryData) {
+                      return query;
+                  }
 
-        this.imagesFbsCollection = store.collection('images',
-            ref => {
-                    let fbQuery: any = ref;
-                    if (query.sortDesc) {
-                        fbQuery.orderBy('filePath', 'desc');
-                    } else {
-                        fbQuery.orderBy('filePath');
-                    }
-                    if (query.searchText) {
-                        fbQuery = fbQuery.where('title', '==', query.searchText);
-                    };
-                    return fbQuery;
-                }
-            );
-    });
+                  if (queryData.sort) {
+                      if (queryData.sort.desc) {
+                          query = ref.orderBy(queryData.sort.by, 'desc');
+                      } else {
+                          query = ref.orderBy(queryData.sort.by);
+                      }
+                  }
+
+                  // marker
+                  if (queryData.markerId) {
+                      query = query.where('markerId', '==', queryData.markerId);
+                  }
+
+                  // has location
+                  if (queryData.noLocation) {
+                      query = query.where('markerId', '==', null);
+                  }
+
+                  // time range
+                  if (queryData.timeInterval) {
+                      query = query.where('dated', '>=', queryData.timeInterval.from);
+                      query = query.where('dated', '<=', queryData.timeInterval.to);
+                  }
+
+                  // pagination
+                  if (queryData.pagination) {
+                      query = query.limit(queryData.pagination.pageSize);
+                      // query = query.startAt(queryData.pagination.pageIndex * queryData.pagination.pageSize);
+                  }
+
+                  return query;
+              }
+          )
+          .snapshotChanges().map(
+              actions => {
+                  return actions.map(action => {
+                      const data = action.payload.doc.data() as ImageData;
+                      data.id = action.payload.doc.id;
+                      return data;
+                  });
+              }
+          ) as Observable<ImageData[]>;
+      }));
   }
 
   upload(file: File, done: Function) {
@@ -128,11 +164,17 @@ export class ImageCrudService {
 
   addMarkerToImage(image: ImageData, marker: ISpgMarker) {
       console.log('add image to the selected marker');
-      this.imagesFbsCollection.doc(image.id).update({marker: marker});
+      this.imagesFbsCollection.doc(image.id).update({
+          marker: marker,
+          markerId: marker.id
+      });
   }
   removeMarkerFromImage(image: ImageData) {
       console.log('unlink image from the marker');
-      this.imagesFbsCollection.doc(image.id).update({marker: null});
+      this.imagesFbsCollection.doc(image.id).update({
+          marker: null,
+          markerId: null
+      });
   }
 
   createNewImageData(url: string, originalName: string, filePath: string, done: Function) {
@@ -140,7 +182,8 @@ export class ImageCrudService {
           url: url,
           filePath: filePath,
           originalName: originalName,
-          author: this.author
+          author: this.author,
+          markerId: null
       };
       // TODO: handler error
       this.imagesFbsCollection.add(newItem).then(doc => {

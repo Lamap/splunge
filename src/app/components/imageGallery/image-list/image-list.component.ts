@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, Input, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
-import { ImageData } from '../../../services/image-crud.service';
+import { ImageData, ImageQuery } from '../../../services/image-crud.service';
 import { ISpgMarker } from '../../map/map/map.component';
 
 @Component({
@@ -12,13 +12,13 @@ export class ImageListComponent implements OnInit, OnChanges {
   public imageListFirstCol: ImageData[] = [];
   public imageListSecondCol: ImageData[] = [];
   public sortedDesc = true;
-  public searchText = '';
+  public noLocationQuery = false;
 
   @Input() isAdminMode: boolean;
   @Input() imageList: ImageData[];
   @Input() selectedMarker: ISpgMarker;
   @Output() imageSelected$ = new EventEmitter<ImageData>();
-  @Output() queryChanged$ = new EventEmitter<any>();
+  @Output() queryChanged$ = new EventEmitter<ImageQuery | null>();
   @Output() openImageModal$ = new EventEmitter<ImageData>();
   @Output() pointImageMarker$ = new EventEmitter<ImageData>();
 
@@ -52,16 +52,30 @@ export class ImageListComponent implements OnInit, OnChanges {
 
   toggleUploadSort() {
     this.sortedDesc = !this.sortedDesc;
-    this.queryChanged$.emit({
-        sortedDesc: this.sortedDesc,
-        searchText: this.searchText
-    });
+    const imageQuery: ImageQuery = {
+        sort: {
+            by: 'filePath',
+            desc: this.sortedDesc
+        }
+    };
+    this.queryChanged$.emit(imageQuery);
   }
 
-  filter() {
+  noLocationQueryChanged() {
       this.queryChanged$.emit({
-          sortedDesc: this.sortedDesc,
-          searchText: this.searchText
+          noLocation: this.noLocationQuery
+      });
+  }
+
+  clearQuery() {
+      this.queryChanged$.emit({
+          sort: {
+              by: 'filePath',
+              desc: this.sortedDesc
+          },
+          markerId: null,
+          timeInterval: null,
+          noLocation: false
       });
   }
 

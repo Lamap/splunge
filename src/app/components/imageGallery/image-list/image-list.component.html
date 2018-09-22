@@ -4,8 +4,13 @@
           <span *ngIf="sortedDesc">Last Uploaded</span>
           <span *ngIf="!sortedDesc">First Uploaded</span>
       </span>
-      <input type="text" [(ngModel)]="searchText" />
-      <span (click)="filter()">filter</span>
+        <mat-checkbox
+            class="spg-image-list__has-location"
+            *ngIf="isAdminMode"
+            [(ngModel)]="noLocationQuery"
+            (change)="noLocationQueryChanged()"
+        >No location</mat-checkbox>
+      <span (click)="clearQuery()">Show all</span>
     </div>
     <div class="spg-image-list__items">
         <div class="spg-image-list__first-col">

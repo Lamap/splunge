@@ -18,6 +18,14 @@
             </i>
         </span>
         <span
+                class="spg-head-image__close"
+                (click)="close()"
+        >
+            <i class="material-icons" title="Close" >
+              close
+            </i>
+        </span>
+        <span
                 class="spg-head-image__point-marker"
                 (click)="pointImageMarker(image)"
                 *ngIf="image.marker"
