@@ -1,9 +1,13 @@
+@image-control-height: 40px;
 .spg-image-list {
-  height: ~'calc(100% - 100px)';
-  &__items {
-    height: ~'calc(100% - 200px)';
-    overflow-y: auto;
+  height: 100%;
+  &__control {
+    height: @image-control-height;
+  }
+  &__items-wrapper {
     display: flex;
+    overflow-y: auto;
+    height: ~"calc(100% - @{image-control-height})";
   }
   &__first-col {
     width: 50%;

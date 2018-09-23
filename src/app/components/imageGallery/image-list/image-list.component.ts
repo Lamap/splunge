@@ -21,6 +21,7 @@ export class ImageListComponent implements OnInit, OnChanges {
   @Output() queryChanged$ = new EventEmitter<ImageQuery | null>();
   @Output() openImageModal$ = new EventEmitter<ImageData>();
   @Output() pointImageMarker$ = new EventEmitter<ImageData>();
+  @Output() fileSelected$ = new EventEmitter<File>();
 
   constructor() {}
 
@@ -68,6 +69,7 @@ export class ImageListComponent implements OnInit, OnChanges {
   }
 
   clearQuery() {
+      this.noLocationQuery = false;
       this.queryChanged$.emit({
           sort: {
               by: 'filePath',
@@ -81,6 +83,10 @@ export class ImageListComponent implements OnInit, OnChanges {
 
   pointImageMarker($image) {
       this.pointImageMarker$.emit($image);
+  }
+
+  fileSelected($event) {
+      this.fileSelected$.emit($event);
   }
 
 }

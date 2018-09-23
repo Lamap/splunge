@@ -1,6 +1,7 @@
 @import './components/map/map/map.component.less';
 
 @image-block-width: 400px;
+@header-height: 30px;
 @icon-color: #9e94c1;
 
 .spg-layout {
@@ -27,7 +28,7 @@
         position: absolute;
         background: @map-frame-color;
         z-index: 10;
-        height: @map-frame-width;
+        height: @header-height;
         width: 100%;
     }
     &__auth-username {
@@ -41,12 +42,11 @@
     position: relative;
 }
 .spg-images-placeholder {
-    height: ~"calc(100% - @{map-frame-width})";
+    height: ~"calc(100% - @{header-height})";
     width: @image-block-width;
     position: absolute;
     right: 0;
-    padding-top: 10px;
-    top: @map-frame-width;
+    top: @header-height;
     background: @map-frame-color;
 }
 

@@ -1,39 +1,50 @@
 <div class="spg-head-image">
     <div class="spg-head-image__img" *ngIf="image">
-        <span
-                 *ngIf="isAdminMode"
-                 class="spg-head-image__delete"
-                 (click)="deleteImage(image)"
-         >
+        <div>
+            <span
+                *ngIf="isAdminMode"
+                class="spg-head-image__delete"
+                (click)="deleteImage(image)"
+        >
            <i class="material-icons" title="Delete this image" >
               delete_forever
            </i>
         </span>
-        <span
-            class="spg-head-image__open-modal"
-            (click)="openModal(image)"
-        >
+            <span
+                    class="spg-head-image__open-modal"
+                    (click)="openModal(image)"
+            >
             <i class="material-icons" title="Open in modal" >
               open_in_new
             </i>
         </span>
-        <span
-                class="spg-head-image__close"
-                (click)="close()"
-        >
+            <span
+                    class="spg-head-image__close"
+                    (click)="close()"
+            >
             <i class="material-icons" title="Close" >
               close
             </i>
         </span>
-        <span
-                class="spg-head-image__point-marker"
-                (click)="pointImageMarker(image)"
-                *ngIf="image.marker"
-        >
+            <span
+                    class="spg-head-image__point-marker"
+                    (click)="pointImageMarker(image)"
+                    *ngIf="image.marker"
+            >
             <i class="material-icons" title="Point the marker" >
               my_location
             </i>
         </span>
+            <span
+                    class="spg-head-image__save"
+                    *ngIf="isAdminMode"
+                    (click)="save(image)"
+            >
+           <i class="material-icons" title="Save the changes" >
+              save
+           </i>
+        </span>
+        </div>
         <spg-markerlink-manager
             *ngIf="isAdminMode"
             class="spg-head-image__markerlinker"
@@ -45,44 +56,33 @@
                 class="spg-head-image__img-content"
                 [src]="image.url"
         />
-        <div *ngIf="!isAdminMode">
-            <div class="spg-head-image__img-date">{{image.dated}}</div>
-            <div class="spg-head-image__img-title">{{image.title}}</div>
-            <div class="spg-head-image__img-description">{{image.description}}</div>
-        </div>
-        <div
-            *ngIf="isAdminMode"
-            class="spg-head-image__form"
-        >
-            <input
+    </div>
+    <div *ngIf="!isAdminMode && image" class="spg-head-image__static-text-wrapper">
+        <div class="spg-head-image__img-date">{{image.dated}}</div>
+        <div class="spg-head-image__img-title">{{image.title}}</div>
+        <div class="spg-head-image__img-description">{{image.description}}</div>
+    </div>
+    <div
+            *ngIf="isAdminMode && image"
+            class="spg-head-image__text-wrapper"
+    >
+        <input
                 type="number"
                 class="spg-head-image__img-date"
                 [(ngModel)]="image.dated"
-                placeholder="Dated"
-            />
-            <input
+                placeholder="Year"
+        />
+        <input
                 type="text"
                 class="spg-head-image__img-title"
                 [(ngModel)]="image.title"
                 placeholder="Title"
-            />
-            <input
+        />
+        <input
                 type="text"
                 class="spg-head-image__img-description"
                 [(ngModel)]="image.description"
                 placeholder="Description"
-            />
-        </div>
-        <span
-            class="spg-head-image__save"
-            *ngIf="isAdminMode"
-            (click)="save(image)"
-        >
-           <i class="material-icons" title="Save the changes" >
-              save
-           </i>
-        </span>
+        />
     </div>
-
-    <h5 *ngIf="!image">No image is selected</h5>
 </div>

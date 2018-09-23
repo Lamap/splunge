@@ -1,18 +1,23 @@
 <div class="spg-image-list">
     <div class="spg-image-list__control">
-      <span class="spg-image-list__sorter" (click)="toggleUploadSort()">
+        <spg-file-selector
+                class="spg-head-image__add-new"
+                *ngIf="isAdminMode"
+                (fileSelected$)="fileSelected($event)"
+        ></spg-file-selector>
+        <span class="spg-image-list__sorter" (click)="toggleUploadSort()">
           <span *ngIf="sortedDesc">Last Uploaded</span>
           <span *ngIf="!sortedDesc">First Uploaded</span>
-      </span>
+        </span>
         <mat-checkbox
             class="spg-image-list__has-location"
             *ngIf="isAdminMode"
             [(ngModel)]="noLocationQuery"
             (change)="noLocationQueryChanged()"
         >No location</mat-checkbox>
-      <span (click)="clearQuery()">Show all</span>
+        <span (click)="clearQuery()">Show all</span>
     </div>
-    <div class="spg-image-list__items">
+    <div class="spg-image-list__items-wrapper">
         <div class="spg-image-list__first-col">
             <spg-image-list-item
                 *ngFor="let image of imageListFirstCol"

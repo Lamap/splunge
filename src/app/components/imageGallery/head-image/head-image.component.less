@@ -1,54 +1,83 @@
 @import "../../../app.component.less";
 
+@text-line-height: 20px;
+@date-input-width: 80px;
+
 .spg-head-image {
   width: 100%;
+  height: 100%;
   position: relative;
+  overflow: hidden;
+  border-radius: 6px;
   &__open-modal {
     .spg-rounded-icon-button;
     position: absolute;
-    bottom: -6px;
-    right: -6px;
+    bottom: 0;
+    right: 0;
   }
   &__delete {
     .spg-rounded-icon-button;
     position: absolute;
-    top: -12px;
-    right: -12px;
+    top: 0;
+    right: 0;
   }
   &__save {
     .spg-rounded-icon-button;
     position: absolute;
-    top: -12px;
-    left: -12px;
+    top: 0;
+    left: 0;
   }
   &__close {
     .spg-rounded-icon-button;
     position: absolute;
-    top: -12px;
-    left: 36px;
+    top: 0;
+    left: 48px;
   }
   &__point-marker {
     .spg-rounded-icon-button;
     position: absolute;
-    top: -12px;
-    left: 12px;
+    top: 0;
+    left: 28px;
   }
   &__markerlinker {
     position: absolute;
-    bottom: -6px;
-    left: -6px;
+    bottom: 0;
+    left: 0;
+  }
+  &__img {
+    height: ~"calc(100% - 2 * @{text-line-height})";
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    position: relative;
   }
   &__img-content {
-    width: 100%;
-    border-radius: 6px;
+    max-width: 100%;
+    max-height: 100%;
+  }
+  &__text-wrapper {
+    height: 2 * @text-line-height;
+    line-height: @text-line-height;
+    position: relative;
+    font-size: 12px;
   }
   &__img-date {
-    width: 100%;
+    width: @date-input-width;
+    line-height: @text-line-height;
+    height: @text-line-height;
   }
   &__img-title {
-    width: 100%;
+    width: ~"calc(100% - @{date-input-width})";
+    position: absolute;
+    right: 0;
+    height: @text-line-height;
   }
   &__img-description {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: @text-line-height;
     width: 100%;
   }
 }

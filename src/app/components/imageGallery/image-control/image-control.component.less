@@ -1,11 +1,25 @@
+@head-image-height: 0px;
+@head-image-height--filled: 340px;
+@bottom-spacing: 10px;
+
 .spg-image-control {
   padding: 10px;
   width: 100%;
   height: 100%;
   &__head-image {
-    margin-bottom: 20px;
+    height: @head-image-height;
   }
   &__image-list {
-    height: 100%;
+    height: ~"calc(100% - @{head-image-height})";
+  }
+
+  &--has-head-image {
+    .spg-image-control__head-image {
+      height: @head-image-height--filled;
+      padding-bottom: 10px;
+    }
+    .spg-image-control__image-list {
+      height: ~"calc(100% - @{head-image-height--filled})";
+    }
   }
 }

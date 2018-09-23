@@ -1,11 +1,5 @@
-<div class="spg-image-control">
-<span *ngIf="selectedMarker">{{selectedMarker.id}}</span>
-    <div class="spg-image-control__head-image">
-        <spg-file-selector
-                class="spg-head-image__add-new"
-                *ngIf="isAdminMode"
-                (fileSelected$)="fileSelected($event)"
-        ></spg-file-selector>
+<div class="spg-image-control" [ngClass]="{'spg-image-control--has-head-image': selectedImage}">
+    <div class="spg-image-control__head-image" >
         <spg-head-image
             [isAdminMode]="isAdminMode"
             [image]="selectedImage"
@@ -26,6 +20,7 @@
             [imageList]="imageList"
             [selectedMarker]="selectedMarker"
             (pointImageMarker$)="pointImageMarker($event)"
+            (fileSelected$)="fileSelected($event)"
         ></spg-image-list>
     </div>
 </div>
