@@ -15,6 +15,7 @@ import { ImageData } from './services/image-crud.service';
 export class AppComponent {
   public isAdminMode: boolean;
   public user$: Observable<firebase.User>;
+  public isFullscreen = false;
 
   public agmMapOptions: IMapOptions = {
     longitude: 19.045,
@@ -219,5 +220,33 @@ export class AppComponent {
   pointImageMarker($image: ImageData) {
     console.log('point:', $image);
     this.pointedMarker = JSON.parse(JSON.stringify($image.marker));
+  }
+  toggleFullscreen() {
+      this.isFullscreen = !this.isFullscreen;
+      if (this.isFullscreen) {
+          this.enterFullscreen();
+      } else {
+          this.exitFullscreen();
+      }
+  }
+  enterFullscreen() {
+      const elem = document.body;
+      if (elem.requestFullscreen) {
+          elem.requestFullscreen();
+      } else if (elem.mozRequestFullScreen) {
+          elem.mozRequestFullScreen();
+      } else if (elem.webkitRequestFullscreen) {
+          elem.webkitRequestFullscreen();
+      }
+  }
+  exitFullscreen() {
+      if (document.cancelFullScreen) {
+          document.cancelFullScreen();
+      } else if (document.mozCancelFullScreen) {
+          document.mozCancelFullScreen();
+      } else if (document.webkitCancelFullScreen) {
+          document.webkitCancelFullScreen();
+      }
+
   }
 }

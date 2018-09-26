@@ -27,6 +27,7 @@
             Clear filter
         </span>
     </div>
+    <div class="spg-image-list__no-images" *ngIf="imageList && !imageList.length">No images, clear the filter</div>
     <div class="spg-image-list__items-wrapper">
         <div class="spg-image-list__first-col">
             <spg-image-list-item

@@ -1,5 +1,13 @@
-<div class="spg-layout">
+<div class="spg-layout" id="spg-layout">
   <div class="spg-layout__header">
+    <span (click)="toggleFullscreen()" class="spg-layout__fullscreen-toggle">
+      <i class="material-icons" *ngIf="!isFullscreen">
+        fullscreen
+      </i>
+      <i class="material-icons" *ngIf="isFullscreen">
+        fullscreen_exit
+      </i>
+    </span>
     <div class="spg-layout__auth-box">
     <span
             class="spg-layout__auth-login"
