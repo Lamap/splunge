@@ -230,7 +230,7 @@ export class AppComponent {
       }
   }
   enterFullscreen() {
-      const elem = document.body;
+      const elem: any = document.body;
       if (elem.requestFullscreen) {
           elem.requestFullscreen();
       } else if (elem.mozRequestFullScreen) {
@@ -240,12 +240,13 @@ export class AppComponent {
       }
   }
   exitFullscreen() {
-      if (document.cancelFullScreen) {
-          document.cancelFullScreen();
-      } else if (document.mozCancelFullScreen) {
-          document.mozCancelFullScreen();
-      } else if (document.webkitCancelFullScreen) {
-          document.webkitCancelFullScreen();
+      const target: any = document;
+      if (target.cancelFullScreen) {
+          target.cancelFullScreen();
+      } else if (target.mozCancelFullScreen) {
+          target.mozCancelFullScreen();
+      } else if (target.webkitCancelFullScreen) {
+          target.webkitCancelFullScreen();
       }
 
   }
