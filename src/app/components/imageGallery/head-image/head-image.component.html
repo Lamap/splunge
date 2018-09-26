@@ -5,15 +5,15 @@
                 *ngIf="isAdminMode"
                 class="spg-head-image__delete"
                 (click)="deleteImage(image)"
-        >
+            >
            <i class="material-icons" title="Delete this image" >
               delete_forever
            </i>
         </span>
-            <span
-                    class="spg-head-image__open-modal"
-                    (click)="openModal(image)"
-            >
+        <span
+                class="spg-head-image__open-modal"
+                (click)="openModal(image)"
+        >
             <i class="material-icons" title="Open in modal" >
               open_in_new
             </i>
@@ -39,6 +39,7 @@
                     class="spg-head-image__save"
                     *ngIf="isAdminMode"
                     (click)="save(image)"
+                    [ngClass]="{'spg-head-image__save--unsaved': isUnsaved}"
             >
            <i class="material-icons" title="Save the changes" >
               save
@@ -57,10 +58,10 @@
                 [src]="image.url"
         />
     </div>
-    <div *ngIf="!isAdminMode && image" class="spg-head-image__static-text-wrapper">
-        <div class="spg-head-image__img-date">{{image.dated}}</div>
-        <div class="spg-head-image__img-title">{{image.title}}</div>
-        <div class="spg-head-image__img-description">{{image.description}}</div>
+    <div *ngIf="!isAdminMode && image" class="spg-head-image__text-wrapper spg-head-image__text-wrapper--static">
+        <div class="spg-head-image__img-date">{{image.dated || 'No date'}}</div>
+        <div class="spg-head-image__img-title">{{image.title || 'No title'}}</div>
+        <div class="spg-head-image__img-description">{{image.description || 'No description'}}</div>
     </div>
     <div
             *ngIf="isAdminMode && image"
@@ -71,18 +72,21 @@
                 class="spg-head-image__img-date"
                 [(ngModel)]="image.dated"
                 placeholder="Year"
+                (input)="dataChanged()"
         />
         <input
                 type="text"
                 class="spg-head-image__img-title"
                 [(ngModel)]="image.title"
                 placeholder="Title"
+                (input)="dataChanged()"
         />
         <input
                 type="text"
                 class="spg-head-image__img-description"
                 [(ngModel)]="image.description"
                 placeholder="Description"
+                (input)="dataChanged()"
         />
     </div>
 </div>

@@ -1,6 +1,7 @@
 <div class="spg-markerlink-manager">
     <span
         class="spg-markerlink-manager__link"
+        [ngClass]="{'spg-rounded-icon-button--small': isSmall}"
         (click)="attach()"
         *ngIf="selectedMarker && (!image.marker || image.marker.id !== selectedMarker.id)"
     >
@@ -10,6 +11,7 @@
     </span>
     <span
         class="spg-markerlink-manager__remove"
+        [ngClass]="{'spg-rounded-icon-button--small': isSmall}"
         (click)="clear()"
         *ngIf="image.marker"
     >

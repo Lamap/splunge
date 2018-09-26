@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, Input, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
-import { ImageData, ImageQuery } from '../../../services/image-crud.service';
+import { ImageCrudService, ImageData, ImageQuery } from '../../../services/image-crud.service';
 import { ISpgMarker } from '../../map/map/map.component';
 
 @Component({
@@ -23,7 +23,9 @@ export class ImageListComponent implements OnInit, OnChanges {
   @Output() pointImageMarker$ = new EventEmitter<ImageData>();
   @Output() fileSelected$ = new EventEmitter<File>();
 
-  constructor() {}
+  public isFiltered: boolean;
+
+  constructor(private imageService: ImageCrudService) {}
 
     // TODO: doit it with subscribe instead of ngChange
     ngOnChanges(changes: SimpleChanges) {
@@ -38,6 +40,9 @@ export class ImageListComponent implements OnInit, OnChanges {
           }
       });
     }
+    this.imageService.query$.subscribe(query => {
+       this.isFiltered = typeof query.markerId === 'string' || query.noLocation;
+    });
   }
 
   onItemClicked ($image) {

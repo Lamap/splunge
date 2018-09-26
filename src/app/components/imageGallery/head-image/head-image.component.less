@@ -1,6 +1,6 @@
 @import "../../../app.component.less";
 
-@text-line-height: 20px;
+@text-line-height: 30px;
 @date-input-width: 80px;
 
 .spg-head-image {
@@ -9,47 +9,52 @@
   position: relative;
   overflow: hidden;
   border-radius: 6px;
+  background: #fff;
+
   &__open-modal {
-    .spg-rounded-icon-button;
-    position: absolute;
-    bottom: 0;
-    right: 0;
-  }
-  &__delete {
-    .spg-rounded-icon-button;
-    position: absolute;
-    top: 0;
-    right: 0;
-  }
-  &__save {
     .spg-rounded-icon-button;
     position: absolute;
     top: 0;
     left: 0;
-  }
-  &__close {
-    .spg-rounded-icon-button;
-    position: absolute;
-    top: 0;
-    left: 48px;
   }
   &__point-marker {
     .spg-rounded-icon-button;
     position: absolute;
     top: 0;
-    left: 28px;
+    left: 44px;
+  }
+  &__close {
+    .spg-rounded-icon-button;
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+  &__delete {
+    .spg-rounded-icon-button;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
+  &__save {
+    .spg-rounded-icon-button;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    &--unsaved {
+      color: #f44336;
+      border-color: #f44336;
+    }
   }
   &__markerlinker {
     position: absolute;
     bottom: 0;
-    left: 0;
+    left: 42px;
   }
   &__img {
     height: ~"calc(100% - 2 * @{text-line-height})";
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #fff;
     position: relative;
   }
   &__img-content {
@@ -61,16 +66,25 @@
     line-height: @text-line-height;
     position: relative;
     font-size: 12px;
+    color: #333333;
+    .spg-head-image__text-wrapper--static & {
+    }
   }
   &__img-date {
     width: @date-input-width;
     line-height: @text-line-height;
     height: @text-line-height;
+    padding: 0 6px;
+    .spg-head-image__text-wrapper--static & {
+      font-weight: bold;
+    }
   }
   &__img-title {
     width: ~"calc(100% - @{date-input-width})";
     position: absolute;
+    padding: 0 6px;
     right: 0;
+    top: 0;
     height: @text-line-height;
   }
   &__img-description {
@@ -79,5 +93,10 @@
     left: 0;
     height: @text-line-height;
     width: 100%;
+    padding: 0 6px;
+    .spg-head-image__text-wrapper--static & {
+      color: #777;
+      font-style: italic;
+    }
   }
 }

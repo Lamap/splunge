@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { ImageData } from '../../../services/image-crud.service';
 import { ISpgMarker } from '../../map/map/map.component';
 
@@ -7,7 +7,7 @@ import { ISpgMarker } from '../../map/map/map.component';
   templateUrl: './head-image.component.html',
   styleUrls: ['./head-image.component.less']
 })
-export class HeadImageComponent implements OnInit {
+export class HeadImageComponent implements OnInit, OnChanges {
 
   @Output() deleteImage$ = new EventEmitter<ImageData>();
   @Output() updateImage$ = new EventEmitter<ImageData>();
@@ -18,6 +18,8 @@ export class HeadImageComponent implements OnInit {
   @Input() isAdminMode = false;
   @Input() image: ImageData;
   @Input() selectedMarker: ISpgMarker;
+
+  public isUnsaved = false;
   constructor() { }
 
   ngOnInit() {
@@ -28,6 +30,7 @@ export class HeadImageComponent implements OnInit {
   }
   save($image) {
     this.updateImage$.emit($image);
+    this.isUnsaved = false;
   }
   openModal($image) {
     this.openImageModal$.emit($image);
@@ -37,5 +40,15 @@ export class HeadImageComponent implements OnInit {
   }
   close() {
     this.clearHeadImage$.emit();
+  }
+  dataChanged() {
+    this.isUnsaved = true;
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    console.log(changes);
+    if (changes && changes.image) {
+      this.isUnsaved = false;
+    }
   }
 }

@@ -1,7 +1,7 @@
 <div class="spg-image-list-item">
     <span
         *ngIf="isAdminMode"
-        class="spg-image-list-item__delete"
+        class="spg-image-list-item__delete spg-rounded-icon-button--small"
         (click)="deleteImage(image)"
     >
         <i class="material-icons" title="Delete this image" >
@@ -9,7 +9,7 @@
         </i>
     </span>
     <span
-            class="spg-image-list-item__open-modal"
+            class="spg-image-list-item__open-modal spg-rounded-icon-button--small"
             (click)="openModal(image)"
     >
         <i class="material-icons" title="Open in modal" >
@@ -17,11 +17,12 @@
         </i>
     </span>
     <span
-            class="spg-image-list-item__point-marker"
+            class="spg-image-list-item__point-marker spg-rounded-icon-button--small"
             (click)="pointImageMarker(image)"
             *ngIf="image.marker"
     >
-            <i class="material-icons" title="Point the marker" >
+            <i class="material-icons"
+               title="Point the marker" >
               my_location
             </i>
         </span>
@@ -30,6 +31,7 @@
             class="spg-image-list-item__markerlinker"
             [image]="image"
             [selectedMarker]="selectedMarker"
+            [isSmall]="true"
     >
     </spg-markerlink-manager>
   <img class="spg-image-list-item__img" [src]="image.url" (click)="itemClicked(image)"/>

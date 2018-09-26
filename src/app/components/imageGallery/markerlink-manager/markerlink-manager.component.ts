@@ -11,6 +11,7 @@ export class MarkerlinkManagerComponent implements OnInit {
 
   @Input() selectedMarker: ISpgMarker;
   @Input() image: ImageData;
+  @Input() isSmall: boolean;
   constructor(private imageService: ImageCrudService) { }
 
   ngOnInit() {

@@ -36,9 +36,6 @@ export class ImageControlComponent implements OnInit {
           this.imageList = images;
           this.selectedImage = this.getSelectedImage(this.selectedImageId);
       });
-      this.imageService.imageListExtended$.subscribe(images => {
-          console.log(images);
-      });
   }
 
   imageLoadFromList($event) {

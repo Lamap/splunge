@@ -3,6 +3,9 @@
   height: 100%;
   &__control {
     height: @image-control-height;
+    display: flex;
+    align-items: center;
+    color: #ffffff;
   }
   &__items-wrapper {
     display: flex;
@@ -14,5 +17,30 @@
   }
   &__second-col {
     width: 50%;
+  }
+  &__add-new {
+    position: absolute;
+    left: -24px;
+    top: -24px;
+  }
+  &__sorter {
+    display: flex;
+    cursor: pointer;
+    margin-right: auto;
+  }
+  &__sorter-arrow {
+    transform: rotate(0deg);
+    display: inline-block;
+    transition: transform 0.2s ease;
+    .spg-image-list__sorter--down & {
+      transform: rotate(180deg);
+    }
+  }
+  &__has-location {
+    margin-bottom: -8px;
+    margin-right: 4px;
+  }
+  &__clear {
+    cursor: pointer;
   }
 }

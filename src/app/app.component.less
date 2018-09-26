@@ -4,6 +4,8 @@
 @header-height: 30px;
 @icon-color: #9e94c1;
 
+@header-zet-index: 10;
+
 .spg-layout {
     display: flex;
     .aut-button {
@@ -27,7 +29,7 @@
     &__header {
         position: absolute;
         background: @map-frame-color;
-        z-index: 10;
+        z-index: @header-zet-index;
         height: @header-height;
         width: 100%;
     }
@@ -48,6 +50,7 @@
     right: 0;
     top: @header-height;
     background: @map-frame-color;
+    z-index: @header-zet-index;
 }
 
 .spg-rounded-icon-button {
@@ -66,7 +69,20 @@
         color: #333;
         border-color: #333;
     }
+    &.spg-rounded-icon-button--small {
+        width: 32px;
+        padding: 4px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .material-icons {
+            font-size: 18px;
+            line-height: 18px;
+        }
+    }
 }
+
 .spg-link-off-button-replace {
     background: url('../assets/images/baseline-link_off-24px.svg');
     display: inline-block;
