@@ -11,6 +11,13 @@
     display: flex;
     overflow-y: auto;
     height: ~"calc(100% - @{image-control-height})";
+    &::-webkit-scrollbar {
+      width: 10px;
+      background-color: #f44336;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: #ffc1c1;
+    }
   }
   &__first-col {
     width: 50%;

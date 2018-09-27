@@ -1,4 +1,5 @@
-import { Component, OnInit, Output, Input, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Output, Input, EventEmitter, OnChanges,
+    SimpleChanges, ViewChild, AfterViewInit } from '@angular/core';
 import { ImageCrudService, ImageData, ImageQuery } from '../../../services/image-crud.service';
 import { ISpgMarker } from '../../map/map/map.component';
 
@@ -7,7 +8,7 @@ import { ISpgMarker } from '../../map/map/map.component';
   templateUrl: './image-list.component.html',
   styleUrls: ['./image-list.component.less']
 })
-export class ImageListComponent implements OnInit, OnChanges {
+export class ImageListComponent implements OnInit, OnChanges, AfterViewInit {
 
   public imageListFirstCol: ImageData[] = [];
   public imageListSecondCol: ImageData[] = [];
@@ -22,6 +23,8 @@ export class ImageListComponent implements OnInit, OnChanges {
   @Output() openImageModal$ = new EventEmitter<ImageData>();
   @Output() pointImageMarker$ = new EventEmitter<ImageData>();
   @Output() fileSelected$ = new EventEmitter<File>();
+
+  @ViewChild('scrollcontainer') scrollContainer;
 
   public isFiltered: boolean;
 
@@ -43,6 +46,33 @@ export class ImageListComponent implements OnInit, OnChanges {
     this.imageService.query$.subscribe(query => {
        this.isFiltered = typeof query.markerId === 'string' || query.noLocation;
     });
+
+  }
+
+  ngAfterViewInit() {
+      console.log(this.scrollContainer);
+      this.scrollContainer.nativeElement.onscroll = () => {
+          this.onScroll();
+      };
+  }
+
+  onScroll () {
+      const scrollPosition = this.scrollContainer.nativeElement.scrollTop;
+      const scrollHeight = this.scrollContainer.nativeElement.scrollHeight;
+      const containerHeight = this.scrollContainer.nativeElement.offsetHeight;
+      const buffer = 20;
+      if (scrollPosition + containerHeight >= scrollHeight - buffer) {
+          this.loadMoreImages();
+      }
+  }
+
+  loadMoreImages () {
+      const query = this.imageService.query$.getValue();
+      const increment = 6;
+      if (query.limit + increment <= this.imageList.length + increment) {
+          query.limit = query.limit + increment;
+          this.imageService.query$.next(query);
+      }
   }
 
   onItemClicked ($image) {

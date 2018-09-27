@@ -36,6 +36,7 @@ export interface ImageQuery {
         pageIndex: number;
     };
     noLocation?: boolean;
+    limit?: number;
 }
 
 @Injectable()
@@ -47,7 +48,8 @@ export class ImageCrudService {
       sort: {
           by: 'filePath',
           desc: true
-      }
+      },
+      limit: 10
   });
 
   private imagesFbsCollection: AngularFirestoreCollection<ImageData>;
@@ -101,6 +103,11 @@ export class ImageCrudService {
                   if (queryData.pagination) {
                       query = query.limit(queryData.pagination.pageSize);
                       // query = query.startAt(queryData.pagination.pageIndex * queryData.pagination.pageSize);
+                  }
+
+                  // push limit
+                  if (queryData.limit) {
+                      query = query.limit(queryData.limit);
                   }
 
                   return query;
