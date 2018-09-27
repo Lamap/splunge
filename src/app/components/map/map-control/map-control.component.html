@@ -2,12 +2,17 @@
     <div class="spg-map-overlay-control__title">Avalaible Maps on the current zoom</div>
     <ul class="spg-map-overlay-control__items">
         <li
-                class="spg-map-overlay-control__item"
+                class="spg-map-overlay-control__item spg-map-overlay-control__item--is-under-top"
                 [ngClass]="{'spg-map-overlay-control__item--is-top': isGoogleMapOnTop}"
                 (click)="onGoogleMapsClicked()"
         >
             <div class="spg-map-overlay-control__item-dated">
-                <div class="spg-map-overlay-control__item-dated-number">Present</div>
+                <div class="spg-map-overlay-control__item-dated-number">
+                    <span>Present</span>
+                    <i class="material-icons spg-map-overlay-control__item-visibility">
+                        visibility
+                    </i>
+                </div>
                 <div class="spg-map-overlay-control__item-dated-line"></div>
             </div>
             <div class="spg-map-overlay-control__item-content">
@@ -21,7 +26,12 @@
                 (click)="onItemClicked(overlay)"
         >
             <div class="spg-map-overlay-control__item-dated">
-                <div class="spg-map-overlay-control__item-dated-number">{{overlay.dated}}</div>
+                <div class="spg-map-overlay-control__item-dated-number">
+                    <span>{{overlay.dated}}</span>
+                    <i class="material-icons spg-map-overlay-control__item-visibility">
+                        visibility
+                    </i>
+                </div>
                 <div class="spg-map-overlay-control__item-dated-line"></div>
             </div>
             <div class="spg-map-overlay-control__item-content">

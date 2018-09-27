@@ -7,7 +7,6 @@
   @secondtop-border-width: 2px;
   @date-line-height: 22px;
   @border-color: #ccc;
-  font-family: lora, serif;
 
   &__title {
     text-transform: uppercase;
@@ -42,6 +41,9 @@
         border-radius: 4px;
         padding: 10px;
       }
+      .spg-map-overlay-control__item-visibility {
+        display: inline-block;
+      }
     }
     &:hover {
       .spg-map-overlay-control__item-dated-number {
@@ -51,7 +53,10 @@
       }
     }
     &--is-under-top {
-
+      .spg-map-overlay-control__item-visibility {
+        display: inline-block;
+        color: #999999;
+      }
     }
     &:after {
       content: '';
@@ -67,6 +72,13 @@
       }
     }
   }
+  &__item-visibility {
+    font-size: 18px;
+    color: #777777;
+    line-height: 24px;
+    margin-left: 6px;
+    display: none;
+  }
   &__item-dated {
     font-size: 14px;
     color: #555;
@@ -78,6 +90,8 @@
     padding: 3px 5px;
     background-color: white;
     z-index: @header-zet-index;
+    display: flex;
+    align-items: center;
   }
   &__item-title {
   }
