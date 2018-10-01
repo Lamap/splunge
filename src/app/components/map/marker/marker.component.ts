@@ -117,7 +117,7 @@ export class MarkerComponent implements OnInit, AfterViewInit, OnChanges, OnDest
         console.log('zoomChanged');
     }
 
-    public markerClicked($event) {
+    public markerClicked() {
         this.$markerSelected.emit(this.markerPoint);
 
     }
