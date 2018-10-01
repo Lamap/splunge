@@ -22,7 +22,6 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 
-import { SymbolFactoryService } from './services/symbol-factory.service';
 import { MarkerCrudService } from './services/marker-crud.service';
 import { AuthService } from './services/auth.service';
 import { ImageCrudService} from './services/image-crud.service';
@@ -34,6 +33,7 @@ import { ImageListComponent } from './components/imageGallery/image-list/image-l
 import { ImageListItemComponent } from './components/imageGallery/image-list-item/image-list-item.component';
 import { ImageModalComponent } from './components/imageGallery/image-modal/image-modal.component';
 import { MarkerlinkManagerComponent } from './components/imageGallery/markerlink-manager/markerlink-manager.component';
+import { MapHelperComponent } from './components/map/map-helper/map-helper.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +50,8 @@ import { MarkerlinkManagerComponent } from './components/imageGallery/markerlink
     ImageListComponent,
     ImageListItemComponent,
     ImageModalComponent,
-    MarkerlinkManagerComponent
+    MarkerlinkManagerComponent,
+    MapHelperComponent
   ],
   entryComponents: [
       AuthDialogComponent,
@@ -74,7 +75,7 @@ import { MarkerlinkManagerComponent } from './components/imageGallery/markerlink
     AngularFireDatabaseModule,
     AngularFireAuthModule
   ],
-  providers: [SymbolFactoryService, MarkerCrudService, ImageCrudService, AuthService],
+  providers: [MarkerCrudService, ImageCrudService, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

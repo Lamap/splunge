@@ -8,29 +8,70 @@
       [markerClickable]="true"
       (markerClick)="markerClicked()"
       (dragEnd)="markerDropped($event)"
+      [title]="markerPoint.id"
+      [zIndex]="zIndex"
   ></agm-marker>
-  <!-- here comes the arrow/anchor sign -->
-  <div #svgContent>
-    <div style="position: absolute; cursor: pointer;">
-      <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
+
+  <div #panorama>
+    <div class="spg-marker__panorama">
+      <svg
+          xmlns="http://www.w3.org/2000/svg"
+          [attr.width]="panoramaSize"
+          [attr.height]="panoramaSize"
+          viewBox="0 0 100 100"
+          [attr.transform]="'translate(0, -' + panoramaSize / 2 + ')'"
+      >
         <defs>
           <linearGradient id="markergradient">
-            <stop offset="0%" stop-color="#35aedc" stop-opacity="1"></stop>
+            <stop offset="0%" stop-color="#35aedc" stop-opacity="0.6"></stop>
             <stop offset="100%" stop-color="#35aedc" stop-opacity="0"></stop>
           </linearGradient>
         </defs>
-        <!--
         <path
-              fill="url(\u0023markergradient)"
+              fill="url(#markergradient)"
               stroke-width="0"
-              stroke="black"
-              d="M50 50 L100 40 L100 60 L50 50 0Z"
-              transform="rotate(0 50 50)"
+              d="M0 50 L100 30 L100 70 L0 50"
         ></path>
-        -->
-        <circle cx="0" cy="0" r="50" fill="#35aedc" opacity="0.5"></circle>
-
       </svg>
     </div>
+  </div>
+
+  <div #pointer>
+    <div class="spg-marker__pointed">
+      <svg
+          xmlns="http://www.w3.org/2000/svg"
+          [attr.width]="pointerSize"
+          [attr.height]="pointerSize"
+          viewBox="0 0 100 100"
+          [attr.transform]="'translate(-' + pointerSize / 2 + ', -' + pointerSize / 2 + ')'"
+      >
+        <circle cx="50" cy="50" r="48" stroke="#555" fill="none" stroke-width="1" opacity="0.5"></circle>
+        <line x1="0" y1="49" x2="40" y2="49" stroke-width="1" stroke-color="#555"></line>
+      </svg>
+    </div>
+  </div>
+
+  <div #markersymbol>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 100 100"
+      [attr.width]="markerSize"
+      [attr.height]="markerSize"
+      [attr.data-spg-id]="markerPoint.id"
+    >
+      <circle cx="50" cy="50" r="23" stroke="#35aedc" stroke-width="6" fill="#FFF"></circle>
+    </svg>
+  </div>
+  <div #markersymbolselected>
+    <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 100 100"
+            [attr.width]="markerSize"
+            [attr.height]="markerSize"
+            [attr.data-spg-id]="markerPoint.id"
+    >
+      <circle cx="50" cy="50" r="24" stroke="#35aedc" stroke-width="10" fill="#FFF"></circle>
+      <circle cx="50" cy="50" r="8" fill="#FF0000"></circle>
+    </svg>
   </div>
 </span>

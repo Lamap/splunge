@@ -3,6 +3,7 @@ import * as _ from 'lodash';
 import {
     LatLngBoundsLiteral, MapTypeStyle, ZoomControlOptions
 } from '../../../../../node_modules/@agm/core/services/google-maps-types';
+
 import * as mapConfig from './mapConfig.json';
 import { AngularFirestoreCollection } from 'angularfire2/firestore';
 import { Observable } from 'rxjs/Observable';
@@ -82,6 +83,9 @@ export class MapComponent implements OnInit, OnChanges {
     public selectedMarkerPoint: ISpgMarker;
     public draggableCursor: string;
 
+    public markersOnTheMap: string[] = [];
+
+    private _nativeMap: any;
     private _defaultMapOptions: IMapOptions;
     private mapStyles = null; // (<any>mapConfig).styles as MapTypeStyle[];
 
@@ -92,7 +96,8 @@ export class MapComponent implements OnInit, OnChanges {
     @Input() mapOverlayItems: IMapOverlayItem[];
     @Input() pointedMarker: ISpgMarker;
 
-    constructor(private markerService: MarkerCrudService, authService: AuthService, private imageService: ImageCrudService) {
+    constructor(private markerService: MarkerCrudService, authService: AuthService,
+                private imageService: ImageCrudService) {
         this.markers$ = markerService.markers$;
         authService.user$.subscribe(user => {
             if (user) {
@@ -180,10 +185,15 @@ export class MapComponent implements OnInit, OnChanges {
 
     onZoomChange($event) {
         console.log('zoom', $event);
+
+        setTimeout(() => {
+            this.collectVisibleMarkers();
+            }, 500);
     }
 
     onCenterChange($event) {
         console.log('center', $event);
+
     }
 
     onMapClick($event) {
@@ -264,5 +274,42 @@ export class MapComponent implements OnInit, OnChanges {
         const query = this.imageService.query$.getValue() || {};
         query.markerId = $marker.id;
         this.imageService.query$.next(query);
+    }
+
+    nativeMapReceived(map) {
+        console.log(map);
+        this._nativeMap = map;
+    }
+    collectVisibleMarkers() {
+        const regexp = /data-spg-id="(.*?)"/mg;
+        this.markersOnTheMap = [];
+        if (
+            this._nativeMap &&
+            this._nativeMap.__gm &&
+            this._nativeMap.__gm.panes &&
+            this._nativeMap.__gm.panes.markerLayer &&
+            this._nativeMap.__gm.panes.markerLayer.children &&
+            this._nativeMap.__gm.panes.markerLayer.children.length
+        ) {
+            const markerNodes = this._nativeMap.__gm.panes.markerLayer.children;
+            for (let index = 1; index < markerNodes.length; index++) {
+                const markerElement = markerNodes[index];
+                console.log(markerElement);
+                if (
+                    markerElement.children &&
+                    markerElement.children[0] &&
+                    markerElement.children[0].src
+                ) {
+                    console.log(markerElement.children[0].src)
+                    const result = regexp.exec(markerElement.children[0].src);
+                    console.log(result);
+                    if (result && result[1]) {
+                        this.markersOnTheMap.push(result[1]);
+                    }
+                    regexp.lastIndex = 0;
+                }
+            }
+        }
+        console.log(this.markersOnTheMap);
     }
 }

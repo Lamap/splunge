@@ -43,12 +43,13 @@
         (centerChange) = "onCenterChange($event)"
         (mapClick)="onMapClick($event)"
     >
+        <spg-map-helper (nativeMap$)="nativeMapReceived($event)"></spg-map-helper>
         <agm-marker-cluster
                 [styles]="clusterStyles"
                 [averageCenter]="true"
                 [gridSize]="60"
                 [minimumClusterSize]="3"
-                [zoomOnClick] = "true"
+                [zoomOnClick] = "false"
         >
             <spg-marker
                     *ngFor="let point of markers$ | async"
@@ -56,8 +57,10 @@
                     [isPointed]="pointedMarker && point.id === pointedMarker.id"
                     [markerPoint]="point"
                     [isAdminMode]="isAdminMode"
+                    [isClustered]="markersOnTheMap.indexOf(point.id) === -1"
                     ($markerSelected)="selectMarker($event)"
                     ($markerRepositioned)="updateMarker($event)"
+
             ></spg-marker>
 
         </agm-marker-cluster>
