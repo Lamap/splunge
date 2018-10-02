@@ -21,6 +21,7 @@
         class="spg-map__mapoverlay-control-wrapper"
         [mapOverlayItems]="mapOverlayItems"
         [isGoogleMapOnTop]="isGoogleMapOnTop"
+        [mapTransitionDuration]="mapTransitionDuration"
         ($onItemSelected)="onOverlayControlItemSelected($event)"
         ($onGoogleMapsSelected)="onGoogleMapsSelected($event)"
         ($onFitToMapBounds)="onFitTomMapBounds($event)"
@@ -40,7 +41,6 @@
         [draggableCursor]="draggableCursor"
         (boundsChange) = "onBoundsChange($event)"
         (zoomChange) = "onZoomChange($event)"
-        (centerChange) = "onCenterChange($event)"
         (mapClick)="onMapClick($event)"
     >
         <spg-map-helper (nativeMap$)="nativeMapReceived($event)"></spg-map-helper>
@@ -74,6 +74,7 @@
             [zIndex]="overlay.zIndex"
             [id]="overlay.id"
             [bounds]="overlay.bounds"
+            [mapTransitionDuration]="mapTransitionDuration"
         ></spg-map-overlay>
     </agm-map>
 </div>

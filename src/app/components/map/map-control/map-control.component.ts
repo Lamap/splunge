@@ -14,6 +14,9 @@ export class MapControlComponent implements OnInit {
   @Output() $onFitToMapBounds = new EventEmitter<IMapOverlayItem>();
   @Input() mapOverlayItems: IMapOverlayItem[];
   @Input() isGoogleMapOnTop: boolean;
+  @Input() mapTransitionDuration: number;
+
+  private canSwitch = true;
 
   constructor() { }
 
@@ -22,10 +25,14 @@ export class MapControlComponent implements OnInit {
   }
 
   onItemClicked(overlay: IMapOverlayItem) {
-    if (overlay.isTop) {
+    if (overlay.isTop || !this.canSwitch) {
       return;
     }
     this.$onItemSelected.emit(overlay);
+    this.canSwitch = false;
+    setTimeout(() => {
+          this.canSwitch = true;
+    }, this.mapTransitionDuration);
   }
 
   onGoogleMapsClicked() {

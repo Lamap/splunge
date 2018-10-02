@@ -11,7 +11,7 @@ declare var google: any; // TODO: get proper typing
   styleUrls: ['./marker.component.less']
 })
 export class MarkerComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
-    @ViewChild('panorama', { read: ElementRef }) svgContent: ElementRef;
+    @ViewChild('panorama', { read: ElementRef }) panorama: ElementRef;
     @ViewChild('pointer', { read: ElementRef }) pointer: ElementRef;
     @ViewChild('markersymbol', { read: ElementRef }) markerSymbol: ElementRef;
     @ViewChild('markersymbolselected', { read: ElementRef }) markerSymbolSelected: ElementRef;
@@ -39,18 +39,11 @@ export class MarkerComponent implements OnInit, AfterViewInit, OnChanges, OnDest
 
     public zIndex = Math.round((Math.random() * 1000000));
 
-    constructor(protected _mapsWrapper: GoogleMapsAPIWrapper) {
-        this._mapsWrapper.getNativeMap().then(gMap => {
-            this.nativeMap = gMap;
-            this.nativeMap.addListener('zoom_changed', () => {
-                this.zoomChanged();
-            });
-        });
-    }
+    constructor(protected _mapsWrapper: GoogleMapsAPIWrapper) {}
 
     ngOnInit() {}
     ngAfterViewInit() {
-        this.panoramaOverlay = this.svgContent.nativeElement.children[0];
+        this.panoramaOverlay = this.panorama.nativeElement.children[0];
         this.pointerOverlay = this.pointer.nativeElement.children[0];
 
         this._mapsWrapper.getNativeMap().then(gMap => {
@@ -68,18 +61,13 @@ export class MarkerComponent implements OnInit, AfterViewInit, OnChanges, OnDest
                 this.pointerOverlay.style.display = this.isPointed ? 'block' : 'none';
             };
             overlayView.onAdd = () => {
+                this.targetPane = overlayView.getPanes().mapPane;
                 if (this.markerPoint.hasDirection) {
                     this.panoramaOverlay.style.transform = 'rotate(' + this.markerPoint.direction + 'deg)';
                     this.panoramaOverlay.style.transformOrigin = 'top left';
-
-                    this.targetPane = overlayView.getPanes().mapPane;
                     this.targetPane.appendChild(this.panoramaOverlay);
-
-                    this.targetPane.appendChild(this.pointerOverlay);
                 }
-            };
-            overlayView.getDiv = () => {
-                return this.panoramaOverlay;
+                this.targetPane.appendChild(this.pointerOverlay);
             };
         });
 
@@ -87,9 +75,11 @@ export class MarkerComponent implements OnInit, AfterViewInit, OnChanges, OnDest
     }
 
     ngOnDestroy() {
-        console.log('destroy:', this.panoramaOverlay);
         if (this.targetPane && this.panoramaOverlay) {
             this.targetPane.removeChild(this.panoramaOverlay);
+        }
+        if (this.targetPane && this.pointerOverlay) {
+            this.targetPane.removeChild(this.pointerOverlay);
         }
     }
 
@@ -104,17 +94,14 @@ export class MarkerComponent implements OnInit, AfterViewInit, OnChanges, OnDest
                 this.panoramaOverlay.style.display = 'block';
             }
         }
-        if (this.pointerOverlay && simpleChange && (simpleChange.isClustered || simpleChange.isPointed )) {
-            if (!this.isClustered && this.isPointed) {
+
+        if (simpleChange.isPointed && this.pointerOverlay) {
+            if (this.isPointed) {
                 this.pointerOverlay.style.display = 'block';
             } else {
                 this.pointerOverlay.style.display = 'none';
             }
         }
-    }
-
-    zoomChanged() {
-        console.log('zoomChanged');
     }
 
     public markerClicked() {

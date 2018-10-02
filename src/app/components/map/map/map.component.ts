@@ -77,6 +77,7 @@ export class MapComponent implements OnInit, OnChanges {
     ];
 
     public isAdminMode: boolean;
+    public mapTransitionDuration = 1000;
     public isGoogleMapOnTop = false;
 
     public markerCreateMode: boolean;
@@ -89,6 +90,7 @@ export class MapComponent implements OnInit, OnChanges {
     private _defaultMapOptions: IMapOptions;
     private mapStyles = null; // (<any>mapConfig).styles as MapTypeStyle[];
 
+    private currentMarkers: ISpgMarker[] = [];
     private topZindex: number;
     @Output() markerSelectionChanged$ = new EventEmitter<ISpgMarker | null>();
     @Output() loadImagesOfMarker$ = new EventEmitter<ISpgMarker>();
@@ -106,15 +108,19 @@ export class MapComponent implements OnInit, OnChanges {
                 this.isAdminMode = false;
             }
         });
+        this.markers$.subscribe(markers => {
+            this.currentMarkers = markers;
+        });
     }
 
     ngOnChanges(simpleChanges: SimpleChanges) {
         if (simpleChanges && simpleChanges.pointedMarker && simpleChanges.pointedMarker.currentValue) {
-            const options: IMapOptions = JSON.parse(JSON.stringify(this.mapOptions));
-            options.latitude = this.pointedMarker.coords.latitude;
-            options.longitude = this.pointedMarker.coords.longitude;
-            options.zoom = 19;
-            this.mapOptions = options;
+            // TODO: then remove the markerObject from the image, keep only the id
+            const pointed: ISpgMarker = this.currentMarkers.filter(marker => {
+              return marker.id === simpleChanges.pointedMarker.currentValue.id;
+            }).pop();
+
+            this.panToSelectedMarker(pointed);
         }
     }
 
@@ -176,7 +182,7 @@ export class MapComponent implements OnInit, OnChanges {
     }
 
     onFitTomMapBounds($event: IMapOverlayItem) {
-         this.mapOptions.fitBounds = $event.bounds;
+        this._nativeMap.fitBounds($event.bounds);
     }
 
     onBoundsChange($event) {
@@ -191,11 +197,6 @@ export class MapComponent implements OnInit, OnChanges {
             }, 500);
     }
 
-    onCenterChange($event) {
-        console.log('center', $event);
-
-    }
-
     onMapClick($event) {
         if (this.markerCreateMode) {
             this.addMarker({
@@ -207,23 +208,25 @@ export class MapComponent implements OnInit, OnChanges {
     }
 
     zoomIn($event) {
-        if (this.mapOptions.zoom === this.mapOptions.maxZoom) {
+        const zoom = this._nativeMap.getZoom();
+        if (zoom === this.mapOptions.maxZoom) {
             return;
         }
-        this.mapOptions.zoom++;
+        this._nativeMap.setZoom(zoom + 1)
+        this.mapOptions.zoom = zoom + 1;
     }
     zoomOut($event) {
-        if (this.mapOptions.zoom === 0) {
+        const zoom = this._nativeMap.getZoom();
+        if (zoom === 0) {
             return;
         }
-        this.mapOptions.zoom--;
-
+        this.mapOptions.zoom = zoom - 1;
+        this._nativeMap.setZoom(zoom - 1);
     }
 
     markerCreateModeChanged($event) {
         this.markerCreateMode = $event;
         this.draggableCursor = $event ? 'crosshair' : 'move';
-
         this.quitMarkerSelection();
     }
 
@@ -250,11 +253,14 @@ export class MapComponent implements OnInit, OnChanges {
     }
 
     selectMarker($selectedPoint) {
-        console.log($selectedPoint);
         this.selectedMarkerId = $selectedPoint.id;
         this.selectedMarkerPoint = $selectedPoint;
         this.markerCreateMode = false;
         this.markerSelectionChanged$.emit(this.selectedMarkerPoint);
+
+        if (!this.isAdminMode) {
+            this.loadImagesOfMarker(this.selectedMarkerPoint);
+        }
     }
 
     quitMarkerSelection() {
@@ -266,18 +272,20 @@ export class MapComponent implements OnInit, OnChanges {
     panToSelectedMarker($selectedPoint) {
         this.mapOptions.longitude = $selectedPoint.coords.longitude;
         this.mapOptions.latitude = $selectedPoint.coords.latitude;
-        this.mapOptions = JSON.parse(JSON.stringify(this.mapOptions));
+        this._nativeMap.panTo({
+            lat: this.mapOptions.latitude,
+            lng: this.mapOptions.longitude
+        });
+        this._nativeMap.setZoom(20);
     }
 
     loadImagesOfMarker($marker) {
-        console.log($marker);
         const query = this.imageService.query$.getValue() || {};
         query.markerId = $marker.id;
         this.imageService.query$.next(query);
     }
 
     nativeMapReceived(map) {
-        console.log(map);
         this._nativeMap = map;
     }
     collectVisibleMarkers() {
@@ -294,15 +302,12 @@ export class MapComponent implements OnInit, OnChanges {
             const markerNodes = this._nativeMap.__gm.panes.markerLayer.children;
             for (let index = 1; index < markerNodes.length; index++) {
                 const markerElement = markerNodes[index];
-                console.log(markerElement);
                 if (
                     markerElement.children &&
                     markerElement.children[0] &&
                     markerElement.children[0].src
                 ) {
-                    console.log(markerElement.children[0].src)
                     const result = regexp.exec(markerElement.children[0].src);
-                    console.log(result);
                     if (result && result[1]) {
                         this.markersOnTheMap.push(result[1]);
                     }
@@ -310,6 +315,6 @@ export class MapComponent implements OnInit, OnChanges {
                 }
             }
         }
-        console.log(this.markersOnTheMap);
+        console.log('markers on the map:', this.markersOnTheMap);
     }
 }

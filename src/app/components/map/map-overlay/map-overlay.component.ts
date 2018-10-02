@@ -25,6 +25,7 @@ export class MapOverlayComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() src: string;
   @Input() zIndex: number;
   @Input() id: string;
+  @Input() mapTransitionDuration: number;
 
   private overlayElement: any; // TODO: specify type
   private overlayImage: any; // TODO: specify type
@@ -78,12 +79,12 @@ export class MapOverlayComponent implements OnInit, OnChanges, AfterViewInit {
       this.overlayElement.style.zIndex = this.zIndex;
       this.overlayElement.style.opacity = 0;
       this.overlayElement.style.display = 'block';
-      TweenLite.to(this.overlayElement, 1, {opacity: this.opacity / 100});
+      TweenLite.to(this.overlayElement, this.mapTransitionDuration / 1000, {opacity: this.opacity / 100});
     }
     if (change.isDisplayed && this.overlayElement) {
         if (!change.isDisplayed.currentValue) {
             this.overlayElement.style.opacity = this.opacity / 100;
-            TweenLite.to(this.overlayElement, 1, {
+            TweenLite.to(this.overlayElement, this.mapTransitionDuration / 1000, {
                 opacity: 0,
                 onComplete: () => {
                     this.overlayElement.style.display = 'none';
