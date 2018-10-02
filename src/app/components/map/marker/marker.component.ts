@@ -15,6 +15,7 @@ export class MarkerComponent implements OnInit, AfterViewInit, OnChanges, OnDest
     @ViewChild('pointer', { read: ElementRef }) pointer: ElementRef;
     @ViewChild('markersymbol', { read: ElementRef }) markerSymbol: ElementRef;
     @ViewChild('markersymbolselected', { read: ElementRef }) markerSymbolSelected: ElementRef;
+    @ViewChild('markersymboleye', { read: ElementRef }) markerSymbolTest: ElementRef;
 
     @Input() markerPoint: ISpgMarker;
     @Input() isAdminMode: boolean;
@@ -26,12 +27,11 @@ export class MarkerComponent implements OnInit, AfterViewInit, OnChanges, OnDest
     @Output() $markerRepositioned = new EventEmitter<ISpgMarker>();
 
     public iconUrl;
-    public pointerSize = 250;
+    public pointerSize = 3000;
     public panoramaSize = 300;
     public markerSize = 40;
+    public markerSizeSelected = 50;
 
-    private width = 40;
-    private height = 40;
     private panoramaOverlay: any;
     private pointerOverlay: any;
     private targetPane: any;
@@ -133,11 +133,11 @@ export class MarkerComponent implements OnInit, AfterViewInit, OnChanges, OnDest
         url += this.isSelected ?
             this.markerSymbolSelected.nativeElement.firstElementChild.outerHTML :
             this.markerSymbol.nativeElement.firstElementChild.outerHTML;
-
+        const size = this.isSelected ? this.markerSizeSelected : this.markerSize;
         this.iconUrl = {
             url: url,
             scale: 1,
-            anchor: new google.maps.Point(this.width / 2, this.height / 2)
+            anchor: new google.maps.Point(size / 2, size / 2)
         };
     }
 }
