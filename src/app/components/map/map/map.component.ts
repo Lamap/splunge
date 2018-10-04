@@ -1,12 +1,13 @@
-import { Component, Input, Output, OnInit, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import * as _ from 'lodash';
 import {
     LatLngBoundsLiteral, MapTypeStyle, ZoomControlOptions
 } from '../../../../../node_modules/@agm/core/services/google-maps-types';
 
 import * as mapConfig from './mapConfig.json';
-import { AngularFirestoreCollection } from 'angularfire2/firestore';
+
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 import { MarkerCrudService } from '../../../services/marker-crud.service';
 import { AuthService } from '../../../services/auth.service';
 import { ImageCrudService } from '../../../services/image-crud.service';
@@ -60,11 +61,9 @@ export interface ISpgMarker {
     templateUrl: './map.component.html',
     styleUrls: ['./map.component.less']
 })
-// TODO: get all the props, looks that agm doesnt have an interface???
 
-export class MapComponent implements OnInit, OnChanges {
+export class MapComponent implements OnInit {
     public markers$: Observable<ISpgMarker[]>;
-    public selectedMarkerId: string;
 
     public clusterStyles = [
         {
@@ -79,6 +78,7 @@ export class MapComponent implements OnInit, OnChanges {
     public isAdminMode: boolean;
     public mapTransitionDuration = 1000;
     public isGoogleMapOnTop = false;
+    public pointedMarker: ISpgMarker;
 
     public markerCreateMode: boolean;
     public selectedMarkerPoint: ISpgMarker;
@@ -92,11 +92,12 @@ export class MapComponent implements OnInit, OnChanges {
 
     private currentMarkers: ISpgMarker[] = [];
     private topZindex: number;
+
     @Output() markerSelectionChanged$ = new EventEmitter<ISpgMarker | null>();
     @Output() loadImagesOfMarker$ = new EventEmitter<ISpgMarker>();
     @Input() mapOptions: IMapOptions;
     @Input() mapOverlayItems: IMapOverlayItem[];
-    @Input() pointedMarker: ISpgMarker;
+    @Input() pointedMarkerId$: Subject<string | null>;
 
     constructor(private markerService: MarkerCrudService, authService: AuthService,
                 private imageService: ImageCrudService) {
@@ -111,21 +112,11 @@ export class MapComponent implements OnInit, OnChanges {
         this.markers$.subscribe(markers => {
             this.currentMarkers = markers;
         });
-    }
-
-    ngOnChanges(simpleChanges: SimpleChanges) {
-        if (simpleChanges && simpleChanges.pointedMarker && simpleChanges.pointedMarker.currentValue) {
-            // TODO: then remove the markerObject from the image, keep only the id
-            const pointed: ISpgMarker = this.currentMarkers.filter(marker => {
-              return marker.id === simpleChanges.pointedMarker.currentValue.id;
-            }).pop();
-
-            this.panToSelectedMarker(pointed);
-        }
+console.log('constructor');
     }
 
     ngOnInit() {
-
+console.log('ngOninit');
         this._defaultMapOptions = {
             longitude: 47.4852067018603,
             latitude: 19.04982070177425,
@@ -135,8 +126,22 @@ export class MapComponent implements OnInit, OnChanges {
         };
         this.mapOptions = _.merge(this._defaultMapOptions, this.mapOptions);
         this.topZindex = this.mapOverlayItems.length;
-        const displayedOverlay = this.mapOverlayItems.filter (overlay => overlay.isDisplayed ).pop();
-        displayedOverlay.zIndex = this.topZindex;
+        const displayedOverlay = this.mapOverlayItems.find (overlay => overlay.isDisplayed );
+
+        if (displayedOverlay) {
+            displayedOverlay.zIndex = this.topZindex;
+        }
+
+        this.pointedMarkerId$.subscribe(id => {
+            this.pointedMarker = this.currentMarkers.find(marker => {
+                return marker.id === id;
+            });
+
+            if (this.pointedMarker) {
+                this.pointedMarker = JSON.parse(JSON.stringify(this.pointedMarker));
+                this.panToSelectedMarker(this.pointedMarker);
+            }
+        });
     }
 
     onOverlayControlItemSelected($event: IMapOverlayItem) {
@@ -237,7 +242,6 @@ export class MapComponent implements OnInit, OnChanges {
 
         this.markerService.addMarker(coords).then(newMarker => {
             this.selectedMarkerPoint = newMarker;
-            this.selectedMarkerId = newMarker.id;
             this.markerSelectionChanged$.emit(this.selectedMarkerPoint);
         });
     }
@@ -253,10 +257,11 @@ export class MapComponent implements OnInit, OnChanges {
     }
 
     selectMarker($selectedPoint) {
-        this.selectedMarkerId = $selectedPoint.id;
         this.selectedMarkerPoint = $selectedPoint;
         this.markerCreateMode = false;
         this.markerSelectionChanged$.emit(this.selectedMarkerPoint);
+
+        this.pointedMarker = null;
 
         if (!this.isAdminMode) {
             this.loadImagesOfMarker(this.selectedMarkerPoint);
@@ -265,7 +270,6 @@ export class MapComponent implements OnInit, OnChanges {
 
     quitMarkerSelection() {
         this.selectedMarkerPoint = null;
-        this.selectedMarkerId = null;
         this.markerSelectionChanged$.emit(null);
     }
 

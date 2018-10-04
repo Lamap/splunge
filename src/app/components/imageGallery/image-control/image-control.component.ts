@@ -80,7 +80,6 @@ export class ImageControlComponent implements OnInit {
   }
 
   pointImageMarker($image: ImageData) {
-      console.log('point', $image);
       this.pointImageMarker$.emit($image);
   }
 

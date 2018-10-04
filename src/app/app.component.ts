@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { IMapOptions, IMapOverlayItem, ISpgMarker } from './components/map/map/map.component';
 import { AuthService } from './services/auth.service';
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 import * as firebase from 'firebase';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { AuthDialogComponent, IUserAuthData } from './components/common/auth-dialog/auth-dialog.component';
@@ -189,7 +190,7 @@ export class AppComponent {
   public userAuthData: IUserAuthData;
   public userEmail = '';
   public selectedMarker: ISpgMarker;
-  public pointedMarker: ISpgMarker;
+  public pointedMarkerId$ = new Subject<string | null>();
 
   private authDialogRef: MatDialogRef<AuthDialogComponent, IUserAuthData>;
 
@@ -218,8 +219,7 @@ export class AppComponent {
       this.selectedMarker = marker;
   }
   pointImageMarker($image: ImageData) {
-    console.log('point:', $image);
-    this.pointedMarker = JSON.parse(JSON.stringify($image.marker));
+    this.pointedMarkerId$.next($image.markerId);
   }
   toggleFullscreen() {
       this.isFullscreen = !this.isFullscreen;

@@ -34,7 +34,7 @@
     <spg-map
             [mapOptions]="agmMapOptions"
             [mapOverlayItems]="mapOverlayItems"
-            [pointedMarker]="pointedMarker"
+            [pointedMarkerId$]="pointedMarkerId$"
             (markerSelectionChanged$)="markerSelectionChanged($event)"
     >
     </spg-map>

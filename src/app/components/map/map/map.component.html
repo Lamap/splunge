@@ -53,7 +53,7 @@
         >
             <spg-marker
                     *ngFor="let point of markers$ | async"
-                    [isSelected] = "point.id === selectedMarkerId"
+                    [isSelected] = "selectedMarkerPoint && point.id === selectedMarkerPoint.id"
                     [isPointed]="pointedMarker && point.id === pointedMarker.id"
                     [markerPoint]="point"
                     [isAdminMode]="isAdminMode"

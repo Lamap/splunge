@@ -13,7 +13,6 @@ export interface ImageData {
     originalName: string;
     filePath: string;
     author: string;
-    marker?: ISpgMarker;
     markerId?: string;
     title?: string;
     description?: string;
@@ -49,15 +48,18 @@ export class ImageCrudService {
           by: 'filePath',
           desc: true
       },
-      limit: 10
+      limit: 14
   });
+  public handleDeletedMarker$ = new BehaviorSubject<string>(null);
 
-  private imagesFbsCollection: AngularFirestoreCollection<ImageData>;
+
+    private imagesFbsCollection: AngularFirestoreCollection<ImageData>;
   private basePath = '/BTM';
   private author: string;
   private storageRef;
+  private imagesSnapshot: ImageData[];
 
-  constructor(store: AngularFirestore, private auth: AuthService) {
+  constructor(private store: AngularFirestore, private auth: AuthService) {
 
       auth.user$.subscribe(user => {
           this.author = user ? user.email : null;
@@ -123,6 +125,25 @@ export class ImageCrudService {
               }
           ) as Observable<ImageData[]>;
       }));
+      this.imageListExtended$.subscribe(imagesSnapshot => {
+          this.imagesSnapshot = imagesSnapshot;
+          console.log(imagesSnapshot);
+      });
+
+      this.handleDeletedMarker$.pipe(switchMap(markerId => {
+          console.log('handleDeletedMarker$', markerId);
+          return store.collection('images', ref => ref.where('markerId', '==', markerId))
+              .snapshotChanges()
+              .map(
+                  actions => {
+                      return actions.map(action => {
+                          if (markerId) {
+                              console.log('ehhhhhh::::', action.payload.doc.id);
+                              this.removeMarkerFromImageById(action.payload.doc.id);
+                          }
+                      });
+                  });
+      })).subscribe();
   }
 
   upload(file: File, done: Function) {
@@ -172,14 +193,13 @@ export class ImageCrudService {
   addMarkerToImage(image: ImageData, marker: ISpgMarker) {
       console.log('add image to the selected marker');
       this.imagesFbsCollection.doc(image.id).update({
-          marker: marker,
           markerId: marker.id
       });
   }
-  removeMarkerFromImage(image: ImageData) {
-      console.log('unlink image from the marker');
-      this.imagesFbsCollection.doc(image.id).update({
-          marker: null,
+
+  removeMarkerFromImageById(id: string) {
+      console.log('unlink image from the marker by id');
+      this.imagesFbsCollection.doc(id).update({
           markerId: null
       });
   }

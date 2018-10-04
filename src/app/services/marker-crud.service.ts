@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { Observable } from 'rxjs/Observable';
 import { ISpgCoords, ISpgMarker } from '../components/map/map/map.component'; // TODO: this should be in the service
+import { ImageCrudService } from './image-crud.service';
 
 @Injectable()
 export class MarkerCrudService {
@@ -9,7 +10,7 @@ export class MarkerCrudService {
   private markerFbsCollection: AngularFirestoreCollection<ISpgMarker>;
   public markers$: Observable<ISpgMarker[]>;
 
-  constructor(store: AngularFirestore) {
+  constructor(store: AngularFirestore, private imageService: ImageCrudService) {
     console.log('markerService created');
     this.markerFbsCollection = store.collection('markers'/*,
                 ref => {
@@ -47,10 +48,6 @@ export class MarkerCrudService {
     ) as Observable<ISpgMarker[]>;
   }
 
-  getMarkerStream() {
-    //
-  }
-
   addMarker(coords: ISpgCoords): Promise<ISpgMarker> {
       const newMarker: ISpgMarker = {
           coords: coords,
@@ -68,6 +65,7 @@ export class MarkerCrudService {
     if (!markerData.id) {
       return;
     }
+    this.imageService.handleDeletedMarker$.next(markerData.id);
     return this.markerFbsCollection.doc(markerData.id).delete();
   }
 

@@ -75,11 +75,11 @@ export class MarkerComponent implements OnInit, AfterViewInit, OnChanges, OnDest
     }
 
     ngOnDestroy() {
-        if (this.targetPane && this.panoramaOverlay) {
-            this.targetPane.removeChild(this.panoramaOverlay);
+        if (this.panoramaOverlay) {
+            this.panoramaOverlay.parentElement.removeChild(this.panoramaOverlay);
         }
-        if (this.targetPane && this.pointerOverlay) {
-            this.targetPane.removeChild(this.pointerOverlay);
+        if (this.pointerOverlay) {
+            this.pointerOverlay.parentElement.removeChild(this.pointerOverlay);
         }
     }
 
