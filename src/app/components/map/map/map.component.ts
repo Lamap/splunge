@@ -1,5 +1,4 @@
 import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
-import * as _ from 'lodash';
 import {
     LatLngBoundsLiteral, MapTypeStyle, ZoomControlOptions
 } from '../../../../../node_modules/@agm/core/services/google-maps-types';
@@ -11,6 +10,7 @@ import { Subject } from 'rxjs/Subject';
 import { MarkerCrudService } from '../../../services/marker-crud.service';
 import { AuthService } from '../../../services/auth.service';
 import { ImageCrudService } from '../../../services/image-crud.service';
+import { spgConfig } from '../../../config';
 
 declare var google: any; // TODO: get proper typing
 
@@ -32,10 +32,8 @@ export interface IMapOverlayItem {
     name: string; // TODO: translatable
     bounds?: LatLngBoundsLiteral;
     src?: string;
-    minZoom: number;
     maxZoom: number;
-    defaultCenterPosition?: any; // TODO: make it to lngLat
-    isDisplayed: boolean;
+    isDisplayed?: boolean;
     opacity?: number;
     zIndex?: number;
     dated: IDateRange | number;
@@ -76,7 +74,7 @@ export class MapComponent implements OnInit {
     ];
 
     public isAdminMode: boolean;
-    public mapTransitionDuration = 1000;
+    public mapTransitionDuration = spgConfig.mapTransitionDuration;
     public isGoogleMapOnTop = false;
     public pointedMarker: ISpgMarker;
 
@@ -85,18 +83,20 @@ export class MapComponent implements OnInit {
     public draggableCursor: string;
 
     public markersOnTheMap: string[] = [];
+    public mapOptions: IMapOptions = {
+        longitude: spgConfig.defaultCenter.lng,
+        latitude: spgConfig.defaultCenter.lat,
+        zoom: spgConfig.defaultZoom,
+        maxZoom: spgConfig.maxZoom,
+        styles: (<any>mapConfig).styles as MapTypeStyle[]
+    };
+    public mapOverlayItems: IMapOverlayItem[];
 
     private _nativeMap: any;
-    private _defaultMapOptions: IMapOptions;
-    private mapStyles = null; // (<any>mapConfig).styles as MapTypeStyle[];
-
     private currentMarkers: ISpgMarker[] = [];
     private topZindex: number;
 
     @Output() markerSelectionChanged$ = new EventEmitter<ISpgMarker | null>();
-    @Output() loadImagesOfMarker$ = new EventEmitter<ISpgMarker>();
-    @Input() mapOptions: IMapOptions;
-    @Input() mapOverlayItems: IMapOverlayItem[];
     @Input() pointedMarkerId$: Subject<string | null>;
 
     constructor(private markerService: MarkerCrudService, authService: AuthService,
@@ -112,26 +112,12 @@ export class MapComponent implements OnInit {
         this.markers$.subscribe(markers => {
             this.currentMarkers = markers;
         });
-console.log('constructor');
+
+        this.topZindex = spgConfig.mapOverlays.length;
+        this.mapOverlayItems = this.getProcessedOverlays(spgConfig.mapOverlays);
     }
 
     ngOnInit() {
-console.log('ngOninit');
-        this._defaultMapOptions = {
-            longitude: 47.4852067018603,
-            latitude: 19.04982070177425,
-            zoom: 18,
-            styles: this.mapStyles,
-            maxZoom: 22
-        };
-        this.mapOptions = _.merge(this._defaultMapOptions, this.mapOptions);
-        this.topZindex = this.mapOverlayItems.length;
-        const displayedOverlay = this.mapOverlayItems.find (overlay => overlay.isDisplayed );
-
-        if (displayedOverlay) {
-            displayedOverlay.zIndex = this.topZindex;
-        }
-
         this.pointedMarkerId$.subscribe(id => {
             this.pointedMarker = this.currentMarkers.find(marker => {
                 return marker.id === id;
@@ -141,6 +127,17 @@ console.log('ngOninit');
                 this.pointedMarker = JSON.parse(JSON.stringify(this.pointedMarker));
                 this.panToSelectedMarker(this.pointedMarker);
             }
+        });
+    }
+
+    getProcessedOverlays(overlays: IMapOverlayItem[]): IMapOverlayItem[] {
+        return overlays.map(overlay => {
+           if (overlay.id === spgConfig.topOverlay) {
+               overlay.isDisplayed = true;
+               overlay.isTop = true;
+               overlay.opacity = 100;
+           }
+           return overlay;
         });
     }
 

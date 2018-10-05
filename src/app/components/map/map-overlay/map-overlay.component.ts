@@ -17,7 +17,6 @@ export class MapOverlayComponent implements OnInit, OnChanges, AfterViewInit {
 
   // TODO: convert to 1 option object
   @Input() bounds: LatLngBoundsLiteral;
-  @Input() minZoomDisplay: number;
   @Input() maxZoomDisplay: number;
   @Input() defaultZoom: number;
   @Input() opacity: number;
@@ -99,6 +98,6 @@ export class MapOverlayComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   private isWithinZoomRange(zoomIndex: number): boolean {
-      return zoomIndex >= this.minZoomDisplay && zoomIndex <= this.maxZoomDisplay;
+      return zoomIndex <= this.maxZoomDisplay;
   }
 }
