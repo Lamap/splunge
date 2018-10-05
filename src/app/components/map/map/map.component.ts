@@ -214,16 +214,16 @@ export class MapComponent implements OnInit {
         if (zoom === this.mapOptions.maxZoom) {
             return;
         }
-        this._nativeMap.setZoom(zoom + 1)
-        this.mapOptions.zoom = zoom + 1;
+        this._nativeMap.setZoom(zoom)
+        this.mapOptions.zoom = zoom;
     }
     zoomOut($event) {
         const zoom = this._nativeMap.getZoom();
         if (zoom === 0) {
             return;
         }
-        this.mapOptions.zoom = zoom - 1;
-        this._nativeMap.setZoom(zoom - 1);
+        this.mapOptions.zoom = zoom;
+        this._nativeMap.setZoom(zoom);
     }
 
     markerCreateModeChanged($event) {
@@ -271,13 +271,37 @@ export class MapComponent implements OnInit {
     }
 
     panToSelectedMarker($selectedPoint) {
-        this.mapOptions.longitude = $selectedPoint.coords.longitude;
-        this.mapOptions.latitude = $selectedPoint.coords.latitude;
-        this._nativeMap.panTo({
-            lat: this.mapOptions.latitude,
-            lng: this.mapOptions.longitude
+        const reasonableZoomStep = 3;
+        this.zoomTo(this._nativeMap.getZoom() - reasonableZoomStep).then(() => {
+            this.panToPromise($selectedPoint.coords.latitude, $selectedPoint.coords.longitude).then(() => {
+                this.zoomTo(this._nativeMap.getZoom() + reasonableZoomStep);
+            });
         });
-        this._nativeMap.setZoom(20);
+    }
+
+    zoomTo(destZoom: number): Promise<void> {
+        return new Promise((resolve, reject) => {
+            const zoomListener = this._nativeMap.addListener('idle', () => {
+                zoomListener.remove();
+                resolve();
+            });
+            this._nativeMap.setZoom(destZoom);
+        });
+    }
+    panToPromise(lat: number, lng: number): Promise<void> {
+        console.log(lat, lng);
+        return new Promise((resolve, reject) => {
+            const panToListener = this._nativeMap.addListener('idle', () => {
+                panToListener.remove();
+                resolve();
+            });
+            this.mapOptions.longitude = lng;
+            this.mapOptions.latitude = lat;
+            this._nativeMap.panTo({
+                lat: this.mapOptions.latitude,
+                lng: this.mapOptions.longitude
+            });
+        });
     }
 
     loadImagesOfMarker($marker) {
