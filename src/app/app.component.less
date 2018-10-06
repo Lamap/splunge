@@ -1,11 +1,17 @@
 @import './components/map/map/map.component.less';
 
 @image-block-width: 400px;
-@header-height: 30px;
+@header-height: 50px;
 @icon-color: #9e94c1;
+@primary-bg-color: #fff8dd;
+@secondary-bg-color: #fffefc;
+@primary-text-color: #444;
+@border-color: #ccc;
 
-@header-zet-index: 10;
-
+@header-zet-index: 20;
+body {
+    color: @primary-text-color;
+}
 .spg-layout {
     display: flex;
     width: 100%;
@@ -15,20 +21,29 @@
     left: 0;
 
     .aut-button {
-        color: white;
         cursor: pointer;
-        font-size: 11px;
+        font-size: 12px;
+        margin-left: 10px;
+    }
+    &__logo {
+        margin-left: 20px;
+        font-style: italic;
+        text-shadow: 1px 1px #fff;
+        color: #555555;
     }
     &__fullscreen-toggle {
-        color: #ffffff;
         cursor: pointer;
-        margin-top: 4px;
-        margin-left: 4px;
+        margin-left: auto;
+        margin-right: 10px;
+        &-icon {
+            font-size: 28px;
+        }
     }
     &__auth-box {
-        position: absolute;
-        right: 4px;
-        top: 4px;
+        color: @primary-bg-color;
+        &:hover {
+            color: #333;
+        }
     }
     &__auth-login {
         .aut-button;
@@ -40,10 +55,13 @@
     }
     &__header {
         position: absolute;
-        background: @map-frame-color;
+        background: @primary-bg-color;
         z-index: @header-zet-index;
         height: @header-height;
         width: 100%;
+        display: flex;
+        align-items: center;
+        box-shadow: 0px 4px 4px 0px rgba(204, 204, 204, 0.15);
     }
     &__auth-username {
         cursor: default;
@@ -52,8 +70,9 @@
 }
 .spg-map-placeholder {
     width: ~"calc(100% - @{image-block-width})";
-    height: 100vh;
-    position: relative;
+    height: ~"calc(100% - @{header-height})";
+    position: absolute;
+    transform: translate(0, @header-height);
 }
 .spg-images-placeholder {
     height: ~"calc(100% - @{header-height})";
@@ -61,8 +80,7 @@
     position: absolute;
     right: 0;
     top: @header-height;
-    background: @map-frame-color;
-    z-index: @header-zet-index;
+    z-index: @header-zet-index - 1;
 }
 
 .spg-rounded-icon-button {

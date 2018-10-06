@@ -210,16 +210,16 @@ export class MapComponent implements OnInit {
     }
 
     zoomIn($event) {
-        const zoom = this._nativeMap.getZoom();
-        if (zoom === this.mapOptions.maxZoom) {
+        const zoom = this._nativeMap.getZoom() + 1;
+        if (zoom === this.mapOptions.maxZoom - 1) {
             return;
         }
         this._nativeMap.setZoom(zoom)
         this.mapOptions.zoom = zoom;
     }
     zoomOut($event) {
-        const zoom = this._nativeMap.getZoom();
-        if (zoom === 0) {
+        const zoom = this._nativeMap.getZoom() - 1;
+        if (zoom === -1) {
             return;
         }
         this.mapOptions.zoom = zoom;

@@ -1,6 +1,4 @@
 <div class="spg-map">
-    <div class="spg-map-frame">
-    </div>
     <div class="spg-map-zoom-control">
         <div class="spg-map-zoom-control__item" (click)="zoomIn($event)">&#43;</div>
         <div class="spg-map-zoom-control__item" (click)="zoomOut($event)">&#8722;</div>
@@ -26,54 +24,56 @@
         ($onGoogleMapsSelected)="onGoogleMapsSelected($event)"
         ($onFitToMapBounds)="onFitTomMapBounds($event)"
     ></spg-map-control>
-    <agm-map
-        [latitude]="mapOptions.latitude"
-        [longitude]="mapOptions.longitude"
-        [zoom]="mapOptions.zoom"
-        [styles]="mapOptions.styles"
-        [fitBounds]="mapOptions.fitBounds"
-        [zoomControl]="false"
-        [zoomControlOptions]="mapOptions.zoomControlOptions"
-        [streetViewControl]="false"
-        [clickableIcons]="false"
-        [usePanning]="true"
-        [maxZoom]="mapOptions.maxZoom"
-        [draggableCursor]="draggableCursor"
-        (boundsChange) = "onBoundsChange($event)"
-        (zoomChange) = "onZoomChange($event)"
-        (mapClick)="onMapClick($event)"
-    >
-        <spg-map-helper (nativeMap$)="nativeMapReceived($event)"></spg-map-helper>
-        <agm-marker-cluster
-                [styles]="clusterStyles"
-                [averageCenter]="true"
-                [gridSize]="60"
-                [minimumClusterSize]="3"
-                [zoomOnClick] = "false"
+    <div class="spg-map__agm-wrapper">
+        <agm-map
+                [latitude]="mapOptions.latitude"
+                [longitude]="mapOptions.longitude"
+                [zoom]="mapOptions.zoom"
+                [styles]="mapOptions.styles"
+                [fitBounds]="mapOptions.fitBounds"
+                [zoomControl]="false"
+                [zoomControlOptions]="mapOptions.zoomControlOptions"
+                [streetViewControl]="false"
+                [clickableIcons]="false"
+                [usePanning]="true"
+                [maxZoom]="mapOptions.maxZoom"
+                [draggableCursor]="draggableCursor"
+                (boundsChange) = "onBoundsChange($event)"
+                (zoomChange) = "onZoomChange($event)"
+                (mapClick)="onMapClick($event)"
         >
-            <spg-marker
-                    *ngFor="let point of markers$ | async"
-                    [isSelected] = "selectedMarkerPoint && point.id === selectedMarkerPoint.id"
-                    [isPointed]="pointedMarker && point.id === pointedMarker.id"
-                    [markerPoint]="point"
-                    [isAdminMode]="isAdminMode"
-                    [isClustered]="markersOnTheMap.indexOf(point.id) === -1"
-                    ($markerSelected)="selectMarker($event)"
-                    ($markerRepositioned)="updateMarker($event)"
+            <spg-map-helper (nativeMap$)="nativeMapReceived($event)"></spg-map-helper>
+            <agm-marker-cluster
+                    [styles]="clusterStyles"
+                    [averageCenter]="true"
+                    [gridSize]="60"
+                    [minimumClusterSize]="3"
+                    [zoomOnClick] = "false"
+            >
+                <spg-marker
+                        *ngFor="let point of markers$ | async"
+                        [isSelected] = "selectedMarkerPoint && point.id === selectedMarkerPoint.id"
+                        [isPointed]="pointedMarker && point.id === pointedMarker.id"
+                        [markerPoint]="point"
+                        [isAdminMode]="isAdminMode"
+                        [isClustered]="markersOnTheMap.indexOf(point.id) === -1"
+                        ($markerSelected)="selectMarker($event)"
+                        ($markerRepositioned)="updateMarker($event)"
 
-            ></spg-marker>
+                ></spg-marker>
 
-        </agm-marker-cluster>
-          <spg-map-overlay
-            *ngFor="let overlay of mapOverlayItems"
-            [maxZoomDisplay]="overlay.maxZoom"
-            [opacity]="overlay.opacity"
-            [isDisplayed]="overlay.isDisplayed"
-            [src] = "overlay.src"
-            [zIndex]="overlay.zIndex"
-            [id]="overlay.id"
-            [bounds]="overlay.bounds"
-            [mapTransitionDuration]="mapTransitionDuration"
-        ></spg-map-overlay>
-    </agm-map>
+            </agm-marker-cluster>
+            <spg-map-overlay
+                    *ngFor="let overlay of mapOverlayItems"
+                    [maxZoomDisplay]="overlay.maxZoom"
+                    [opacity]="overlay.opacity"
+                    [isDisplayed]="overlay.isDisplayed"
+                    [src] = "overlay.src"
+                    [zIndex]="overlay.zIndex"
+                    [id]="overlay.id"
+                    [bounds]="overlay.bounds"
+                    [mapTransitionDuration]="mapTransitionDuration"
+            ></spg-map-overlay>
+        </agm-map>
+    </div>
 </div>

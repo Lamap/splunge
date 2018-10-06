@@ -1,10 +1,5 @@
 <div class="spg-image-list">
     <div class="spg-image-list__control">
-        <spg-file-selector
-                class="spg-image-list__add-new"
-                *ngIf="isAdminMode"
-                (fileSelected$)="fileSelected($event)"
-        ></spg-file-selector>
         <span class="spg-image-list__sorter" (click)="toggleUploadSort()" [ngClass]="{'spg-image-list__sorter--down': sortedDesc}">
             <span>
               Order by time
@@ -26,6 +21,11 @@
         >
             Clear filter
         </span>
+        <spg-file-selector
+                class="spg-image-list__add-new"
+                *ngIf="isAdminMode"
+                (fileSelected$)="fileSelected($event)"
+        ></spg-file-selector>
     </div>
     <div class="spg-image-list__no-images" *ngIf="imageList && !imageList.length">No images, clear the filter</div>
     <div class="spg-image-list__items-wrapper" #scrollcontainer>
