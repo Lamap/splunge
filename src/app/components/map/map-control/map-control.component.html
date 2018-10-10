@@ -14,6 +14,12 @@
                 <div class="spg-map-overlay-control__onmap-item-top">
                     <span class="spg-map-overlay-control__onmap-item-date">{{overlay.dated}}</span>
                     <span class="spg-map-overlay-control__onmap-item-name">{{overlay.name}}</span>
+                    <span
+                            class="spg-map-overlay-control__onmap-remove"
+                            (click)="removeFromCompare(overlay)"
+                    >
+                       <i class="material-icons">close</i>
+                    </span>
                 </div>
                 <div class="spg-map-overlay-control__onmap-item-bottom">
                     <mat-slider
@@ -28,26 +34,18 @@
                     >
                        <i class="material-icons">zoom_out_map</i>
                     </span>
-                    <span
-                            class="spg-map-overlay-control__onmap-remove"
-                            (click)="removeFromCompare(overlay)"
-                    >
-                       <i class="material-icons">close</i>
-                    </span>
                 </div>
             </div>
             <div *ngIf="!overlay" class="spg-map-overlay-control__onmap-empty-item">
                 Add a map from below
             </div>
         </div>
-        <div class="spg-map-overlay-control__onmap-item">
-            <div class="spg-map-overlay-control__onmap-item-top">
-                <span class="spg-map-overlay-control__onmap-item-date">Now</span>
-                <span class="spg-map-overlay-control__onmap-item-name">Google maps</span>
-            </div>
+        <div class="spg-map-overlay-control__onmap-item spg-map-overlay-control__onmap-item--google">
+            <span class="spg-map-overlay-control__onmap-item-date">Now</span>
+            <span class="spg-map-overlay-control__onmap-item-name">Google maps</span>
         </div>
-        <div class="spg-map-overlay-control__collection-title">Avalaible Maps</div>
     </div>
+    <div class="spg-map-overlay-control__collection-title">Avalaible Maps</div>
     <ul class="spg-map-overlay-control__items">
         <li
                 *ngFor="let overlay of mapOverlayItems"

@@ -87,10 +87,11 @@ export class ImageListComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   toggleUploadSort() {
+    const by = this.isAdminMode ? 'filePath' : 'dated';
     this.sortedDesc = !this.sortedDesc;
     const imageQuery: ImageQuery = {
         sort: {
-            by: 'filePath',
+            by: by,
             desc: this.sortedDesc
         }
     };
