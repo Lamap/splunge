@@ -10,11 +10,12 @@ import { IMapOverlayItem } from '../map/map.component';
 })
 export class MapControlComponent implements OnInit {
   @Output() $onItemSelected = new EventEmitter<IMapOverlayItem>();
-  @Output() $onGoogleMapsSelected = new EventEmitter<Boolean>();
+  @Output() $onRemoveItem = new EventEmitter<IMapOverlayItem>();
+  @Output() $onSwapItems = new EventEmitter<VoidFunction>();
   @Output() $onFitToMapBounds = new EventEmitter<IMapOverlayItem>();
   @Input() mapOverlayItems: IMapOverlayItem[];
-  @Input() isGoogleMapOnTop: boolean;
   @Input() mapTransitionDuration: number;
+  @Input() comparedOverlays: IMapOverlayItem[];
 
   private canSwitch = true;
 
@@ -25,7 +26,7 @@ export class MapControlComponent implements OnInit {
   }
 
   onItemClicked(overlay: IMapOverlayItem) {
-    if (overlay.isTop || !this.canSwitch) {
+    if (overlay.isDisplayed || !this.canSwitch) {
       return;
     }
     this.$onItemSelected.emit(overlay);
@@ -35,14 +36,14 @@ export class MapControlComponent implements OnInit {
     }, this.mapTransitionDuration);
   }
 
-  onGoogleMapsClicked() {
-    if (this.isGoogleMapOnTop) {
-      return;
-    }
-    this.$onGoogleMapsSelected.emit(true);
-  }
-
   onFitBoundsClicked(overlay: IMapOverlayItem) {
     this.$onFitToMapBounds.emit(overlay);
+  }
+  removeFromCompare(overlay: IMapOverlayItem) {
+    this.$onRemoveItem.emit(overlay);
+  }
+  swapComparedItems() {
+    console.log('swap');
+    this.$onSwapItems.emit();
   }
 }

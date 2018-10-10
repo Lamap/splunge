@@ -21,6 +21,8 @@ export class MapOverlayComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() defaultZoom: number;
   @Input() opacity: number;
   @Input() isDisplayed: boolean;
+  @Input() top: boolean;
+  @Input() underTop: boolean;
   @Input() src: string;
   @Input() zIndex: number;
   @Input() id: string;
@@ -74,27 +76,50 @@ export class MapOverlayComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   ngOnChanges(change: SimpleChanges) {
-    if (change.zIndex && this.overlayElement) {
-      this.overlayElement.style.zIndex = this.zIndex;
-      this.overlayElement.style.opacity = 0;
-      this.overlayElement.style.display = 'block';
-      TweenLite.to(this.overlayElement, this.mapTransitionDuration / 1000, {opacity: this.opacity / 100});
-    }
-    if (change.isDisplayed && this.overlayElement) {
-        if (!change.isDisplayed.currentValue) {
-            this.overlayElement.style.opacity = this.opacity / 100;
-            TweenLite.to(this.overlayElement, this.mapTransitionDuration / 1000, {
-                opacity: 0,
-                onComplete: () => {
-                    this.overlayElement.style.display = 'none';
-                }
-            });
-        }
+    if (
+        change.opacity &&
+        !change.zIndex &&
+        !change.isDisplayed &&
+        this.isDisplayed &&
+        this.overlayElement
+    ) {
+      TweenLite.to(this.overlayElement, 1, {opacity: this.opacity / 100});
     }
 
-    if (change.opacity && !change.zIndex && !change.isDisplayed && this.overlayElement) {
-        TweenLite.to(this.overlayElement, 1, {opacity: this.opacity / 100});
+    if (change.top && change.top.currentValue && this.overlayElement) {
+        this.overlayElement.style.zIndex = this.zIndex;
+        this.overlayElement.style.opacity = 0;
+        this.overlayElement.style.display = 'block';
+        TweenLite.to(this.overlayElement, this.mapTransitionDuration / 1000, {opacity: this.opacity / 100});
     }
+
+    if (change.underTop && !change.underTop.currentValue && change.underTop.previousValue && this.overlayElement) {
+      this.fadeOut();
+    }
+    if (
+        this.overlayElement &&
+        change.isDisplayed &&
+        !change.isDisplayed.currentValue && (
+            (change.top && !change.top.currentValue) ||
+            (change.underTop && !change.underTop.currentValue)
+        )
+    ) {
+        this.fadeOut();
+    }
+
+    if (change.zIndex && this.overlayElement) {
+        this.overlayElement.style.zIndex = this.zIndex;
+    }
+  }
+
+  fadeOut() {
+    this.overlayElement.style.opacity = this.opacity / 100;
+    TweenLite.to(this.overlayElement, this.mapTransitionDuration / 1000, {
+      opacity: 0,
+      onComplete: () => {
+          this.overlayElement.style.display = 'none';
+      }
+    });
   }
 
   private isWithinZoomRange(zoomIndex: number): boolean {

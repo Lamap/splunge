@@ -18,11 +18,12 @@
     <spg-map-control
         class="spg-map__mapoverlay-control-wrapper"
         [mapOverlayItems]="mapOverlayItems"
-        [isGoogleMapOnTop]="isGoogleMapOnTop"
         [mapTransitionDuration]="mapTransitionDuration"
+        [comparedOverlays]="comparedOverlays"
         ($onItemSelected)="onOverlayControlItemSelected($event)"
-        ($onGoogleMapsSelected)="onGoogleMapsSelected($event)"
+        ($onRemoveItem)="removeOverlayFromCompare($event)"
         ($onFitToMapBounds)="onFitTomMapBounds($event)"
+        ($onSwapItems)="swapComparedItems()"
     ></spg-map-control>
     <div class="spg-map__agm-wrapper">
         <agm-map
@@ -68,6 +69,8 @@
                     [maxZoomDisplay]="overlay.maxZoom"
                     [opacity]="overlay.opacity"
                     [isDisplayed]="overlay.isDisplayed"
+                    [top]="overlay.top"
+                    [underTop]="overlay.underTop"
                     [src] = "overlay.src"
                     [zIndex]="overlay.zIndex"
                     [id]="overlay.id"

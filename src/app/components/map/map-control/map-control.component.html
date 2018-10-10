@@ -1,28 +1,58 @@
 <div class="spg-map-overlay-control">
-    <div class="spg-map-overlay-control__title">Avalaible Maps on the current zoom</div>
-    <ul class="spg-map-overlay-control__items">
-        <li
-                class="spg-map-overlay-control__item spg-map-overlay-control__item--is-under-top"
-                [ngClass]="{'spg-map-overlay-control__item--is-top': isGoogleMapOnTop}"
-                (click)="onGoogleMapsClicked()"
+    <div class="spg-map-overlay-control__onmap-block">
+        <div class="spg-map-overlay-control__displayed-title">Compared maps</div>
+        <span
+            class="spg-map-overlay-control__swap-compared-items spg-rounded-icon-button--small"
+            *ngIf="comparedOverlays && comparedOverlays[0] && comparedOverlays[1]"
         >
-            <div class="spg-map-overlay-control__item-dated">
-                <div class="spg-map-overlay-control__item-dated-number">
-                    <span>Present</span>
-                    <i class="material-icons spg-map-overlay-control__item-visibility">
-                        visibility
-                    </i>
+          <i class="material-icons" title="Swap compared maps" (click)="swapComparedItems()">
+            swap_vert
+          </i>
+        </span>
+        <div class="spg-map-overlay-control__onmap-item" *ngFor="let overlay of comparedOverlays">
+            <div *ngIf="overlay">
+                <div class="spg-map-overlay-control__onmap-item-top">
+                    <span class="spg-map-overlay-control__onmap-item-date">{{overlay.dated}}</span>
+                    <span class="spg-map-overlay-control__onmap-item-name">{{overlay.name}}</span>
                 </div>
-                <div class="spg-map-overlay-control__item-dated-line"></div>
+                <div class="spg-map-overlay-control__onmap-item-bottom">
+                    <mat-slider
+                            class="spg-map-overlay-control__onmap-opacity"
+                            [min]="0"
+                            [max]="100"
+                            [(ngModel)]="overlay.opacity"
+                    ></mat-slider>
+                    <span
+                            class="spg-map-overlay-control__onmap-zoomto"
+                            (click)="onFitBoundsClicked(overlay)"
+                    >
+                       <i class="material-icons">zoom_out_map</i>
+                    </span>
+                    <span
+                            class="spg-map-overlay-control__onmap-remove"
+                            (click)="removeFromCompare(overlay)"
+                    >
+                       <i class="material-icons">close</i>
+                    </span>
+                </div>
             </div>
-            <div class="spg-map-overlay-control__item-content">
-                <div class="spg-map-overlay-control__item-title">Google maps</div>
+            <div *ngIf="!overlay" class="spg-map-overlay-control__onmap-empty-item">
+                Add a map from below
             </div>
-        </li>
+        </div>
+        <div class="spg-map-overlay-control__onmap-item">
+            <div class="spg-map-overlay-control__onmap-item-top">
+                <span class="spg-map-overlay-control__onmap-item-date">Now</span>
+                <span class="spg-map-overlay-control__onmap-item-name">Google maps</span>
+            </div>
+        </div>
+        <div class="spg-map-overlay-control__collection-title">Avalaible Maps</div>
+    </div>
+    <ul class="spg-map-overlay-control__items">
         <li
                 *ngFor="let overlay of mapOverlayItems"
                 class="spg-map-overlay-control__item"
-                [ngClass]="{'spg-map-overlay-control__item--is-top': overlay.isTop, 'spg-map-overlay-control__item--is-under-top': overlay.isUnderTop}"
+                [ngClass]="{'spg-map-overlay-control__item--displayed': overlay.isDisplayed}"
                 (click)="onItemClicked(overlay)"
         >
             <div class="spg-map-overlay-control__item-dated">
@@ -37,20 +67,8 @@
             <div class="spg-map-overlay-control__item-content">
                 <div
                         class="spg-map-overlay-control__item-title"
-                >{{overlay.name}}</div>
-                <div class="spg-map-overlay-control__item-controls" *ngIf="overlay.isTop">
-                    <mat-slider
-                            class="spg-map-overlay-control__item-opacity-slider"
-                            [min]="0"
-                            [max]="100"
-                            [(ngModel)]="overlay.opacity"
-                    ></mat-slider>
-                    <span
-                            class="spg-map-overlay-control__item-zoom-to-boundaries"
-                            (click)="onFitBoundsClicked(overlay)"
-                    >
-                   <i class="material-icons">zoom_out_map</i>
-                </span>
+                >
+                    {{overlay.name}}
                 </div>
             </div>
         </li>

@@ -37,8 +37,8 @@ export interface IMapOverlayItem {
     opacity?: number;
     zIndex?: number;
     dated: IDateRange | number;
-    isTop?: boolean;
-    isUnderTop?: boolean;
+    top?: boolean;
+    underTop?: boolean;
 }
 
 export interface ISpgCoords {
@@ -75,7 +75,6 @@ export class MapComponent implements OnInit {
 
     public isAdminMode: boolean;
     public mapTransitionDuration = spgConfig.mapTransitionDuration;
-    public isGoogleMapOnTop = false;
     public pointedMarker: ISpgMarker;
 
     public markerCreateMode: boolean;
@@ -91,6 +90,8 @@ export class MapComponent implements OnInit {
         styles: (<any>mapConfig).styles as MapTypeStyle[]
     };
     public mapOverlayItems: IMapOverlayItem[];
+    public comparedOverlays: IMapOverlayItem[] = [null, null];
+    public maxVisibleMapoverlays = 2;
 
     private _nativeMap: any;
     private currentMarkers: ISpgMarker[] = [];
@@ -115,6 +116,7 @@ export class MapComponent implements OnInit {
 
         this.topZindex = spgConfig.mapOverlays.length;
         this.mapOverlayItems = this.getProcessedOverlays(spgConfig.mapOverlays);
+        this.comparedOverlays = this.getComparedMapOverlays(this.mapOverlayItems);
     }
 
     ngOnInit() {
@@ -134,53 +136,57 @@ export class MapComponent implements OnInit {
         return overlays.map(overlay => {
            if (overlay.id === spgConfig.topOverlay) {
                overlay.isDisplayed = true;
-               overlay.isTop = true;
-               overlay.opacity = 100;
+               overlay.top = true;
            }
+           overlay.opacity = 100;
            return overlay;
         });
     }
 
-    onOverlayControlItemSelected($event: IMapOverlayItem) {
-        const clickedId = $event.id;
-        this.topZindex++;
-        this.isGoogleMapOnTop = false;
-
-        this.mapOverlayItems.map((overlay) => {
-            if (overlay.id === clickedId) {
-                overlay.isTop = true;
-                overlay.zIndex = this.topZindex;
-                overlay.isDisplayed = true;
-                overlay.opacity = 100;
-            }
-            if (overlay.zIndex === this.topZindex - 1) {
-                overlay.isUnderTop = true;
-            }
-            if (!overlay.zIndex || overlay.zIndex < this.topZindex) {
-                overlay.isTop = false;
-                overlay.opacity = 100;
-            }
-            if (!overlay.zIndex || overlay.zIndex < this.topZindex - 1) {
-                overlay.isDisplayed = false;
-                overlay.isUnderTop = false;
-            }
-        });
+    getComparedMapOverlays(overlays: IMapOverlayItem[]) {
+        const compared = overlays.filter(overlay => overlay.isDisplayed);
+        compared.length = this.maxVisibleMapoverlays;
+        return compared.fill(null, compared.length);
     }
 
-    onGoogleMapsSelected($event: boolean) {
-        this.isGoogleMapOnTop = true;
-        this.mapOverlayItems.map((overlay) => {
-           if (overlay.zIndex === this.topZindex) {
-               overlay.isDisplayed = false;
-               overlay.isTop = false;
-           }
-           if (overlay.zIndex === this.topZindex - 1)  {
-               overlay.isDisplayed = false;
-               overlay.opacity = 0;
-           }
-            overlay.isUnderTop = false;
-        });
+    onOverlayControlItemSelected($overlay: IMapOverlayItem) {
         this.topZindex++;
+
+        $overlay.isDisplayed = true;
+        $overlay.zIndex = this.topZindex;
+
+        this.comparedOverlays.unshift($overlay);
+        if (
+            this.comparedOverlays.length > this.maxVisibleMapoverlays &&
+            this.comparedOverlays[this.comparedOverlays.length - 1]
+        ) {
+            this.comparedOverlays[this.comparedOverlays.length - 1].isDisplayed = false;
+        }
+        this.comparedOverlays.splice(this.maxVisibleMapoverlays);
+
+        this.mapOverlayItems.forEach(overlay => {
+            overlay.top = false;
+            overlay.underTop = false;
+        });
+        if (this.comparedOverlays[0]) {
+            this.comparedOverlays[0].top = true;
+        }
+        if (this.comparedOverlays[1]) {
+            this.comparedOverlays[1].underTop = true;
+        }
+    }
+
+    removeOverlayFromCompare($overlay: IMapOverlayItem) {
+        $overlay.isDisplayed = false;
+        $overlay.top = false;
+        $overlay.underTop = false;
+        this.comparedOverlays = this.getComparedMapOverlays(this.mapOverlayItems);
+    }
+
+    swapComparedItems() {
+        this.comparedOverlays.reverse();
+        this.comparedOverlays[0].zIndex = this.topZindex;
+        this.comparedOverlays[1].zIndex = this.topZindex - 1;
     }
 
     onFitTomMapBounds($event: IMapOverlayItem) {
@@ -214,7 +220,7 @@ export class MapComponent implements OnInit {
         if (zoom === this.mapOptions.maxZoom - 1) {
             return;
         }
-        this._nativeMap.setZoom(zoom)
+        this._nativeMap.setZoom(zoom);
         this.mapOptions.zoom = zoom;
     }
     zoomOut($event) {
