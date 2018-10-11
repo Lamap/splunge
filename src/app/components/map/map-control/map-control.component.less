@@ -23,16 +23,28 @@
     display: flex;
     flex-direction: column;
     position: relative;
+    transform: translate(-8px, 2px);
   }
 
   &__onmap-item {
     height: 30%;
     border: 1px solid #eee;
     border-radius: 4px;
-    margin: 4px;
+    margin: 0 4px;
     padding: 4px 8px;
-    &:first-child {
-      margin-top: 0;
+    box-shadow: 2px 4px 2px 2px rgba(230, 230, 230, 0.1);
+    background: #fff;
+
+    &:nth-of-type(2) {
+      z-index: 10;
+    }
+    &:nth-of-type(3) {
+      transform: translate(4px, -5px);
+      z-index: 9;
+    }
+    &:nth-of-type(4) {
+      transform: translate(8px, -10px);
+      z-index: 8;
     }
     &--google {
       display: flex;
@@ -182,7 +194,8 @@
     .spg-rounded-icon-button;
     position: absolute;
     top: 33%;
-    right: 0;
+    right: 40px;
+    z-index: 11;
   }
   &__onmap-item-top {
     display: flex;

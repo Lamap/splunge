@@ -1,11 +1,11 @@
 <div class="spg-map-overlay-control">
     <div class="spg-map-overlay-control__onmap-block">
-        <div class="spg-map-overlay-control__displayed-title">Compared maps</div>
+        <div class="spg-map-overlay-control__displayed-title" >{{'COMPARED_MAPS' | trans}}</div>
         <span
             class="spg-map-overlay-control__swap-compared-items spg-rounded-icon-button--small"
             *ngIf="comparedOverlays && comparedOverlays[0] && comparedOverlays[1]"
         >
-          <i class="material-icons" title="Swap compared maps" (click)="swapComparedItems()">
+          <i class="material-icons" title="{{'SWAP_VERTICALLY' | trans}}" (click)="swapComparedItems()">
             swap_vert
           </i>
         </span>
@@ -17,6 +17,7 @@
                     <span
                             class="spg-map-overlay-control__onmap-remove"
                             (click)="removeFromCompare(overlay)"
+                            title="{{'REMOVE_MAP' | trans}}"
                     >
                        <i class="material-icons">close</i>
                     </span>
@@ -31,13 +32,14 @@
                     <span
                             class="spg-map-overlay-control__onmap-zoomto"
                             (click)="onFitBoundsClicked(overlay)"
+                            title="{{'ZOOM_TO_MAP_BOUNDARY' | trans}}"
                     >
                        <i class="material-icons">zoom_out_map</i>
                     </span>
                 </div>
             </div>
             <div *ngIf="!overlay" class="spg-map-overlay-control__onmap-empty-item">
-                Add a map from below
+                {{'ADD_A_MAP' | trans}}
             </div>
         </div>
         <div class="spg-map-overlay-control__onmap-item spg-map-overlay-control__onmap-item--google">

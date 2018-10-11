@@ -34,6 +34,7 @@ import { ImageListItemComponent } from './components/imageGallery/image-list-ite
 import { ImageModalComponent } from './components/imageGallery/image-modal/image-modal.component';
 import { MarkerlinkManagerComponent } from './components/imageGallery/markerlink-manager/markerlink-manager.component';
 import { MapHelperComponent } from './components/map/map-helper/map-helper.component';
+import { TransPipe } from './trans.pipe';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { MapHelperComponent } from './components/map/map-helper/map-helper.compo
     ImageListItemComponent,
     ImageModalComponent,
     MarkerlinkManagerComponent,
-    MapHelperComponent
+    MapHelperComponent,
+    TransPipe
   ],
   entryComponents: [
       AuthDialogComponent,
