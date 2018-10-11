@@ -5,6 +5,7 @@
                 *ngIf="isAdminMode"
                 class="spg-head-image__delete"
                 (click)="deleteImage(image)"
+                title="{{'DELETE_IMAGE' | trans}}"
             >
            <i class="material-icons" title="Delete this image" >
               delete_forever
@@ -13,6 +14,7 @@
         <span
                 class="spg-head-image__open-modal"
                 (click)="openModal(image)"
+                title="{{'OPEN_IN_MODAL' | trans}}"
         >
             <i class="material-icons" title="Open in modal" >
               open_in_new
@@ -21,6 +23,7 @@
             <span
                     class="spg-head-image__close"
                     (click)="close()"
+                    title="{{'CLOSE_IMAGE' | trans}}"
             >
             <i class="material-icons" title="Close" >
               close
@@ -30,6 +33,7 @@
                     class="spg-head-image__point-marker"
                     (click)="pointImageMarker(image)"
                     *ngIf="image.markerId"
+                    title="{{'POINT_IMAGE' | trans}}"
             >
             <i class="material-icons" title="Point the marker" >
               my_location
@@ -40,6 +44,7 @@
                     *ngIf="isAdminMode"
                     (click)="save(image)"
                     [ngClass]="{'spg-head-image__save--unsaved': isUnsaved}"
+                    title="{{'SAVE_IMAGE' | trans}}"
             >
            <i class="material-icons" title="Save the changes" >
               save
@@ -59,9 +64,9 @@
         />
     </div>
     <div *ngIf="!isAdminMode && image" class="spg-head-image__text-wrapper spg-head-image__text-wrapper--static">
-        <div class="spg-head-image__img-date">{{image.dated || 'No date'}}</div>
-        <div class="spg-head-image__img-title">{{image.title || 'No title'}}</div>
-        <div class="spg-head-image__img-description">{{image.description || 'No description'}}</div>
+        <div class="spg-head-image__img-date">{{image.dated || ('WITHOUT_DATE' | trans)}}</div>
+        <div class="spg-head-image__img-title">{{image.title || ('WITHOUT_TITLE' | trans)}}</div>
+        <div class="spg-head-image__img-description">{{image.description || ('WITHOUT_DESCRIPTION' | trans)}}</div>
     </div>
     <div
             *ngIf="isAdminMode && image"
@@ -71,21 +76,21 @@
                 type="number"
                 class="spg-head-image__img-date"
                 [(ngModel)]="image.dated"
-                placeholder="Year"
+                placeholder="{{'IMAGE_DATED' | trans }}"
                 (input)="dataChanged()"
         />
         <input
                 type="text"
                 class="spg-head-image__img-title"
                 [(ngModel)]="image.title"
-                placeholder="Title"
+                placeholder="{{'IMAGE_TITLE' | trans}}"
                 (input)="dataChanged()"
         />
         <input
                 type="text"
                 class="spg-head-image__img-description"
                 [(ngModel)]="image.description"
-                placeholder="Description"
+                placeholder="{{'IMAGE_DESCRIPTION' | trans}}"
                 (input)="dataChanged()"
         />
     </div>

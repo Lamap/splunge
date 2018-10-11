@@ -8,8 +8,8 @@
   <input
     class="spg-auth-dialog__password form-control"
     type="password"
-    placeholder="password"
+    placeholder="{{'PASSWORD' | trans}}"
     [(ngModel)]="data.password"
   />
-  <button class="spg-auth-dialog__submit btn btn-light" (click)="submit()">Login</button>
+  <button class="spg-auth-dialog__submit btn btn-light" (click)="submit()">{{'LOGIN' | trans}}</button>
 </div>

@@ -43,11 +43,11 @@
             </div>
         </div>
         <div class="spg-map-overlay-control__onmap-item spg-map-overlay-control__onmap-item--google">
-            <span class="spg-map-overlay-control__onmap-item-date">Now</span>
-            <span class="spg-map-overlay-control__onmap-item-name">Google maps</span>
+            <span class="spg-map-overlay-control__onmap-item-date">{{'PRESENT_MAP' | trans}}</span>
+            <span class="spg-map-overlay-control__onmap-item-name">{{'GOOGLE_MAPS' | trans}}</span>
         </div>
     </div>
-    <div class="spg-map-overlay-control__collection-title">Avalaible Maps</div>
+    <div class="spg-map-overlay-control__collection-title">{{'AVALAIBLE_MAPS' | trans}}</div>
     <ul class="spg-map-overlay-control__items">
         <li
                 *ngFor="let overlay of mapOverlayItems"

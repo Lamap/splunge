@@ -2,7 +2,7 @@
     <div class="spg-image-list__control">
         <span class="spg-image-list__sorter" (click)="toggleUploadSort()" [ngClass]="{'spg-image-list__sorter--down': sortedDesc}">
             <span>
-              Order by time
+              {{'ORDER_BY_TIME' | trans}}
             </span>
             <i class="material-icons spg-image-list__sorter-arrow">
                 expand_less
@@ -13,13 +13,13 @@
             *ngIf="isAdminMode"
             [(ngModel)]="noLocationQuery"
             (change)="noLocationQueryChanged()"
-        >No location</mat-checkbox>
+        >{{'NO_LOCATION' | trans}}</mat-checkbox>
         <span
             *ngIf="isFiltered"
             class="spg-image-list__clear"
             (click)="clearQuery()"
         >
-            Clear filter
+            {{'CLEAR_FILTERS' | trans}}
         </span>
         <spg-file-selector
                 class="spg-image-list__add-new"
@@ -27,7 +27,7 @@
                 (fileSelected$)="fileSelected($event)"
         ></spg-file-selector>
     </div>
-    <div class="spg-image-list__no-images" *ngIf="imageList && !imageList.length">No images, clear the filter</div>
+    <div class="spg-image-list__no-images" *ngIf="imageList && !imageList.length">{{'NO_IMAGES' | trans}}</div>
     <div class="spg-image-list__items-wrapper spg-scrolling" #scrollcontainer >
         <div class="spg-image-list__first-col">
             <spg-image-list-item
