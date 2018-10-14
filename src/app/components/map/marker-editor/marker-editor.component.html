@@ -18,9 +18,9 @@
   </div>
   <div class="spg-marker-editor__selected-content">
     <div class="spg-marker-editor__description">
-      <div *ngIf="!markerPoint">No marker selected, click a marker to load and edit</div>
+      <div *ngIf="!markerPoint">{{'NO_MARKER_SELECTED' | trans}}</div>
       <div class="spg-marker-editor__description-inner" *ngIf="markerPoint">
-        Selected marker: {{markerPoint.id}}
+        {{'SELECTED_MARKER' | trans}}: {{markerPoint.id}}
         <span class="spg-marker-editor__exit-selected" >
           <i class="material-icons" title="Quit from editing this marker" (click)="quitSelected()">
             close
@@ -57,7 +57,7 @@
               class="spg-marker-editor__has-direction"
               [(ngModel)]="markerPoint.hasDirection"
               (change)="markerIsUpdated($event)"
-      >Has direction</mat-checkbox>
+      >{{'HAS_DIRECTION' | trans}}</mat-checkbox>
       <mat-slider
               class="spg-marker-editor__direction-settings"
               *ngIf="markerPoint.hasDirection"
@@ -67,6 +67,8 @@
               (change)="markerIsUpdated($event)"
       ></mat-slider>
     </div>
+    <!--
     <div *ngIf="markerPoint && markerPoint.hasDirection">min zoom where direction is displayed: n</div>
+    -->
   </div>
 </div>

@@ -5,7 +5,7 @@
         (click)="attach()"
         *ngIf="selectedMarker && (!image.markerId || image.markerId !== selectedMarker.id)"
     >
-        <i class="material-icons" title="Link to the selected marker">
+        <i class="material-icons" title="{{'LINK_TO_SELECTED_MARKER' | trans}}">
           link
         </i>
     </span>
@@ -15,7 +15,7 @@
         (click)="clear()"
         *ngIf="image.markerId"
     >
-        <i class="spg-link-off-button-replace" title="Remove from the actual marker">
+        <i class="spg-link-off-button-replace" title="{{'REMOVE_FROM_MARKER' | trans}}">
         </i>
     </span>
 </div>

@@ -3,7 +3,7 @@
   "SWAP_VERTICALLY": "Sorrend csere",
   "ZOOM_TO_MAP_BOUNDARY": "Teljes térkép",
   "REMOVE_MAP": "Eltávolítás",
-  "ADD_A_MAP": "A lenti listából választható térkép",
+  "ADD_A_MAP": "A lenti listából választható ide térkép",
   "PRESENT_MAP": "Jelenkor",
   "GOOGLE_MAPS": "Google maps",
   "AVALAIBLE_MAPS": "Térképek",
@@ -21,9 +21,14 @@
   "POINT_IMAGE": "Hol van a térképen?",
   "CLOSE_IMAGE": "Bezárás",
   "ORDER_BY_TIME": "Időrendben",
-  "CLEAR_FILTERS": "Összes kép",
+  "CLEAR_FILTERS": "Összes",
   "LOGIN": "Bejelentkezés",
   "NO_IMAGES": "Nincs találat",
-  "NO_LOCATION": "Lokáció nélküliek",
-  "": "Nincs találat"
+  "NO_LOCATION": "Csak lokáció nélküliek",
+  "SELECTED_MARKER": "Kiválasztott jel",
+  "HAS_DIRECTION": "Panoráma kép",
+  "NO_MARKER_SELECTED": "Válasszon a térképen látható jelek közül, vagy hozzon létre egy újat.",
+  "CREATE_NEW_MARKER": "Új jel létrehozása",
+  "LINK_TO_SELECTED_MARKER": "Kép összekapcsolása a kiválasztott jellel",
+  "REMOVRE_FROM_MARKER": "Kep eltávolításra a jelről"
 }

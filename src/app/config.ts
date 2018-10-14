@@ -40,7 +40,7 @@ export const spgConfig: ISpgConfig = {
         },
         {
             id: 'TK-1944',
-            name: 'Légifotó a 2. világháború végéről',
+            name: 'M. kir. Honvéd Légierő légifelvétele',
             src: 'http://tabanatlas.hspartacus.hu/trkp/Aerial_1944_cropped_W1800.jpg',
             maxZoom: 20,
             dated: 1944,
@@ -105,7 +105,7 @@ export const spgConfig: ISpgConfig = {
         },
         {
             id: 'Marek-1874',
-            name: 'Marek féle budai felmérés',
+            name: 'Marek János: Buda sz. kir. város egész határának másolati térképe (1:1440)',
             src: 'http://tabanatlas.hspartacus.hu/trkp/1874_marek_v2.jpg',
             maxZoom: 22,
             dated: 1874,
@@ -118,7 +118,7 @@ export const spgConfig: ISpgConfig = {
         },
         {
             id: 'Buda-1824',
-            name: 'Buda a 19. század első felében',
+            name: 'Wilsdorf hadnagy: A Vár és a Víziváros [valamint a Tabán és a Krisztinaváros] térképe (1:3600)',
             src: 'http://tabanatlas.hspartacus.hu/trkp/1824_buda.png',
             maxZoom: 20,
             dated: 1824,

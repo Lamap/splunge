@@ -4,7 +4,7 @@
         class="spg-image-list-item__delete spg-rounded-icon-button--small"
         (click)="deleteImage(image)"
     >
-        <i class="material-icons" title="Delete this image" >
+        <i class="material-icons" title="{{'DELETE_IMAGE' | trans}}" >
           delete_forever
         </i>
     </span>
@@ -12,7 +12,7 @@
             class="spg-image-list-item__open-modal spg-rounded-icon-button--small"
             (click)="openModal(image)"
     >
-        <i class="material-icons" title="Open in modal" >
+        <i class="material-icons" title="{{'OPEN_IN_MODAL' | trans}}" >
           open_in_new
         </i>
     </span>
@@ -22,7 +22,7 @@
             *ngIf="image.markerId"
     >
             <i class="material-icons"
-               title="Point the marker" >
+               title="{{'POINT_TO_MARKER' | trans}}" >
               my_location
             </i>
         </span>

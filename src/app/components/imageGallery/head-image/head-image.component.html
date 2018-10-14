@@ -7,7 +7,7 @@
                 (click)="deleteImage(image)"
                 title="{{'DELETE_IMAGE' | trans}}"
             >
-           <i class="material-icons" title="Delete this image" >
+           <i class="material-icons">
               delete_forever
            </i>
         </span>
@@ -16,7 +16,7 @@
                 (click)="openModal(image)"
                 title="{{'OPEN_IN_MODAL' | trans}}"
         >
-            <i class="material-icons" title="Open in modal" >
+            <i class="material-icons" >
               open_in_new
             </i>
         </span>
@@ -25,7 +25,7 @@
                     (click)="close()"
                     title="{{'CLOSE_IMAGE' | trans}}"
             >
-            <i class="material-icons" title="Close" >
+            <i class="material-icons">
               close
             </i>
         </span>
@@ -46,7 +46,7 @@
                     [ngClass]="{'spg-head-image__save--unsaved': isUnsaved}"
                     title="{{'SAVE_IMAGE' | trans}}"
             >
-           <i class="material-icons" title="Save the changes" >
+           <i class="material-icons" >
               save
            </i>
         </span>
