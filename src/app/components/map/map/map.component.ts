@@ -119,6 +119,12 @@ export class MapComponent implements OnInit {
         this.topZindex = spgConfig.mapOverlays.length;
         this.mapOverlayItems = this.getProcessedOverlays(spgConfig.mapOverlays);
         this.comparedOverlays = this.getComparedMapOverlays(this.mapOverlayItems);
+        this.imageService.query$.subscribe((query) => {
+            if (!query.markerId) {
+                this.quitMarkerSelection();
+                this.pointedMarker = null;
+            }
+        });
     }
 
     ngOnInit() {
@@ -292,6 +298,7 @@ export class MapComponent implements OnInit {
                 this.zoomTo(this._nativeMap.getZoom() + reasonableZoomStep);
             });
         });
+        this.quitMarkerSelection();
     }
 
     zoomTo(destZoom: number): Promise<void> {

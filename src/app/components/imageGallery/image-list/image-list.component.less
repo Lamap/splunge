@@ -1,12 +1,15 @@
 @import "../../../app.component.less";
 
-@image-control-height: 40px;
+@image-control-height: 80px;
 .spg-image-list {
   height: 100%;
   &__control {
     height: @image-control-height;
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
+    color: #555555;
+    position: relative;
   }
   &__items-wrapper {
     display: flex;
@@ -21,12 +24,16 @@
   }
   &__add-new {
     margin-left: auto;
+    position: absolute;
+    right: 0;
+    top: 0;
   }
   &__sorter {
     display: flex;
     align-items: center;
     cursor: pointer;
     margin-right: 2px;
+    font-size: 18px;
   }
   &__sorter-arrow {
     transform: rotate(0deg);
@@ -42,6 +49,14 @@
   }
   &__clear {
     cursor: pointer;
+    font-size: 18px;
+    margin-top: 10px;
+    display: flex;
+    width: 100%;
+    color: #333;
+  }
+  &__clear-button {
+    margin-left: auto;
   }
   &__no-images {
     font-size: 20px;

@@ -117,7 +117,7 @@ export class MarkerComponent implements OnInit, AfterViewInit, OnChanges, OnDest
 
     private drawMarker() {
         let url = 'data:image/svg+xml;utf-8, \n';
-        url += this.isSelected ?
+        url += this.isSelected || this.isPointed ?
             this.markerSymbolSelected.nativeElement.firstElementChild.outerHTML :
             this.markerSymbol.nativeElement.firstElementChild.outerHTML;
         const size = this.isSelected ? this.markerSizeSelected : this.markerSize;

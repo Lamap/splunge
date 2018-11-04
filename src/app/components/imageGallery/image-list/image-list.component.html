@@ -1,6 +1,11 @@
 <div class="spg-image-list">
     <div class="spg-image-list__control">
-        <span class="spg-image-list__sorter" (click)="toggleUploadSort()" [ngClass]="{'spg-image-list__sorter--down': sortedDesc}">
+        <span
+                class="spg-image-list__sorter"
+                (click)="toggleUploadSort()"
+                [ngClass]="{'spg-image-list__sorter--down': sortedDesc}"
+                *ngIf="isAdminMode"
+        >
             <span>
               {{'ORDER_BY_TIME' | trans}}
             </span>
@@ -14,13 +19,14 @@
             [(ngModel)]="noLocationQuery"
             (change)="noLocationQueryChanged()"
         >{{'NO_LOCATION' | trans}}</mat-checkbox>
-        <span
+        <div
             *ngIf="isFiltered"
             class="spg-image-list__clear"
             (click)="clearQuery()"
         >
-            {{'CLEAR_FILTERS' | trans}}
-        </span>
+            <span>{{'FILTERED_IMAGES' | trans}}</span>
+            <span class="spg-image-list__clear-button">{{'CLEAR_FILTERS' | trans}}</span>
+        </div>
         <spg-file-selector
                 class="spg-image-list__add-new"
                 *ngIf="isAdminMode"
