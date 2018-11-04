@@ -56,10 +56,10 @@ export class MapOverlayComponent implements OnInit, OnChanges, AfterViewInit {
             this.overlayElement.style.height = (southEastPixel.y - northWestPixel.y)  + 'px';
 
             this.overlayImage.src = this.src;
-            this.overlayElement.style.display = this.isWithinZoomRange(zoomIndex) && this.isDisplayed ?
+            this.overlayElement.style.display = this.isDisplayed ?
                 'block' : 'none';
 
-            this.overlayElement.style.opacity = this.isWithinZoomRange(zoomIndex) && this.isDisplayed ?
+            this.overlayElement.style.opacity = this.isDisplayed ?
                 this.opacity / 100 : 0;
 
         };
@@ -120,9 +120,5 @@ export class MapOverlayComponent implements OnInit, OnChanges, AfterViewInit {
           this.overlayElement.style.display = 'none';
       }
     });
-  }
-
-  private isWithinZoomRange(zoomIndex: number): boolean {
-      return zoomIndex <= this.maxZoomDisplay;
   }
 }

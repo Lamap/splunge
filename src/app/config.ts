@@ -8,6 +8,13 @@ interface ISpgConfig {
     defaultCenter: LatLngLiteral;
     defaultZoom: number;
     maxZoom: number;
+    minZoom: number;
+    moveBoundaries: {
+        north: number;
+        east: number;
+        west: number;
+        south: number;
+    }
     mapTransitionDuration: number;
 }
 export const spgConfig: ISpgConfig = {
@@ -25,6 +32,7 @@ export const spgConfig: ISpgConfig = {
                 west: 19.034961
             },
         },
+        /*
         {
             id: 'TK-2000',
             name: 'Tabán és környéke ezredfordulón (L. Ákos)',
@@ -38,6 +46,7 @@ export const spgConfig: ISpgConfig = {
                 east: 19.0536900
             }
         },
+        */
         {
             id: 'TK-1944',
             name: 'M. kir. Honvéd Légierő légifelvétele',
@@ -130,6 +139,19 @@ export const spgConfig: ISpgConfig = {
             },
         },
         {
+            id: 'Buda-1810',
+            name: 'Lipszky János: Magyarország sz. kir. fővárosainak, Budának és Pestnek térképe (1:7200)',
+            src: 'http://tabanatlas.hspartacus.hu/trkp/1810.png',
+            maxZoom: 20,
+            dated: 1810,
+            bounds: {
+                north: 47.508065,
+                west: 19.01192,
+                south: 47.462254,
+                east: 19.065004
+            },
+        },
+        {
             id: 'TK-1760',
             name: 'Budapest a 18. század közepén',
             src: 'http://tabanatlas.hspartacus.hu/trkp/btm_1760.png',
@@ -151,5 +173,12 @@ export const spgConfig: ISpgConfig = {
         lng: 19.045
     },
     defaultZoom: 18,
-    maxZoom: 22
+    maxZoom: 22,
+    minZoom: 12,
+    moveBoundaries: {
+        south: 47.370,
+        north: 47.615,
+        east: 19.280,
+        west: 18.893000
+    }
 }

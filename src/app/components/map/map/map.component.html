@@ -3,6 +3,21 @@
         <div class="spg-map-zoom-control__item" (click)="zoomIn($event)">&#43;</div>
         <div class="spg-map-zoom-control__item" (click)="zoomOut($event)">&#8722;</div>
     </div>
+    <div class="spg-map-move-control">
+        <span class="spg-map-move-control__up" (click)="moveMap('UP')">
+            <i class="material-icons">keyboard_arrow_up</i>
+        </span>
+        <span class="spg-map-move-control__left" (click)="moveMap('LEFT')">
+            <i class="material-icons">keyboard_arrow_left</i>
+        </span>
+        <span class="spg-map-move-control__down" (click)="moveMap('DOWN')">
+            <i class="material-icons">keyboard_arrow_down</i>
+        </span>
+        <span class="spg-map-move-control__right" (click)="moveMap('RIGHT')">
+            <i class="material-icons">keyboard_arrow_right</i>
+        </span>
+        <i class="material-icons spg-map-move-control__center">open_with</i>
+    </div>
     <div class="spg-map__marker-editor-wrapper" *ngIf="isAdminMode">
         <spg-marker-editor
             [markerCreateMode]="markerCreateMode"
@@ -38,6 +53,7 @@
                 [clickableIcons]="false"
                 [usePanning]="true"
                 [maxZoom]="mapOptions.maxZoom"
+                [minZoom]="mapOptions.minZoom"
                 [draggableCursor]="draggableCursor"
                 (boundsChange) = "onBoundsChange($event)"
                 (zoomChange) = "onZoomChange($event)"

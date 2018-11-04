@@ -22,6 +22,7 @@ export interface IMapOptions {
     fitBounds?: LatLngBoundsLiteral;
     zoomControlOptions?: ZoomControlOptions;
     maxZoom?: number;
+    minZoom?: number;
 }
 export interface IDateRange {
     from: number;
@@ -87,6 +88,7 @@ export class MapComponent implements OnInit {
         latitude: spgConfig.defaultCenter.lat,
         zoom: spgConfig.defaultZoom,
         maxZoom: spgConfig.maxZoom,
+        minZoom: spgConfig.minZoom,
         styles: (<any>mapConfig).styles as MapTypeStyle[]
     };
     public mapOverlayItems: IMapOverlayItem[];
@@ -174,6 +176,10 @@ export class MapComponent implements OnInit {
         if (this.comparedOverlays[1]) {
             this.comparedOverlays[1].underTop = true;
         }
+
+        if ($overlay.maxZoom < this._nativeMap.getZoom()) {
+            this.zoomTo($overlay.maxZoom);
+        }
     }
 
     removeOverlayFromCompare($overlay: IMapOverlayItem) {
@@ -217,7 +223,10 @@ export class MapComponent implements OnInit {
 
     zoomIn($event) {
         const zoom = this._nativeMap.getZoom() + 1;
-        if (zoom === this.mapOptions.maxZoom - 1) {
+        if (
+            zoom === this.mapOptions.maxZoom - 1 ||
+            (this.comparedOverlays[0] && zoom >= this.comparedOverlays[0].maxZoom - 1)
+        ) {
             return;
         }
         this._nativeMap.setZoom(zoom);
@@ -347,5 +356,26 @@ export class MapComponent implements OnInit {
             }
         }
         console.log('markers on the map:', this.markersOnTheMap);
+    }
+
+    moveMap($direction) {
+        let centerLat = this._nativeMap.getCenter().lat();
+        let centerLng = this._nativeMap.getCenter().lng();
+        const horizontalStep = (this._nativeMap.getBounds().getNorthEast().lng() - this._nativeMap.getBounds().getSouthWest().lng()) / 3;
+        const verticalStep = (this._nativeMap.getBounds().getNorthEast().lat() - this._nativeMap.getBounds().getSouthWest().lat()) / 3;
+
+        if ($direction === 'LEFT' && centerLng - horizontalStep > spgConfig.moveBoundaries.west) {
+            centerLng -= horizontalStep;
+        }
+        if ($direction === 'DOWN' && centerLat - verticalStep > spgConfig.moveBoundaries.south) {
+            centerLat  -= verticalStep;
+        }
+        if ($direction === 'RIGHT' && centerLng + horizontalStep < spgConfig.moveBoundaries.east) {
+            centerLng += horizontalStep;
+        }
+        if ($direction === 'UP' && centerLat + verticalStep < spgConfig.moveBoundaries.north) {
+            centerLat += verticalStep;
+        }
+        this._nativeMap.setCenter({lat: centerLat, lng: centerLng});
     }
 }

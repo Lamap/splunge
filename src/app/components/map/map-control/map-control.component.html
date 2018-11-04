@@ -2,14 +2,14 @@
     <div class="spg-map-overlay-control__onmap-block">
         <div class="spg-map-overlay-control__displayed-title" >{{'COMPARED_MAPS' | trans}}</div>
         <span
-            class="spg-map-overlay-control__swap-compared-items spg-rounded-icon-button--small"
+            class="spg-map-overlay-control__swap-compared-items"
             *ngIf="comparedOverlays && comparedOverlays[0] && comparedOverlays[1]"
         >
           <i class="material-icons" title="{{'SWAP_VERTICALLY' | trans}}" (click)="swapComparedItems()">
             swap_vert
           </i>
         </span>
-        <div class="spg-map-overlay-control__onmap-item" *ngFor="let overlay of comparedOverlays">
+        <div class="spg-map-overlay-control__onmap-item" *ngFor="let overlay of comparedOverlays; let i = index">
             <div *ngIf="overlay">
                 <div class="spg-map-overlay-control__onmap-item-top">
                     <span class="spg-map-overlay-control__onmap-item-date">{{overlay.dated}}</span>
@@ -28,6 +28,7 @@
                             [min]="0"
                             [max]="100"
                             [(ngModel)]="overlay.opacity"
+                            *ngIf="i === 0"
                     ></mat-slider>
                     <span
                             class="spg-map-overlay-control__onmap-zoomto"

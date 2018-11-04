@@ -1,7 +1,7 @@
 <div class="spg-image-list-item">
     <span
         *ngIf="isAdminMode"
-        class="spg-image-list-item__delete spg-rounded-icon-button--small"
+        class="spg-image-list-item__delete"
         (click)="deleteImage(image)"
     >
         <i class="material-icons" title="{{'DELETE_IMAGE' | trans}}" >
@@ -9,7 +9,7 @@
         </i>
     </span>
     <span
-            class="spg-image-list-item__open-modal spg-rounded-icon-button--small"
+            class="spg-image-list-item__open-modal"
             (click)="openModal(image)"
     >
         <i class="material-icons" title="{{'OPEN_IN_MODAL' | trans}}" >
@@ -17,7 +17,7 @@
         </i>
     </span>
     <span
-            class="spg-image-list-item__point-marker spg-rounded-icon-button--small"
+            class="spg-image-list-item__point-marker"
             (click)="pointImageMarker(image)"
             *ngIf="image.markerId"
     >
