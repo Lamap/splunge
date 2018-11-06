@@ -87,6 +87,19 @@ export const spgConfig: ISpgConfig = {
             }
         },
         {
+            id: 'TK-1918_II',
+            name: 'M. kir. 9. felmérési felügyelőség: Budapest székesfőváros térképe (1: 720)',
+            src: 'http://tabanatlas.hspartacus.hu/trkp/1918_II.jpg',
+            maxZoom: 24,
+            dated: 1918,
+            bounds: {
+                north: 47.49376,
+                west: 19.04095,
+                south: 47.49026,
+                east: 19.04775
+            }
+        },
+        {
             id: 'T-1900',
             name: 'A Tabán a századfordulón (L. Ákos)',
             src: 'http://tabanatlas.hspartacus.hu/trkp/b1_22clr.gif',
@@ -142,7 +155,7 @@ export const spgConfig: ISpgConfig = {
             id: 'Buda-1810',
             name: 'Lipszky János: Magyarország sz. kir. fővárosainak, Budának és Pestnek térképe (1:7200)',
             src: 'http://tabanatlas.hspartacus.hu/trkp/1810.png',
-            maxZoom: 20,
+            maxZoom: 18,
             dated: 1810,
             bounds: {
                 north: 47.508065,
@@ -153,15 +166,28 @@ export const spgConfig: ISpgConfig = {
         },
         {
             id: 'TK-1760',
-            name: 'Budapest a 18. század közepén',
+            name: 'Buda, Pest és Óbuda valamint környékük térképe',
             src: 'http://tabanatlas.hspartacus.hu/trkp/btm_1760.png',
-            maxZoom: 15,
-            dated: 1830,
+            maxZoom: 18,
+            dated: 1760,
             bounds: {
                 north: 47.545427,
                 west: 19.002246,
                 south: 47.478336,
                 east: 19.085228
+            }
+        },
+        {
+            id: 'TK-1753',
+            name: 'A budai vár és környékének térképe',
+            src: 'http://tabanatlas.hspartacus.hu/trkp/1753_2.png',
+            maxZoom: 18,
+            dated: 1753,
+            bounds: {
+                north: 47.51482,
+                west: 19.01895,
+                south: 47.48744,
+                east: 19.05683
             }
         }
     ],
