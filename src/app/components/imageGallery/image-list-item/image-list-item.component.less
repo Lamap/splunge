@@ -3,6 +3,7 @@
 .spg-image-list-item {
     margin: 5px;
     position: relative;
+    user-select: none;
   &__img {
     width: 100%;
     border-radius: 6px;
@@ -30,7 +31,13 @@
   &__point-marker {
     .spg-rounded-icon-button;
     position: absolute;
-    left: 42px;
+    left: 0;
     top: 0;
+    opacity: 0.5;
+  }
+  &:hover {
+    .spg-image-list-item__point-marker {
+      opacity: 1;
+    }
   }
 }

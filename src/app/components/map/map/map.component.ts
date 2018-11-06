@@ -186,6 +186,12 @@ export class MapComponent implements OnInit {
         if ($overlay.maxZoom < this._nativeMap.getZoom()) {
             this.zoomTo($overlay.maxZoom);
         }
+
+        console.log($overlay);
+        const latCenter = $overlay.bounds.south + ($overlay.bounds.north - $overlay.bounds.south) / 2;
+        const lngCenter = $overlay.bounds.west + ($overlay.bounds.east - $overlay.bounds.west) / 2;
+        this._nativeMap.setCenter({lat: latCenter, lng: lngCenter});
+        $overlay.opacity = 100;
     }
 
     removeOverlayFromCompare($overlay: IMapOverlayItem) {

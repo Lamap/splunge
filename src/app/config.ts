@@ -86,6 +86,7 @@ export const spgConfig: ISpgConfig = {
                 east: 19.0536900
             }
         },
+        /*
         {
             id: 'TK-1918_II',
             name: 'M. kir. 9. felmérési felügyelőség: Budapest székesfőváros térképe (1: 720)',
@@ -99,6 +100,7 @@ export const spgConfig: ISpgConfig = {
                 east: 19.04775
             }
         },
+        */
         {
             id: 'T-1900',
             name: 'A Tabán a századfordulón (L. Ákos)',
@@ -164,6 +166,7 @@ export const spgConfig: ISpgConfig = {
                 east: 19.065004
             },
         },
+        /*
         {
             id: 'TK-1760',
             name: 'Buda, Pest és Óbuda valamint környékük térképe',
@@ -177,6 +180,7 @@ export const spgConfig: ISpgConfig = {
                 east: 19.085228
             }
         },
+        */
         {
             id: 'TK-1753',
             name: 'A budai vár és környékének térképe',

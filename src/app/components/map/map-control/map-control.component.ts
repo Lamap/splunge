@@ -46,4 +46,7 @@ export class MapControlComponent implements OnInit {
     console.log('swap');
     this.$onSwapItems.emit();
   }
+  setOpacity(value) {
+    this.comparedOverlays[0].opacity = value;
+  }
 }

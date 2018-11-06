@@ -8,6 +8,7 @@
           delete_forever
         </i>
     </span>
+    <!--
     <span
             class="spg-image-list-item__open-modal"
             (click)="openModal(image)"
@@ -16,8 +17,9 @@
           open_in_new
         </i>
     </span>
+    -->
     <span
-            class="spg-image-list-item__point-marker"
+            class="spg-image-list-item__point-marker spg-rounded-icon-button--large"
             (click)="pointImageMarker(image)"
             *ngIf="image.markerId"
     >
