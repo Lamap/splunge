@@ -224,7 +224,7 @@ export const spgConfig: ISpgConfig = {
             }
         }
     ],
-    topOverlay: 'T-1930',
+    topOverlay: 'TK-1930',
     secondTopOverlay: 'TK-1930',
     mapTransitionDuration: 1000,
     defaultCenter: {

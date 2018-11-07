@@ -190,7 +190,18 @@ export class MapComponent implements OnInit {
         console.log($overlay);
         const latCenter = $overlay.bounds.south + ($overlay.bounds.north - $overlay.bounds.south) / 2;
         const lngCenter = $overlay.bounds.west + ($overlay.bounds.east - $overlay.bounds.west) / 2;
+        const actualLatCenter = this._nativeMap.getCenter().lat();
+        const actualLngCenter = this._nativeMap.getCenter().lng();
+        const horizontalDiff = (this._nativeMap.getBounds().getNorthEast().lng() - this._nativeMap.getBounds().getSouthWest().lng()) / 2;
+        const verticalDiff = (this._nativeMap.getBounds().getNorthEast().lat() - this._nativeMap.getBounds().getSouthWest().lat()) / 2;
+        if (
+            Math.abs(latCenter - actualLatCenter) > verticalDiff &&
+            Math.abs(lngCenter - actualLngCenter) > horizontalDiff
+        ) {
+            // this._nativeMap.setCenter({lat: latCenter, lng: lngCenter});
+        }
         this._nativeMap.setCenter({lat: latCenter, lng: lngCenter});
+
         $overlay.opacity = 100;
     }
 
