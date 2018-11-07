@@ -48,6 +48,7 @@ export class AppComponent {
       });
 
       this.mapOverlayItems = spgConfig.mapOverlays;
+      this.startScreensaver();
   }
   logIn() {
       this.authDialogRef = this.dialog.open(AuthDialogComponent, {
