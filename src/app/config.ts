@@ -14,14 +14,14 @@ interface ISpgConfig {
         east: number;
         west: number;
         south: number;
-    }
+    };
     mapTransitionDuration: number;
 }
 export const spgConfig: ISpgConfig = {
     mapOverlays: [
         {
             id: 'T-2000',
-            name: 'Tabán az ezredfordulón (L. Ákos)',
+            name: 'A Tabán az ezredfordulón, Lenkei Ákos térképe',
             src: 'http://tabanatlas.hspartacus.hu/trkp/b3_22clr.gif',
             maxZoom: 20,
             dated: 2000,
@@ -49,7 +49,7 @@ export const spgConfig: ISpgConfig = {
         */
         {
             id: 'TK-1944',
-            name: 'M. kir. Honvéd Légierő légifelvétele',
+            name: 'Légifelvétel a parkosított Tabán környékéről (HIM)',
             src: 'http://tabanatlas.hspartacus.hu/trkp/Aerial_1944_cropped_W1800.jpg',
             maxZoom: 20,
             dated: 1944,
@@ -61,21 +61,8 @@ export const spgConfig: ISpgConfig = {
             },
         },
         {
-            id: 'T-1930',
-            name: 'A lebontás előtti Tabán (L. Ákos)',
-            src: 'http://tabanatlas.hspartacus.hu/trkp/b2_22clr.gif',
-            maxZoom: 20,
-            dated: 1930,
-            bounds: {
-                north: 47.495809,
-                south: 47.488865,
-                east: 19.048340,
-                west: 19.034961
-            }
-        },
-        {
             id: 'TK-1930',
-            name: 'Tabán és környéke a lebontás előtt (L. Ákos)',
+            name: 'A Tabán és környéke a lebontás előtt, Lenkei Ákos térképe',
             src: 'http://tabanatlas.hspartacus.hu/trkp/K2_25clr.gif',
             maxZoom: 20,
             dated: 1930,
@@ -88,10 +75,24 @@ export const spgConfig: ISpgConfig = {
         },
         /*
         {
+            id: 'T-1930',
+            name: 'A Tabán a lebontás előtt, Lenkei Ákos térképe',
+            src: 'http://tabanatlas.hspartacus.hu/trkp/b2_22clr.gif',
+            maxZoom: 20,
+            dated: 1930,
+            bounds: {
+                north: 47.495809,
+                south: 47.488865,
+                east: 19.048340,
+                west: 19.034961
+            }
+        },
+/*
+        {
             id: 'TK-1918_II',
             name: 'M. kir. 9. felmérési felügyelőség: Budapest székesfőváros térképe (1: 720)',
             src: 'http://tabanatlas.hspartacus.hu/trkp/1918_II.jpg',
-            maxZoom: 24,
+            maxZoom: 22,
             dated: 1918,
             bounds: {
                 north: 47.49376,
@@ -102,18 +103,19 @@ export const spgConfig: ISpgConfig = {
         },
         */
         {
-            id: 'T-1900',
-            name: 'A Tabán a századfordulón (L. Ákos)',
-            src: 'http://tabanatlas.hspartacus.hu/trkp/b1_22clr.gif',
+            id: 'T-1887',
+            name: 'A Tabán a 19. század végén, Fővárosi Mérnöki Hivatal, 1:5000 (BTM)',
+            src: 'http://tabanatlas.hspartacus.hu/trkp/1885.jpg',
             maxZoom: 20,
-            dated: 1900,
+            dated: 1887,
             bounds: {
-                north: 47.495809,
-                south: 47.488865,
-                east: 19.048340,
-                west: 19.034961
+                north: 47.495091,
+                west: 19.034447,
+                south: 47.488021,
+                east: 19.049994
             }
         },
+        /*
         {
             id: 'TK-1900',
             name: 'Tabán és környéke a századfordulón (L. Ákos)',
@@ -126,25 +128,38 @@ export const spgConfig: ISpgConfig = {
                 south: 47.483150,
                 east: 19.0536900
             }
+        },*/
+        {
+            id: 'T-1900',
+            name: 'A Tabán a városegyesítést követően (L. Ákos)',
+            src: 'http://tabanatlas.hspartacus.hu/trkp/b1_22clr.gif',
+            maxZoom: 20,
+            dated: 1880,
+            bounds: {
+                north: 47.495809,
+                south: 47.488865,
+                east: 19.048340,
+                west: 19.034961
+            }
         },
         {
             id: 'Marek-1874',
             name: 'Marek János: Buda sz. kir. város egész határának másolati térképe (1:1440)',
-            src: 'http://tabanatlas.hspartacus.hu/trkp/1874_marek_v2.jpg',
-            maxZoom: 22,
-            dated: 1874,
+            src: 'http://tabanatlas.hspartacus.hu/trkp/Marek_cut.jpg',
+            maxZoom: 20,
+            dated: 1873,
             bounds: {
-                north: 47.500400,
-                west: 19.022782,
-                south: 47.486973803423446,
-                east: 19.047611525575803
+                north: 47.497667,
+                west: 19.030817,
+                south: 47.488073,
+                east: 19.048398
             }
         },
         {
             id: 'Buda-1824',
-            name: 'Wilsdorf hadnagy: A Vár és a Víziváros [valamint a Tabán és a Krisztinaváros] térképe (1:3600)',
+            name: 'A Tabán az újjáépítést követően, Wilsdorf hadnagy térképe, 1:3600 (HIM)',
             src: 'http://tabanatlas.hspartacus.hu/trkp/1824_buda.png',
-            maxZoom: 20,
+            maxZoom: 19,
             dated: 1824,
             bounds: {
                 north: 47.505324,
@@ -155,9 +170,9 @@ export const spgConfig: ISpgConfig = {
         },
         {
             id: 'Buda-1810',
-            name: 'Lipszky János: Magyarország sz. kir. fővárosainak, Budának és Pestnek térképe (1:7200)',
+            name: 'A Tabán Buda és Pest térképén, Lipszky János térképe, 1:7200 (BTM)',
             src: 'http://tabanatlas.hspartacus.hu/trkp/1810.png',
-            maxZoom: 18,
+            maxZoom: 19,
             dated: 1810,
             bounds: {
                 north: 47.508065,
@@ -165,6 +180,20 @@ export const spgConfig: ISpgConfig = {
                 south: 47.462254,
                 east: 19.065004
             },
+        },
+        /*
+        {
+            id: 'TK-1790',
+            name: 'A Tabán a tűzvész előtt (OSZK)',
+            src: 'http://tabanatlas.hspartacus.hu/trkp/1790.png',
+            maxZoom: 20,
+            dated: 1790,
+            bounds: {
+                north: 47.497259,
+                west: 19.032573,
+                south: 47.479525,
+                east: 19.056778
+            }
         },
         /*
         {
@@ -183,9 +212,9 @@ export const spgConfig: ISpgConfig = {
         */
         {
             id: 'TK-1753',
-            name: 'A budai vár és környékének térképe',
+            name: 'A Tabán a székesegyház építése idején (HIM)',
             src: 'http://tabanatlas.hspartacus.hu/trkp/1753_2.png',
-            maxZoom: 18,
+            maxZoom: 19,
             dated: 1753,
             bounds: {
                 north: 47.51482,
@@ -211,4 +240,4 @@ export const spgConfig: ISpgConfig = {
         east: 19.280,
         west: 18.893000
     }
-}
+};
