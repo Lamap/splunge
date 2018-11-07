@@ -30,7 +30,12 @@ export class AppComponent {
   public selectedMarker: ISpgMarker;
   public pointedMarkerId$ = new Subject<string | null>();
 
+  public screensaving = false;
+
   private authDialogRef: MatDialogRef<AuthDialogComponent, IUserAuthData>;
+
+  private screensaverTimeout = 2 * 60 * 1000;
+  private sreensaverSession: number;
 
   constructor (private authService: AuthService, private dialog: MatDialog) {
       this.userAuthData = {
@@ -88,6 +93,18 @@ export class AppComponent {
       } else if (target.webkitCancelFullScreen) {
           target.webkitCancelFullScreen();
       }
+  }
 
+  startScreensaver() {
+      this.screensaving = false;
+      if (this.sreensaverSession) {
+          clearTimeout(this.sreensaverSession);
+      }
+      this.sreensaverSession = setTimeout(() => {
+          this.screensaving = true;
+      }, this.screensaverTimeout);
+  }
+  restartScreensaveTimeout() {
+      this.startScreensaver();
   }
 }

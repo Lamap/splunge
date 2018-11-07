@@ -1,4 +1,5 @@
-<div class="spg-layout" id="spg-layout">
+<div class="spg-layout" id="spg-layout" (click)="restartScreensaveTimeout()">
+  <div class="spg__screensaver" [ngClass]="{'spg__screensaver--on' : screensaving}"></div>
   <div class="spg-layout__header">
     <span class="spg-layout__logo">
         mapPinner
