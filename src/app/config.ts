@@ -131,7 +131,7 @@ export const spgConfig: ISpgConfig = {
         },*/
         {
             id: 'T-1900',
-            name: 'A Tabán a városegyesítést követően (L. Ákos)',
+            name: 'A Tabán a városegyesítést követően, Lenkei Ákos térképe',
             src: 'http://tabanatlas.hspartacus.hu/trkp/b1_22clr.gif',
             maxZoom: 20,
             dated: 1880,
