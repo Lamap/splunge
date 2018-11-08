@@ -183,7 +183,7 @@ export const spgConfig: ISpgConfig = {
         {
             id: 'TK-1790',
             name: 'A Tabán a tűzvész előtt (OSZK)',
-            src: 'http://tabanatlas.hspartacus.hu/trkp/1790.png',
+            src: 'http://tabanatlas.hspartacus.hu/trkp/1790b.png',
             maxZoom: 20,
             dated: 1790,
             bounds: {
