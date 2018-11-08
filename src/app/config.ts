@@ -181,7 +181,6 @@ export const spgConfig: ISpgConfig = {
                 east: 19.065004
             },
         },
-        /*
         {
             id: 'TK-1790',
             name: 'A Tabán a tűzvész előtt (OSZK)',
