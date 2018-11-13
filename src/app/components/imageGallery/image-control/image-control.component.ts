@@ -18,6 +18,7 @@ export class ImageControlComponent implements OnInit {
   public imageList: ImageData[];
   public selectedImageId: string;
   public selectedImage: ImageData;
+  public selectedImageIndex = 0;
 
   @Output() pointImageMarker$ = new EventEmitter<ImageData>();
   @Input() selectedMarker: ISpgMarker;
@@ -34,12 +35,14 @@ export class ImageControlComponent implements OnInit {
       });
       this.imageService.imageListExtended$.subscribe(images => {
           this.imageList = images;
+          this.selectedImageIndex = this.getSelectedImageIndex(this.selectedImageId);
           this.selectedImage = this.getSelectedImage(this.selectedImageId);
       });
   }
 
   imageLoadFromList($event) {
     this.selectedImageId = $event.id;
+    this.selectedImageIndex = this.getSelectedImageIndex($event.id);
     this.selectedImage = this.getSelectedImage($event.id);
   }
 
@@ -47,6 +50,10 @@ export class ImageControlComponent implements OnInit {
     return this.imageList.filter(image => {
         return image.id === id;
     }).pop();
+  }
+
+  getSelectedImageIndex(id: string): number {
+    return this.imageList.findIndex(image => image.id === id);
   }
 
   fileSelected($event: File) {
@@ -89,5 +96,21 @@ export class ImageControlComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  imageIndexChanged($event) {
+      console.log($event);
+      if ($event === 'LEFT') {
+          this.selectedImageIndex = this.selectedImageIndex === 0 ?
+              this.imageList.length - 1 :
+              this.selectedImageIndex - 1;
+      }
+      if ($event === 'RIGHT') {
+          this.selectedImageIndex = this.selectedImageIndex === this.imageList.length - 1 ?
+              0 :
+              this.selectedImageIndex + 1;
+      }
+      this.selectedImage = this.imageList[this.selectedImageIndex];
+      this.selectedImageId = this.selectedImage.id;
   }
 }

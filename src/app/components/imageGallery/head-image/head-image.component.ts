@@ -15,9 +15,11 @@ export class HeadImageComponent implements OnInit, OnChanges {
   @Output() toggleMarkerLink$ = new EventEmitter<ImageData | null>();
   @Output() pointImageMarker$ = new EventEmitter<ImageData>();
   @Output() clearHeadImage$ = new EventEmitter<void>();
+  @Output() changeSelectedImageIndex$ = new EventEmitter<String>();
   @Input() isAdminMode = false;
   @Input() image: ImageData;
   @Input() selectedMarker: ISpgMarker;
+  @Input() selectedImageIndex: number;
 
   public isUnsaved = false;
   constructor() { }
@@ -46,9 +48,12 @@ export class HeadImageComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log(changes);
     if (changes && changes.image) {
       this.isUnsaved = false;
     }
+  }
+
+  changeImageIndex(direction) {
+    this.changeSelectedImageIndex$.emit(direction);
   }
 }

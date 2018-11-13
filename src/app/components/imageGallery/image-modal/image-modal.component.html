@@ -5,4 +5,17 @@
         </i>
     </span>
     <img class="spg-image-modal__image" [src]="image.url"/>
+    <div class="spg-image-modal__metadata">
+        <div>
+            <span class="spg-image-modal__date">
+                {{image.dated || ('WITHOUT_DATE' | trans)}}
+            </span>
+            <span class="spg-image-modal__title">
+                {{image.title || ('WITHOUT_TITLE' | trans)}}
+            </span>
+        </div>
+        <p class="spg-image-modal__description">
+            {{image.description || ('WITHOUT_DESCRIPTION' | trans)}}
+        </p>
+    </div>
 </div>
