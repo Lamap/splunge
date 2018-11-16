@@ -1,5 +1,7 @@
 <div class="spg-head-image">
     <div class="spg-head-image__img" *ngIf="image">
+        <div class="spg-head-image__left" (click)="changeImageIndex('LEFT')"></div>
+        <div class="spg-head-image__right" (click)="changeImageIndex('RIGHT')"></div>
         <div>
             <span
                 *ngIf="isAdminMode"

@@ -117,4 +117,37 @@
       font-style: italic;
     }
   }
+  .head-image-arrows  {
+    position: absolute;
+    width: 100px;
+    height: 100%;
+    opacity: 0;
+    font-size: 70px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #00000073;
+    &:hover {
+      cursor: pointer;
+      opacity: 0.7;
+    }
+  }
+
+  &__left {
+    .head-image-arrows;
+    left: 0;
+    &:after {
+      content: '\25C0';
+      display: block;
+    }
+  }
+  &__right {
+    .head-image-arrows;
+    right: 0;
+    &:after {
+      content: '\25BA';
+      display: block;
+    }
+  }
 }

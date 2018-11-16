@@ -6,23 +6,29 @@ import { MatDialog, MatDialogRef } from '@angular/material';
 import { ISpgMarker } from '../../map/map/map.component';
 import * as _ from 'lodash';
 
+export interface IModalImageData {
+    imageList: ImageData[];
+    selected: number;
+}
 
 @Component({
   selector: 'spg-image-control',
   templateUrl: './image-control.component.html',
   styleUrls: ['./image-control.component.less']
 })
+
 export class ImageControlComponent implements OnInit {
 
   public isAdminMode = false;
   public imageList: ImageData[];
   public selectedImageId: string;
   public selectedImage: ImageData;
+  public selectedImageIndex = 0;
 
   @Output() pointImageMarker$ = new EventEmitter<ImageData>();
   @Input() selectedMarker: ISpgMarker;
 
-  private imageModalRef: MatDialogRef<ImageModalComponent, ImageData>;
+  private imageModalRef: MatDialogRef<ImageModalComponent, IModalImageData>;
 
   constructor(private authService: AuthService, private imageService: ImageCrudService, private dialog: MatDialog) {
       authService.user$.subscribe(user => {
@@ -34,12 +40,14 @@ export class ImageControlComponent implements OnInit {
       });
       this.imageService.imageListExtended$.subscribe(images => {
           this.imageList = images;
+          this.selectedImageIndex = this.getSelectedImageIndex(this.selectedImageId);
           this.selectedImage = this.getSelectedImage(this.selectedImageId);
       });
   }
 
   imageLoadFromList($event) {
     this.selectedImageId = $event.id;
+    this.selectedImageIndex = this.getSelectedImageIndex($event.id);
     this.selectedImage = this.getSelectedImage($event.id);
   }
 
@@ -47,6 +55,10 @@ export class ImageControlComponent implements OnInit {
     return this.imageList.filter(image => {
         return image.id === id;
     }).pop();
+  }
+
+  getSelectedImageIndex(id: string): number {
+    return this.imageList.findIndex(image => image.id === id);
   }
 
   fileSelected($event: File) {
@@ -73,9 +85,12 @@ export class ImageControlComponent implements OnInit {
   }
 
   openImageModal($image: ImageData) {
-      console.log($image);
+      this.selectedImageIndex = this.getSelectedImageIndex($image.id);
       this.imageModalRef = this.dialog.open(ImageModalComponent, {
-          data: $image
+          data: {
+              imageList: this.imageList,
+              selected: this.getSelectedImageIndex($image.id)
+            }
       });
   }
 
@@ -89,5 +104,21 @@ export class ImageControlComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  imageIndexChanged($event) {
+      console.log($event);
+      if ($event === 'LEFT') {
+          this.selectedImageIndex = this.selectedImageIndex === 0 ?
+              this.imageList.length - 1 :
+              this.selectedImageIndex - 1;
+      }
+      if ($event === 'RIGHT') {
+          this.selectedImageIndex = this.selectedImageIndex === this.imageList.length - 1 ?
+              0 :
+              this.selectedImageIndex + 1;
+      }
+      this.selectedImage = this.imageList[this.selectedImageIndex];
+      this.selectedImageId = this.selectedImage.id;
   }
 }
