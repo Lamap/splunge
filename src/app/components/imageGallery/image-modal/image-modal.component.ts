@@ -1,6 +1,7 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, EventEmitter } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ImageData } from '../../../services/image-crud.service';
+import { IModalImageData } from '../image-control/image-control.component';
 
 @Component({
   selector: 'spg-image-modal',
@@ -9,7 +10,13 @@ import { ImageData } from '../../../services/image-crud.service';
 })
 export class ImageModalComponent implements OnInit {
 
-  constructor(public dialogRef: MatDialogRef<ImageModalComponent>, @Inject(MAT_DIALOG_DATA) public image: ImageData) { }
+  public image: ImageData;
+
+  constructor(
+      public dialogRef: MatDialogRef<ImageModalComponent>,
+      @Inject(MAT_DIALOG_DATA) public modalData: IModalImageData) {
+    this.image = this.modalData.imageList[this.modalData.selected];
+  }
 
   ngOnInit() {
   }
@@ -18,4 +25,13 @@ export class ImageModalComponent implements OnInit {
       this.dialogRef.close();
   }
 
+  changeImage(direction) {
+    if (direction === 'LEFT') {
+        this.modalData.selected = this.modalData.selected === 0 ? this.modalData.imageList.length - 1 : this.modalData.selected - 1;
+    }
+    if (direction === 'RIGHT') {
+        this.modalData.selected = this.modalData.selected === this.modalData.imageList.length - 1 ? 0 : this.modalData.selected + 1;
+    }
+    this.image = this.modalData.imageList[this.modalData.selected];
+  }
 }

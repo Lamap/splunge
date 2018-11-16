@@ -3,6 +3,7 @@
 .spg-image-modal {
   @image-modal-max-width: 800px;
   position: relative;
+  text-align: center;
   &__image {
     max-width: @image-modal-max-width;
     max-height: 70vh;
@@ -12,6 +13,7 @@
     color: #333;
     font-size: 18px;
     margin-top: 10px;
+    text-align: start;
   }
   &__date {
     font-weight: 600;
@@ -25,5 +27,38 @@
     position: absolute;
     right: 10px;
     top: 10px;
+  }
+
+  .modal-arrows {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    height: 100%;
+    font-size: 60px;
+    color: white;
+    background: #21252980;
+    opacity: 0;
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+
+  &__left {
+    .modal-arrows;
+    left: 0;
+    &:after {
+      content: '\25C0';
+      display: block;
+    }
+  }
+  &__right {
+    .modal-arrows;
+    right: 0;
+    &:after {
+      content: '\25BA';
+      display: block;
+    }
   }
 }

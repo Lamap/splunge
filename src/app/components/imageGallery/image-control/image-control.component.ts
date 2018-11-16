@@ -6,12 +6,17 @@ import { MatDialog, MatDialogRef } from '@angular/material';
 import { ISpgMarker } from '../../map/map/map.component';
 import * as _ from 'lodash';
 
+export interface IModalImageData {
+    imageList: ImageData[];
+    selected: number;
+}
 
 @Component({
   selector: 'spg-image-control',
   templateUrl: './image-control.component.html',
   styleUrls: ['./image-control.component.less']
 })
+
 export class ImageControlComponent implements OnInit {
 
   public isAdminMode = false;
@@ -23,7 +28,7 @@ export class ImageControlComponent implements OnInit {
   @Output() pointImageMarker$ = new EventEmitter<ImageData>();
   @Input() selectedMarker: ISpgMarker;
 
-  private imageModalRef: MatDialogRef<ImageModalComponent, ImageData>;
+  private imageModalRef: MatDialogRef<ImageModalComponent, IModalImageData>;
 
   constructor(private authService: AuthService, private imageService: ImageCrudService, private dialog: MatDialog) {
       authService.user$.subscribe(user => {
@@ -80,9 +85,12 @@ export class ImageControlComponent implements OnInit {
   }
 
   openImageModal($image: ImageData) {
-      console.log($image);
+      this.selectedImageIndex = this.getSelectedImageIndex($image.id);
       this.imageModalRef = this.dialog.open(ImageModalComponent, {
-          data: $image
+          data: {
+              imageList: this.imageList,
+              selected: this.getSelectedImageIndex($image.id)
+            }
       });
   }
 
