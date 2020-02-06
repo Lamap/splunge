@@ -29,8 +29,8 @@ export class MarkerComponent implements OnInit, AfterViewInit, OnChanges, OnDest
     public iconUrl;
     public pointerSize = 3000;
     public panoramaSize = 300;
-    public markerSize = 40;
-    public markerSizeSelected = 50;
+    public markerSize = 60;
+    public markerSizeSelected = 70;
 
     private panoramaOverlay: any;
     private pointerOverlay: any;

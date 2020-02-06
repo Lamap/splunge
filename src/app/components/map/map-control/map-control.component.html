@@ -1,6 +1,7 @@
 <div class="spg-map-overlay-control">
     <div class="spg-map-overlay-control__onmap-block">
         <div class="spg-map-overlay-control__displayed-title" >{{'COMPARED_MAPS' | trans}}</div>
+       <!--
         <span
             class="spg-map-overlay-control__swap-compared-items"
             *ngIf="comparedOverlays && comparedOverlays[0] && comparedOverlays[1]"
@@ -9,6 +10,7 @@
             swap_vert
           </i>
         </span>
+       -->
         <div class="spg-map-overlay-control__onmap-item" *ngFor="let overlay of comparedOverlays; let i = index">
             <div *ngIf="overlay">
                 <div class="spg-map-overlay-control__onmap-item-top">
@@ -23,6 +25,25 @@
                     </span>
                 </div>
                 <div class="spg-map-overlay-control__onmap-item-bottom">
+                    <div class="spg-map-overlay-control__opacity-toggle" *ngIf="i === 0">
+                        <div class="spg-map-overlay-control__opacity-toggle-label">Áttetszőség</div>
+                        <div
+                            class="spg-map-overlay-control__opacity-toggle-30"
+                            [ngClass]="{'selected' : overlay.opacity === 30}"
+                            (click)="setOpacity(30)"
+                        >30%</div>
+                        <div
+                            class="spg-map-overlay-control__opacity-toggle-60"
+                            [ngClass]="{'selected' : overlay.opacity === 60}"
+                            (click)="setOpacity(60)"
+                        >60%</div>
+                        <div
+                            class="spg-map-overlay-control__opacity-toggle-100"
+                            [ngClass]="{'selected' : overlay.opacity === 100}"
+                            (click)="setOpacity(100)"
+                        >100%</div>
+                    </div>
+                    <!--
                     <mat-slider
                             class="spg-map-overlay-control__onmap-opacity"
                             [min]="0"
@@ -37,6 +58,7 @@
                     >
                        <i class="material-icons">zoom_out_map</i>
                     </span>
+                    -->
                 </div>
             </div>
             <div *ngIf="!overlay" class="spg-map-overlay-control__onmap-empty-item">

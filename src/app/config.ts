@@ -73,6 +73,7 @@ export const spgConfig: ISpgConfig = {
                 east: 19.0536900
             }
         },
+        /*
         {
             id: 'T-1930',
             name: 'A Tabán a lebontás előtt, Lenkei Ákos térképe',
@@ -130,7 +131,7 @@ export const spgConfig: ISpgConfig = {
         },*/
         {
             id: 'T-1900',
-            name: 'A Tabán a városegyesítést követően (L. Ákos)',
+            name: 'A Tabán a városegyesítést követően, Lenkei Ákos térképe',
             src: 'http://tabanatlas.hspartacus.hu/trkp/b1_22clr.gif',
             maxZoom: 20,
             dated: 1880,
@@ -222,7 +223,7 @@ export const spgConfig: ISpgConfig = {
             }
         }
     ],
-    topOverlay: 'T-1930',
+    topOverlay: 'TK-1930',
     secondTopOverlay: 'TK-1930',
     mapTransitionDuration: 1000,
     defaultCenter: {

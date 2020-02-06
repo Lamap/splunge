@@ -25,7 +25,11 @@
             (click)="clearQuery()"
         >
             <span>{{'FILTERED_IMAGES' | trans}}</span>
-            <span class="spg-image-list__clear-button">{{'CLEAR_FILTERS' | trans}}</span>
+            <span class="spg-image-list__clear-button spg-rounded-icon-button--large">
+                <i class="material-icons">
+                    clear
+                </i>
+            </span>
         </div>
         <spg-file-selector
                 class="spg-image-list__add-new"

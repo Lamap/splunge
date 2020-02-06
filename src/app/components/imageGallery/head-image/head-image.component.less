@@ -21,7 +21,7 @@
     .spg-rounded-icon-button;
     position: absolute;
     top: 0;
-    left: 44px;
+    left: 0px;
   }
   &__close {
     .spg-rounded-icon-button;
@@ -50,12 +50,27 @@
     bottom: 0;
     left: 42px;
   }
+  &__hover-icon {
+    display: none;
+    color: #fff;
+    opacity: 0.7;
+    position: absolute;
+    font-size: 80px;
+    pointer-events: none;
+  }
   &__img {
     height: ~"calc(100% - 2 * @{text-line-height})";
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
+
+    &:hover {
+      cursor: pointer;
+      .spg-head-image__hover-icon {
+        display: block;
+      }
+    }
   }
   &__img-content {
     max-width: 100%;
@@ -86,6 +101,9 @@
     right: 0;
     top: 0;
     height: @text-line-height;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
   }
   &__img-description {
     position: absolute;

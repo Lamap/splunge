@@ -186,6 +186,10 @@ export class MapComponent implements OnInit {
         if ($overlay.maxZoom < this._nativeMap.getZoom()) {
             this.zoomTo($overlay.maxZoom);
         }
+
+        console.log($overlay);
+
+        $overlay.opacity = 100;
     }
 
     removeOverlayFromCompare($overlay: IMapOverlayItem) {

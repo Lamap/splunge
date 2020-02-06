@@ -13,6 +13,7 @@
               delete_forever
            </i>
         </span>
+            <!--
         <span
                 class="spg-head-image__open-modal"
                 (click)="openModal(image)"
@@ -22,8 +23,9 @@
               open_in_new
             </i>
         </span>
+        -->
             <span
-                    class="spg-head-image__close"
+                    class="spg-head-image__close spg-rounded-icon-button--large"
                     (click)="close()"
                     title="{{'CLOSE_IMAGE' | trans}}"
             >
@@ -32,7 +34,7 @@
             </i>
         </span>
             <span
-                    class="spg-head-image__point-marker"
+                    class="spg-head-image__point-marker spg-rounded-icon-button--large"
                     (click)="pointImageMarker(image)"
                     *ngIf="image.markerId"
                     title="{{'POINT_IMAGE' | trans}}"
@@ -60,9 +62,13 @@
             [selectedMarker]="selectedMarker"
         >
         </spg-markerlink-manager>
+        <i class="material-icons spg-head-image__hover-icon" >
+            zoom_in
+        </i>
         <img
                 class="spg-head-image__img-content"
                 [src]="image.url"
+                (click)="openModal(image)"
         />
     </div>
     <div *ngIf="!isAdminMode && image" class="spg-head-image__text-wrapper spg-head-image__text-wrapper--static">
