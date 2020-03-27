@@ -1,0 +1,132 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1, 
+  "cli": {
+    "packageManager": "yarn"
+  },
+  "newProjectRoot": "projects",
+  "projects": {
+    "splunge": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/splunge",
+      "sourceRoot": "projects/splunge/src",
+      "prefix": "spg",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/splunge",
+            "index": "projects/splunge/src/index.html",
+            "main": "projects/splunge/src/main.ts",
+            "polyfills": "projects/splunge/src/polyfills.ts",
+            "tsConfig": "projects/splunge/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "projects/splunge/src/favicon.ico",
+              "projects/splunge/src/assets"
+            ],
+            "styles": [
+              "node_modules/material-design-icons/iconfont/material-icons.css",
+              "projects/splunge/src/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/splunge/src/environments/environment.ts",
+                  "with": "projects/splunge/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "splunge:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "splunge:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "splunge:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/splunge/src/test.ts",
+            "polyfills": "projects/splunge/src/polyfills.ts",
+            "tsConfig": "projects/splunge/tsconfig.spec.json",
+            "karmaConfig": "projects/splunge/karma.conf.js",
+            "assets": [
+              "projects/splunge/src/favicon.ico",
+              "projects/splunge/src/assets"
+            ],
+            "styles": [
+              "projects/splunge/src/styles.scss"
+            ],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/splunge/tsconfig.app.json",
+              "projects/splunge/tsconfig.spec.json",
+              "projects/splunge/e2e/tsconfig.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/splunge/e2e/protractor.conf.js",
+            "devServerTarget": "splunge:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "splunge:serve:production"
+            }
+          }
+        }
+      }
+    }},
+  "defaultProject": "splunge"
+}
