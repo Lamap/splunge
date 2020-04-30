@@ -1,1 +1,17 @@
-<p>login works!</p>
+<div class="spg-login-page">
+<form class="spg-login-page__form" (ngSubmit)="onSubmit($event)" [formGroup]="loginForm">
+  <div>
+    <mat-form-field appearance="fill">
+      <mat-label>Email</mat-label>
+      <input type="email" matInput placeholder="youremail@gmail.com" formControlName="email">
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field appearance="fill">
+      <mat-label>Password</mat-label>
+      <input type="password" matInput formControlName="password">
+    </mat-form-field>
+  </div>
+  <button type="submit" mat-button>Belépés</button>
+</form>
+</div>
