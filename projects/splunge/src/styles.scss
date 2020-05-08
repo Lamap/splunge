@@ -1,4 +1,6 @@
-@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+$header-border-color: #f9dcb1;
+$header-height: 60px;
 
 body {
   margin: 0;

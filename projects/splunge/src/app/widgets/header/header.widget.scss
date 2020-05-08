@@ -1,0 +1,13 @@
+@import '../../../styles';
+
+.spg-header {
+  display: flex;
+  align-items: center;
+  height: $header-height;
+  padding: 0 2rem;
+  border-bottom: 1px solid $header-border-color;
+
+  &__user-info {
+    margin-left: auto;
+  }
+}

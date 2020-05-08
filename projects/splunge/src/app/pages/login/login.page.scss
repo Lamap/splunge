@@ -1,6 +1,13 @@
 .spg-login-page {
+  display: flex;
+  height: 100vh;
+
   &__form {
-    width: 60%;
+    width: 500px;
     margin: auto;
+  }
+
+  &__input {
+    width: 100%;
   }
 }

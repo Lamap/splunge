@@ -14,11 +14,11 @@ export class LoginPage implements OnInit {
   ngOnInit(): void {
     this.loginForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [Validators.required, Validators.minLength(4)])
+      password: new FormControl('', [Validators.required, Validators.minLength(6)])
     });
   }
 
-  onSubmit(event) {
+  onSubmit() {
     const credentials = this.loginForm.getRawValue();
     this.authService.logIn(credentials.email, credentials.password);
     return false;

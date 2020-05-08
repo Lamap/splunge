@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { auth } from 'firebase';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { User } from 'firebase';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -10,35 +10,30 @@ import { Observable } from 'rxjs';
 export class AuthService {
   public user$: Observable<User | null>;
 
-  constructor(private fbAuth: AngularFireAuth) {
+  constructor(private fbAuth: AngularFireAuth, private router: Router) {
     this.user$ = this.fbAuth.user;
-    // auth.signInWithEmailAndPassword('sddfsdfds', 'sfasad');
-    /// this.fbAuth.user;
     this.fbAuth.authState.subscribe(snapshot => {
-      console.log('authState', snapshot);
+      console.log('authState changed', snapshot);
     });
   }
 
   logIn(email: string, psw: string) {
-    const cucc = new auth.EmailAuthProvider();
-    this.fbAuth.signInWithEmailAndPassword(email, psw);
-    // auth.signInWithEmailAndPassword(email, psw);
-    /*
-    this.fbAuth.(email, psw);
-    this.afAuth.auth.signInWithEmailAndPassword(email, psw)
-      .then(success => console.log('Logged in'))
-      .catch(error => console.warn('Failed to authenticate:', error));
-      */
+    this.fbAuth.signInWithEmailAndPassword(email, psw)
+      .then(() => {
+        console.log('logged in');
+        this.router.navigateByUrl('');
+      })
+      .catch(error => {
+        console.warn('Login failed', error);
+      });
   }
 
   logOut() {
-    /*
-    this.afAuth.auth.signOut()
+    this.fbAuth.signOut()
       .then(success => {
         console.log('logged out');
       })
       .catch(error => console.warn('Failed to log out:', error));
-      */
   }
 
 }

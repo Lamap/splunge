@@ -1,4 +1,15 @@
 <div class="spg-header">
-  <span>This is the header</span>
-  <span>login</span>
+  <span class="spg-header__logo">Logo comes here</span>
+
+  <span class="spg-header__user-info">
+    <span *ngIf="user$ | async">
+      <span>Logged in as {{email$ | async}}</span>
+      <button mat-mini-fab class="spg-header__logout" (click)="logOut()">
+        <span class="material-icons">
+          exit_to_app
+        </span>
+      </button>
+    </span>
+  </span>
+
 </div>
