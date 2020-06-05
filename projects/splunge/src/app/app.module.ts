@@ -13,18 +13,22 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
+import { OverlayModule } from '@angular/cdk/overlay';
 
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 
 import { AuthService } from './services/auth.service';
+import { FlashMessageComponent } from './components/flash-message/flash-message.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomePage,
     LoginPage,
-    HeaderWidget
+    HeaderWidget,
+    FlashMessageComponent
   ],
   imports: [
     BrowserModule,
@@ -36,9 +40,12 @@ import { AuthService } from './services/auth.service';
     BrowserAnimationsModule,
     MatButtonModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    OverlayModule,
+    MatSnackBarModule
   ],
   providers: [ AuthService ],
-  bootstrap: [ AppComponent ]
+  bootstrap: [ AppComponent ],
+  entryComponents: [ FlashMessageComponent ]
 })
 export class AppModule { }
