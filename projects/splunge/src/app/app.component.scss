@@ -1,0 +1,5 @@
+@import '../styles';
+
+.spg-main-body {
+  height: calc(100vh - #{$header-height});
+}

@@ -21,6 +21,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 
 import { AuthService } from './services/auth.service';
 import { FlashMessageComponent } from './components/flash-message/flash-message.component';
+import { MapWidget } from './widgets/map/map.widget';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { FlashMessageComponent } from './components/flash-message/flash-message.
     HomePage,
     LoginPage,
     HeaderWidget,
-    FlashMessageComponent
+    FlashMessageComponent,
+    MapWidget
   ],
   imports: [
     BrowserModule,
