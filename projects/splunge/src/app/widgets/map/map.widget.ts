@@ -1,4 +1,5 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import * as mapConfig from '../../../config/gmConfig.json';
 
 @Component({
   selector: 'spg-map',
@@ -17,7 +18,8 @@ export class MapWidget implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.map = new google.maps.Map(this.gmap.nativeElement, {
       zoom: 8,
-      center: new google.maps.LatLng(47, 19)
+      center: new google.maps.LatLng(47, 19),
+      styles: mapConfig.styles
     });
   }
 
