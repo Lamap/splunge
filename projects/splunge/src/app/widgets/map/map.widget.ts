@@ -19,7 +19,7 @@ export class MapWidget implements OnInit, AfterViewInit {
     this.map = new google.maps.Map(this.gmap.nativeElement, {
       zoom: 8,
       center: new google.maps.LatLng(47, 19),
-      styles: mapConfig.styles
+      styles: mapConfig.styles as any
     });
   }
 
