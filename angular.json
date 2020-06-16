@@ -32,7 +32,8 @@
             ],
             "styles": [
               "node_modules/material-design-icons/iconfont/material-icons.css",
-              "projects/splunge/src/styles.scss"
+              "projects/splunge/src/styles.scss",
+              "node_modules/ol/ol.css"
             ],
             "scripts": []
           },

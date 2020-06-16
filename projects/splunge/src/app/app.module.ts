@@ -22,6 +22,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AuthService } from './services/auth.service';
 import { FlashMessageComponent } from './components/flash-message/flash-message.component';
 import { MapWidget } from './widgets/map/map.widget';
+import { OsmMapWidget } from './widgets/osm-map/osm-map.widget';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { MapWidget } from './widgets/map/map.widget';
     LoginPage,
     HeaderWidget,
     FlashMessageComponent,
-    MapWidget
+    MapWidget,
+    OsmMapWidget
   ],
   imports: [
     BrowserModule,
