@@ -1,1 +1,5 @@
-<div #osmMapContainer class="spg-osm-map" id="osm-map"></div>
+<div #osmMapContainer class="spg-osm-map" id="osm-map">
+  <spg-marker-direction *ngFor="let point of points" [lng]="point.lng" [ltd]="point.ltd" [direction]="point.direction"></spg-marker-direction>
+  <spg-marker *ngFor="let point of points" [lng]="point.lng" [ltd]="point.ltd" (click)="onMarkerClicked(point)">
+  </spg-marker>
+</div>

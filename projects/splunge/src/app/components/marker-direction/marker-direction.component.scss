@@ -1,0 +1,20 @@
+.spg-marker-direction {
+  position: relative;
+  top: -50px;
+  width: 200px;
+  height: 100px;
+  transform-origin: 50% 100%;
+  overflow: hidden;
+
+  &::after {
+    display: block;
+    position: absolute;
+    width: inherit;
+    height: inherit;
+    transform: rotate(110deg);
+    transform-origin: 50% 100%;
+    border-radius: 100px 100px 0 0;
+    background-color: rgba(33, 150, 243, 0.5);
+    content: '';
+  }
+}

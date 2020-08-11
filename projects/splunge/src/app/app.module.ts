@@ -23,6 +23,8 @@ import { AuthService } from './services/auth.service';
 import { FlashMessageComponent } from './components/flash-message/flash-message.component';
 import { MapWidget } from './widgets/map/map.widget';
 import { OsmMapWidget } from './widgets/osm-map/osm-map.widget';
+import { MarkerComponent } from './components/marker/marker.component';
+import { MarkerDirectionComponent } from './components/marker-direction/marker-direction.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,9 @@ import { OsmMapWidget } from './widgets/osm-map/osm-map.widget';
     HeaderWidget,
     FlashMessageComponent,
     MapWidget,
-    OsmMapWidget
+    OsmMapWidget,
+    MarkerComponent,
+    MarkerDirectionComponent
   ],
   imports: [
     BrowserModule,
