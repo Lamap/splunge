@@ -25,6 +25,8 @@ import { MapWidget } from './widgets/map/map.widget';
 import { OsmMapWidget } from './widgets/osm-map/osm-map.widget';
 import { MarkerComponent } from './components/marker/marker.component';
 import { MarkerDirectionComponent } from './components/marker-direction/marker-direction.component';
+import { ClusterpointComponent } from './components/clusterpoint/clusterpoint.component';
+import { PositionMarkerComponent } from './components/position-marker/position-marker.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,9 @@ import { MarkerDirectionComponent } from './components/marker-direction/marker-d
     MapWidget,
     OsmMapWidget,
     MarkerComponent,
-    MarkerDirectionComponent
+    MarkerDirectionComponent,
+    ClusterpointComponent,
+    PositionMarkerComponent
   ],
   imports: [
     BrowserModule,

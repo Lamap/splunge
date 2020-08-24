@@ -1,0 +1,22 @@
+.spg-clusterpoint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  $clustersize: 50px;
+  width: $clustersize;
+  height: $clustersize;
+  transform: translate(-$clustersize / 2, -$clustersize / 2);
+  border: 1px solid #000;
+
+  &__number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    padding: 5px;
+    border: 1px solid red;
+    border-radius: 100%;
+    background: #fff;
+  }
+}
