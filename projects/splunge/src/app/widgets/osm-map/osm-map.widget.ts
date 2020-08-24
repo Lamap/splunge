@@ -10,7 +10,6 @@ import { transformExtent } from 'ol/proj';
 import { MarkerComponent } from '../../components/marker/marker.component';
 import { MarkerDirectionComponent } from '../../components/marker-direction/marker-direction.component';
 import {ClusterpointComponent} from '../../components/clusterpoint/clusterpoint.component';
-import { PositionMarkerComponent } from '../../components/position-marker/position-marker.component';
 
 export interface ISpgPpoint {
   ltd: number;
@@ -31,7 +30,6 @@ export interface IMapBoundary {
 })
 export class OsmMapWidget implements OnInit, AfterViewInit {
   @ViewChild('osmMapContainer', { static: false }) osmMap: ElementRef;
-  @ViewChild(PositionMarkerComponent, { static: false }) positionMarker: PositionMarkerComponent;
   @ViewChildren(MarkerComponent) markersList: QueryList<MarkerComponent>;
   @ViewChildren(MarkerDirectionComponent) markersDirectionsList: QueryList<MarkerDirectionComponent>;
   @ViewChildren(ClusterpointComponent) clusterPointElements: QueryList<ClusterpointComponent>;
@@ -69,7 +67,6 @@ export class OsmMapWidget implements OnInit, AfterViewInit {
   private markerOverlays: Overlay[] = [];
   private directionOverlays: Overlay[] = [];
   private mapBoundary: IMapBoundary;
-  private positionOverlay: Overlay;
   constructor() { }
 
   ngOnInit(): void {
@@ -94,8 +91,8 @@ export class OsmMapWidget implements OnInit, AfterViewInit {
         })
       ],
       view: new View({
-        center: fromLonLat([18.92182, 47.50685]),
-        zoom: 20/*,
+        center: fromLonLat([19.0472, 47.4869]),
+        zoom: 16/*,
         projection: 'EPSG:900913'*/
       })
     });
@@ -118,7 +115,7 @@ export class OsmMapWidget implements OnInit, AfterViewInit {
       });
       this.directionOverlays.push(directionOverlay);
     });
-/*
+
     this.map.on('moveend', (event) => {
       const newZoom = this.map.getView().getZoom();
       const [south, west, north, east] = this.map.getView().calculateExtent();
@@ -134,7 +131,6 @@ export class OsmMapWidget implements OnInit, AfterViewInit {
       }
       this.drawMarkers();
     });
-    */
     this.clusterPointElements.changes.subscribe(() => {
       console.log(this.clusterPointElements);
       this.clusterPointElements.forEach((cluster) => {
@@ -147,17 +143,6 @@ export class OsmMapWidget implements OnInit, AfterViewInit {
         }
        });
     });
-    this.positionOverlay = new Overlay({
-      position: fromLonLat([18.92182, 47.50685]),
-      element: this.positionMarker.elementRef.nativeElement,
-      positioning: 'center-center'
-    });
-    this.map.addOverlay(this.positionOverlay);
-    navigator.geolocation.watchPosition((position) => {
-      console.log(position.coords);
-      // this.map.getView().setCenter(fromLonLat([position.coords.longitude, position.coords.latitude]));
-      this.positionOverlay.setPosition(fromLonLat([position.coords.longitude, position.coords.latitude]));
-    }, err => console.log(err));
   }
 
   drawMarkers(reCluster: boolean = false) {
