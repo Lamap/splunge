@@ -5,7 +5,7 @@
   $clustersize: 50px;
   width: $clustersize;
   height: $clustersize;
-  transform: translate(-$clustersize / 2, -$clustersize / 2);
+  transform: translate(0, -$clustersize);
   border: 1px solid #000;
 
   &__number {

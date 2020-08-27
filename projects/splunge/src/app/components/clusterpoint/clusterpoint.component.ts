@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, ElementRef } from '@angular/core';
+import { IClusterPoint } from '../../widgets/osm-map/osm-map.widget';
 
 @Component({
   selector: 'spg-clusterpoint',
@@ -6,8 +7,7 @@ import { Component, OnInit, Input, ElementRef } from '@angular/core';
   styleUrls: ['./clusterpoint.component.scss']
 })
 export class ClusterpointComponent implements OnInit {
-  @Input() markers: any[];
-  @Input() clusterCenter: any;
+  @Input() clusterData: IClusterPoint;
 
   constructor(public elementRef: ElementRef) { }
 

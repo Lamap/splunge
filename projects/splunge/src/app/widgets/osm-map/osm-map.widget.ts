@@ -14,7 +14,14 @@ import {ClusterpointComponent} from '../../components/clusterpoint/clusterpoint.
 export interface ISpgPpoint {
   ltd: number;
   lng: number;
-  direction: null | number;
+  x?: number;
+  y?: number;
+  direction?: number;
+}
+export interface IClusterPoint {
+  points: ISpgPpoint[];
+  positionX: number;
+  positionY: number;
 }
 export interface IMapBoundary {
   north: number;
@@ -22,6 +29,8 @@ export interface IMapBoundary {
   east: number;
   south: number;
 }
+
+const clusterSizeInPixels = 50;
 
 @Component({
   selector: 'spg-osm-map',
@@ -34,7 +43,7 @@ export class OsmMapWidget implements OnInit, AfterViewInit {
   @ViewChildren(MarkerDirectionComponent) markersDirectionsList: QueryList<MarkerDirectionComponent>;
   @ViewChildren(ClusterpointComponent) clusterPointElements: QueryList<ClusterpointComponent>;
 
-  public points = [
+  public points: ISpgPpoint[] = [
     {
       lng: 19.0472,
       ltd: 47.4869,
@@ -59,17 +68,22 @@ export class OsmMapWidget implements OnInit, AfterViewInit {
       direction: 210
     }
   ];
-  public visiblePoints = [];
   public zoom: number;
-  public clusterPoints = [];
+  public clusterPoints: IClusterPoint[] = [];
+  public markerPoints: ISpgPpoint[] = [];
 
   private map: Map;
+
   private markerOverlays: Overlay[] = [];
   private directionOverlays: Overlay[] = [];
   private mapBoundary: IMapBoundary;
+
+  private visiblePoints = [];
+  private clusterSizeInMeters: number;
   constructor() { }
 
   ngOnInit(): void {
+    this.progressPoints();
   }
 
   ngAfterViewInit() {
@@ -96,7 +110,7 @@ export class OsmMapWidget implements OnInit, AfterViewInit {
         projection: 'EPSG:900913'*/
       })
     });
-
+/*
     this.markersList.forEach((marker) => {
       const markerOverlay = new Overlay({
         position: fromLonLat([marker.lng, marker.ltd]),
@@ -105,17 +119,22 @@ export class OsmMapWidget implements OnInit, AfterViewInit {
       });
       this.markerOverlays.push(markerOverlay);
     });
-
+*/
     // Directions must be on separated layer because should not cover marker signs
     this.markersDirectionsList.forEach((markerDirection) => {
       const directionOverlay = new Overlay({
         position: fromLonLat([markerDirection.lng, markerDirection.ltd]),
         element: markerDirection.elementRef.nativeElement,
-        positioning: 'center-center'
+        positioning: 'center-center',
+        stopEvent: false
       });
       this.directionOverlays.push(directionOverlay);
     });
 
+    this.map.on('moveend', () => {
+      this.mapScreenChanged();
+    });
+/*
     this.map.on('moveend', (event) => {
       const newZoom = this.map.getView().getZoom();
       const [south, west, north, east] = this.map.getView().calculateExtent();
@@ -124,7 +143,7 @@ export class OsmMapWidget implements OnInit, AfterViewInit {
         west,
         south,
         east
-      }
+      };
       if (newZoom !== this.zoom) {
         this.zoom = newZoom;
         return this.drawMarkers(true);
@@ -143,8 +162,15 @@ export class OsmMapWidget implements OnInit, AfterViewInit {
         }
        });
     });
+    */
+    this.markersList.changes.subscribe(() => {
+      this.onMarkerListChanged();
+    });
+    this.clusterPointElements.changes.subscribe(() => {
+      this.onClusterPointsChanged();
+    });
   }
-
+/*
   drawMarkers(reCluster: boolean = false) {
     console.log(reCluster);
     this.map.getOverlays().clear();
@@ -209,9 +235,88 @@ export class OsmMapWidget implements OnInit, AfterViewInit {
     });
     return clusters;
   }
-
+*/
   onMarkerClicked(point: ISpgPpoint) {
     console.log('marker', point, this.markerOverlays);
   }
   // clustering: https://scientificprogrammer.net/2019/08/18/applying-clustering-on-openlayers-map/
+
+  onMarkerListChanged() {
+    this.markersList.forEach((marker) => {
+      const markerOverlay = new Overlay({
+        position: [marker.pointData.x, marker.pointData.y],
+        element: marker.elementRef.nativeElement,
+        positioning: 'center-center'
+      });
+      this.map.addOverlay(markerOverlay);
+    });
+  }
+  onClusterPointsChanged() {
+    this.clusterPointElements.forEach((cluster) => {
+      console.log('clusterElement', cluster);
+      // TODO calculate positions by points avarage
+      // const xPostion = cluster.clusterData.points.reduce()
+      const clusterOverlay = new Overlay({
+        position: [cluster.clusterData.positionX, cluster.clusterData.positionY],
+        element: cluster.elementRef.nativeElement,
+        positioning: 'left-left'
+      });
+      this.map.addOverlay(clusterOverlay);
+    });
+  }
+  mapScreenChanged() {
+    const clusterCells = {};
+    const newZoom = this.map.getView().getZoom();
+    const [south, west, north, east] = this.map.getView().calculateExtent();
+    this.mapBoundary = {
+      north,
+      west,
+      south,
+      east
+    };
+    this.visiblePoints = this.points.filter(point =>
+      point.x < this.mapBoundary.north && point.x > this.mapBoundary.south &&
+      point.y > this.mapBoundary.west &&
+      point.y < this.mapBoundary.east
+    );
+    if (newZoom !== this.zoom) {
+      this.zoom = newZoom;
+      this.mapZoomChanged();
+    }
+    this.visiblePoints.forEach((point) => {
+      const horizontalIndex = Math.floor(point.x / this.clusterSizeInMeters);
+      const verticalIndex = Math.floor(point.y / this.clusterSizeInMeters);
+      const clusterId = `${horizontalIndex}-${verticalIndex}`;
+      if (!clusterCells[clusterId]) {
+        clusterCells[clusterId] = {
+          points: [point],
+          positionX: horizontalIndex * this.clusterSizeInMeters,
+          positionY: verticalIndex * this.clusterSizeInMeters,
+          verticalIndex,
+          horizontalIndex
+        };
+      } else {
+        clusterCells[clusterId].points.push(point);
+      }
+    });
+    this.map.getOverlays().clear();
+    const clusterArray: IClusterPoint[] = Object.keys(clusterCells).map(key => clusterCells[key]);
+    this.markerPoints = clusterArray.filter(cluster => cluster.points.length === 1).map(cluster => cluster.points[0]);
+    this.clusterPoints = clusterArray.filter(cluster => cluster.points.length > 1);
+    console.log(this.markerPoints, this.clusterPoints);
+  }
+
+  mapZoomChanged() {
+    console.log('zoomChanged');
+    // TODO: set cluster units
+    this.clusterSizeInMeters = this.map.getCoordinateFromPixel([clusterSizeInPixels, 0])[0] - this.map.getCoordinateFromPixel([0, 0 ])[0];
+    console.log(this.clusterSizeInMeters);
+  }
+
+  progressPoints() {
+    this.points = this.points.map((point) => {
+      const [x, y] = fromLonLat([point.lng, point.ltd]);
+      return { ...point, x, y };
+    });
+  }
 }
