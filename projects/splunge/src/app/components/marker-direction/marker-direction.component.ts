@@ -13,7 +13,6 @@ export class MarkerDirectionComponent implements OnInit {
 
   ngOnInit(): void {
     this.rotation = `rotate(${this.pointData.direction}deg)`;
-    console.log(this.rotation);
   }
 
 }

@@ -1,15 +1,10 @@
 <div #osmMapContainer class="spg-osm-map" id="osm-map">
-  <!--
-  <spg-marker-direction *ngFor="let point of points" [lng]="point.lng" [ltd]="point.ltd" [direction]="point.direction"></spg-marker-direction>
-  <spg-marker *ngFor="let point of points" [lng]="point.lng" [ltd]="point.ltd" (click)="onMarkerClicked(point)">
-  </spg-marker>
-  -->
   <spg-marker *ngFor="let point of markerPoints" [pointData]="point" (click)="onMarkerClicked(point)"></spg-marker>
   <spg-clusterpoint
     *ngFor="let clusterpoint of clusterPoints"
     [clusterData]="clusterpoint"
     [clusterDimension]="clusterSizeInPixels"
-    [isDebug]="true"
+    [isDebug]="false"
     (click)="onClusterClicked(clusterpoint)"
   ></spg-clusterpoint>
   <spg-marker-direction

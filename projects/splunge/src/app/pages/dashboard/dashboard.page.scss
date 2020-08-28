@@ -1,0 +1,13 @@
+.spg-dashboard {
+  display: flex;
+  height: 100%;
+
+  &__map {
+    flex-grow: 1;
+    height: 100%;
+  }
+
+  &__editor-pane {
+    width: 300px;
+  }
+}

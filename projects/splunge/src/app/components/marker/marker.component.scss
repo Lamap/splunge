@@ -1,16 +1,26 @@
 .spg-marker {
+  $markersize: 30px;
+  $markersizehiglighted: 34px;
   position: relative;
   width: 0;
   height: 0;
 
   &__sign {
     position: absolute;
-    top: -10px;
-    left: -10px;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background: red;
+    top: -$markersize / 2;
+    left: -$markersize / 2;
+    width: $markersize;
+    height: $markersize;
+    background: url('../../../assets/svg/eye.svg');
     cursor: pointer;
+  }
+
+  &:hover {
+    .spg-marker__sign {
+      top: -$markersizehiglighted / 2;
+      left: -$markersizehiglighted / 2;
+      width: $markersizehiglighted;
+      height: $markersizehiglighted;
+    }
   }
 }

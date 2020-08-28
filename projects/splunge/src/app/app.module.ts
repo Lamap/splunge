@@ -27,6 +27,8 @@ import { MarkerComponent } from './components/marker/marker.component';
 import { MarkerDirectionComponent } from './components/marker-direction/marker-direction.component';
 import { ClusterpointComponent } from './components/clusterpoint/clusterpoint.component';
 import { PositionMarkerComponent } from './components/position-marker/position-marker.component';
+import { DashboardPage } from './pages/dashboard/dashboard.page';
+import { EditorWidget } from './widgets/editor/editor.widget';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,9 @@ import { PositionMarkerComponent } from './components/position-marker/position-m
     MarkerComponent,
     MarkerDirectionComponent,
     ClusterpointComponent,
-    PositionMarkerComponent
+    PositionMarkerComponent,
+    DashboardPage,
+    EditorWidget
   ],
   imports: [
     BrowserModule,
