@@ -1,4 +1,5 @@
 import { Component, OnInit, ElementRef, Input } from '@angular/core';
+import { ISpgPpoint } from '../../widgets/osm-map/osm-map.widget';
 
 @Component({
   selector: 'spg-marker-direction',
@@ -6,14 +7,12 @@ import { Component, OnInit, ElementRef, Input } from '@angular/core';
   styleUrls: ['./marker-direction.component.scss']
 })
 export class MarkerDirectionComponent implements OnInit {
-  @Input() ltd: number;
-  @Input() lng: number;
-  @Input() direction: number;
+  @Input() pointData: ISpgPpoint;
   public rotation: string;
   constructor(public elementRef: ElementRef) { }
 
   ngOnInit(): void {
-    this.rotation = `rotate(${this.direction}deg)`;
+    this.rotation = `rotate(${this.pointData.direction}deg)`;
     console.log(this.rotation);
   }
 

@@ -11,10 +11,11 @@
     position: absolute;
     width: inherit;
     height: inherit;
-    transform: rotate(110deg);
+    transform: rotate(130deg);
     transform-origin: 50% 100%;
     border-radius: 100px 100px 0 0;
-    background-color: rgba(33, 150, 243, 0.5);
+    background-image: radial-gradient(circle at bottom, #03a9f4, #00bcd400 60%);
+    background-position: 0 -100px;
     content: '';
   }
 }

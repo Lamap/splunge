@@ -8,10 +8,15 @@ import { IClusterPoint } from '../../widgets/osm-map/osm-map.widget';
 })
 export class ClusterpointComponent implements OnInit {
   @Input() clusterData: IClusterPoint;
+  @Input() clusterDimension: number;
+  @Input() isDebug: boolean;
+
+  public clusterDimensionInPixels: string;
 
   constructor(public elementRef: ElementRef) { }
 
   ngOnInit(): void {
+    this.clusterDimensionInPixels = `${this.clusterDimension}px`;
   }
 
 }

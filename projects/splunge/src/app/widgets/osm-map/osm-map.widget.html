@@ -3,13 +3,17 @@
   <spg-marker-direction *ngFor="let point of points" [lng]="point.lng" [ltd]="point.ltd" [direction]="point.direction"></spg-marker-direction>
   <spg-marker *ngFor="let point of points" [lng]="point.lng" [ltd]="point.ltd" (click)="onMarkerClicked(point)">
   </spg-marker>
+  -->
+  <spg-marker *ngFor="let point of markerPoints" [pointData]="point" (click)="onMarkerClicked(point)"></spg-marker>
   <spg-clusterpoint
     *ngFor="let clusterpoint of clusterPoints"
-    [clusterCenter]="clusterpoint.clusterCenter"
-    [markers]="clusterpoint.markers">
-
-  </spg-clusterpoint>
-  -->
-  <spg-marker *ngFor="let point of markerPoints" [pointData]="point"></spg-marker>
-  <spg-clusterpoint *ngFor="let clusterpoint of clusterPoints" [clusterData]="clusterpoint"></spg-clusterpoint>
+    [clusterData]="clusterpoint"
+    [clusterDimension]="clusterSizeInPixels"
+    [isDebug]="true"
+    (click)="onClusterClicked(clusterpoint)"
+  ></spg-clusterpoint>
+  <spg-marker-direction
+    *ngFor="let point of directionPoints"
+    [pointData]="point"
+  ></spg-marker-direction>
 </div>
