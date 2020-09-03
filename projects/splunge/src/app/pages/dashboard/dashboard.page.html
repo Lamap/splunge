@@ -3,7 +3,11 @@
     <spg-osm-map [markers]="markerList" (markerClicked)="onMarkerClicked($event)"></spg-osm-map>
   </div>
   <div class="spg-dashboard__editor-pane">
-    <spg-editor></spg-editor>
+    <div class="spg-dashboard__marker-editor">
+      <h5>Marker</h5>
+      <div>Add new</div>
+      <spg-marker-editor [point]="selectedMarker" *ngIf="selectedMarker"></spg-marker-editor>
+    </div>
     <div (click)="clearImageFilter()">clearMarkerFilter</div>
     <ul>
       <li *ngFor="let image of imageList">{{image.id}}</li>

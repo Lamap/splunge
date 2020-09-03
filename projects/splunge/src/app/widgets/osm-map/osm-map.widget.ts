@@ -49,6 +49,10 @@ export class OsmMapWidget implements OnInit, AfterViewInit, OnChanges {
   private visiblePoints: ISpgPoint[] = [];
   private mapBoundary: IMapBoundary;
   private clusterSizeInMeters: number;
+
+  private dragging = false;
+  private markerOverlays: any = {};
+
   constructor() { }
 
   ngOnInit(): void {
@@ -114,9 +118,11 @@ export class OsmMapWidget implements OnInit, AfterViewInit, OnChanges {
       const markerOverlay = new Overlay({
         position: [marker.pointData.x, marker.pointData.y],
         element: marker.elementRef.nativeElement,
-        positioning: 'center-center'
+        positioning: 'center-center',
+        dragging: true
       });
       this.map.addOverlay(markerOverlay);
+      this.markerOverlays[marker.pointData.id] = markerOverlay;
     });
   }
   onMarkerDirectionsChanged() {
@@ -190,4 +196,20 @@ export class OsmMapWidget implements OnInit, AfterViewInit, OnChanges {
       this.map.getCoordinateFromPixel([this.clusterSizeInPixels, 0])[0] - this.map.getCoordinateFromPixel([0, 0 ])[0];
   }
 
+  markerGrabbed($event: MouseEvent, point: ISpgPoint) {
+    console.log($event, point);
+    this.dragging = true;
+  }
+
+  releaseMarker($event: MouseEvent, point: ISpgPoint) {
+    console.log($event, point);
+    this.dragging = false;
+  }
+
+  markerMoving($event: MouseEvent, point: ISpgPoint) {
+    if (this.dragging) {
+      console.log($event.x, $event.y, this.markerOverlays[point.id]);
+      this.markerOverlays[point.id].setPosition(this.map.getEventCoordinate($event));
+    }
+  }
 }

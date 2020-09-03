@@ -1,11 +1,11 @@
 export interface ISpgImage {
   id: string;
+  markerId: string;
   /*
   url: string;
   originalName: string;
   dated: number;
   title: string;
-  markerId: string;
   filePath: string;
   author: string;
   description: string;
@@ -14,6 +14,7 @@ export interface ISpgImage {
 
 export class SpgImage implements ISpgImage {
   public id: string;
+  public markerId: string;
   constructor(rawData: any) {
     //
   }
