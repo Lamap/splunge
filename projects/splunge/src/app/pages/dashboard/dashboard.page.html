@@ -1,8 +1,12 @@
 <div class="spg-dashboard">
   <div class="spg-dashboard__map">
-    <spg-osm-map></spg-osm-map>
+    <spg-osm-map [markers]="markerList" (markerClicked)="onMarkerClicked($event)"></spg-osm-map>
   </div>
   <div class="spg-dashboard__editor-pane">
     <spg-editor></spg-editor>
+    <div (click)="clearImageFilter()">clearMarkerFilter</div>
+    <ul>
+      <li *ngFor="let image of imageList">{{image.id}}</li>
+    </ul>
   </div>
 </div>

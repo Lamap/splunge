@@ -1,4 +1,5 @@
-import {Component, OnInit, AfterViewInit, ViewChild, ElementRef, ViewChildren, QueryList} from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, EventEmitter,
+  ElementRef, ViewChildren, QueryList, Input, Output, OnChanges, SimpleChanges } from '@angular/core';
 import { Map, View } from 'ol';
 import { fromLonLat } from 'ol/proj';
 import TileLayer from 'ol/layer/Tile';
@@ -9,17 +10,11 @@ import Static from 'ol/source/ImageStatic';
 import { transformExtent } from 'ol/proj';
 import { MarkerComponent } from '../../components/marker/marker.component';
 import { MarkerDirectionComponent } from '../../components/marker-direction/marker-direction.component';
-import {ClusterpointComponent} from '../../components/clusterpoint/clusterpoint.component';
+import { ClusterpointComponent } from '../../components/clusterpoint/clusterpoint.component';
+import { ISpgPoint, SpgPoint } from "../../models/spgPoint";
 
-export interface ISpgPpoint {
-  ltd: number;
-  lng: number;
-  x?: number;
-  y?: number;
-  direction?: number;
-}
 export interface IClusterPoint {
-  points: ISpgPpoint[];
+  points: ISpgPoint[];
   positionX: number;
   positionY: number;
 }
@@ -35,58 +30,40 @@ export interface IMapBoundary {
   templateUrl: './osm-map.widget.html',
   styleUrls: ['./osm-map.widget.scss']
 })
-export class OsmMapWidget implements OnInit, AfterViewInit {
+export class OsmMapWidget implements OnInit, AfterViewInit, OnChanges {
   @ViewChild('osmMapContainer', { static: false }) osmMap: ElementRef;
   @ViewChildren(MarkerComponent) markersList: QueryList<MarkerComponent>;
   @ViewChildren(MarkerDirectionComponent) markersDirectionsList: QueryList<MarkerDirectionComponent>;
   @ViewChildren(ClusterpointComponent) clusterPointElements: QueryList<ClusterpointComponent>;
+
+  @Input() markers: ISpgPoint[];
+  @Output() markerClicked = new EventEmitter<ISpgPoint>()
+
   public clusterSizeInPixels = 50;
-  public points: ISpgPpoint[] = [
-    {
-      lng: 19.0472,
-      ltd: 47.4869,
-      direction: 12
-    },
-    {
-      lng: 19.0482,
-      ltd: 47.4879,
-      direction: 80
-    },
-    {
-      lng: 19.0486,
-      ltd: 47.4889
-    },
-    {
-      lng: 19.0490,
-      ltd: 47.4879
-    },
-    {
-      lng: 19.0496,
-      ltd: 47.4879,
-      direction: 210
-    },
-    {
-      lng: 19.04953,
-      ltd: 47.48738,
-      direction: 10
-    }
-  ];
   public zoom: number;
   public clusterPoints: IClusterPoint[] = [];
-  public markerPoints: ISpgPpoint[] = [];
-  public directionPoints: ISpgPpoint[] = [];
+  public markerPoints: ISpgPoint[] = [];
+  public directionPoints: ISpgPoint[] = [];
 
   private map: Map;
-  private visiblePoints: ISpgPpoint[] = [];
+  private visiblePoints: ISpgPoint[] = [];
   private mapBoundary: IMapBoundary;
   private clusterSizeInMeters: number;
   constructor() { }
 
   ngOnInit(): void {
-    this.progressPoints();
+    console.log('ngOnInit - this.markers:', this.markers);
+  }
+  ngOnChanges(changes: SimpleChanges) {
+    console.log(changes);
+    if (changes.markers.firstChange) {
+      return;
+    }
+    this.drawMarkers();
   }
 
   ngAfterViewInit() {
+    console.log('ngOnInit - this.markers:', this.markers);
     this.map = new Map({
       target: this.osmMap.nativeElement,
       layers: [
@@ -111,7 +88,7 @@ export class OsmMapWidget implements OnInit, AfterViewInit {
     });
 
     this.map.on('moveend', () => {
-      this.mapScreenChanged();
+      this.drawMarkers();
     });
     this.markersList.changes.subscribe(() => {
       this.onMarkerListChanged();
@@ -124,8 +101,8 @@ export class OsmMapWidget implements OnInit, AfterViewInit {
     });
   }
 
-  onMarkerClicked(point: ISpgPpoint) {
-    console.log('marker', point);
+  onMarkerClicked(point: ISpgPoint) {
+    this.markerClicked.emit(point);
   }
 
   onClusterClicked(cluster: IClusterPoint) {
@@ -164,7 +141,7 @@ export class OsmMapWidget implements OnInit, AfterViewInit {
       this.map.addOverlay(clusterOverlay);
     });
   }
-  mapScreenChanged() {
+  drawMarkers() {
     const clusterCells = {};
     const newZoom = this.map.getView().getZoom();
     const [south, west, north, east] = this.map.getView().calculateExtent();
@@ -174,7 +151,7 @@ export class OsmMapWidget implements OnInit, AfterViewInit {
       south,
       east
     };
-    this.visiblePoints = this.points.filter(point =>
+    this.visiblePoints = this.markers.filter(point =>
       point.x < this.mapBoundary.north && point.x > this.mapBoundary.south &&
       point.y > this.mapBoundary.west &&
       point.y < this.mapBoundary.east
@@ -213,10 +190,4 @@ export class OsmMapWidget implements OnInit, AfterViewInit {
       this.map.getCoordinateFromPixel([this.clusterSizeInPixels, 0])[0] - this.map.getCoordinateFromPixel([0, 0 ])[0];
   }
 
-  progressPoints() {
-    this.points = this.points.map((point) => {
-      const [x, y] = fromLonLat([point.lng, point.ltd]);
-      return { ...point, x, y };
-    });
-  }
 }

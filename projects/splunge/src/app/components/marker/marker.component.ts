@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ElementRef } from '@angular/core';
-import { ISpgPpoint } from '../../widgets/osm-map/osm-map.widget';
+import { ISpgPoint } from '../../models/spgPoint';
 
 @Component({
   selector: 'spg-marker',
@@ -7,7 +7,7 @@ import { ISpgPpoint } from '../../widgets/osm-map/osm-map.widget';
   styleUrls: ['./marker.component.scss']
 })
 export class MarkerComponent implements OnInit {
-  @Input() pointData: ISpgPpoint;
+  @Input() pointData: ISpgPoint;
 
   constructor(public elementRef: ElementRef) { }
 

@@ -15,7 +15,7 @@
     cursor: pointer;
   }
 
-  &:hover {
+  &:hover, &--selected {
     .spg-marker__sign {
       top: -$markersizehiglighted / 2;
       left: -$markersizehiglighted / 2;

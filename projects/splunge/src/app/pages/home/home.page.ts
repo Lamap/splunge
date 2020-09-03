@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ISpgPoint } from '../../models/spgPoint';
 
 @Component({
   selector: 'spg-home',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.page.scss']
 })
 export class HomePage implements OnInit {
+
+  public markerList: ISpgPoint[] = [];
 
   constructor() { }
 

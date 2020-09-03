@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MarkersService } from '../../services/markers.service';
 
 @Component({
   selector: 'spg-editor',
@@ -7,9 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EditorWidget implements OnInit {
   public imageList = [];
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
+
   }
 
 }
