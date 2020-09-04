@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit, ViewChild, EventEmitter,
   ElementRef, ViewChildren, QueryList, Input, Output, OnChanges, SimpleChanges } from '@angular/core';
 import { Map, View } from 'ol';
-import { fromLonLat } from 'ol/proj';
+import { fromLonLat, toLonLat } from 'ol/proj';
 import TileLayer from 'ol/layer/Tile';
 import OSM from 'ol/source/OSM';
 import ImageLayer from 'ol/layer/Image';
@@ -11,7 +11,7 @@ import { transformExtent } from 'ol/proj';
 import { MarkerComponent } from '../../components/marker/marker.component';
 import { MarkerDirectionComponent } from '../../components/marker-direction/marker-direction.component';
 import { ClusterpointComponent } from '../../components/clusterpoint/clusterpoint.component';
-import { ISpgPoint, SpgPoint } from "../../models/spgPoint";
+import { ISpgPoint, SpgPoint } from '../../models/spgPoint';
 
 export interface IClusterPoint {
   points: ISpgPoint[];
@@ -24,7 +24,10 @@ export interface IMapBoundary {
   east: number;
   south: number;
 }
-
+export interface ILatLongCoordinate {
+  lng: number;
+  ltd: number;
+}
 @Component({
   selector: 'spg-osm-map',
   templateUrl: './osm-map.widget.html',
@@ -37,7 +40,10 @@ export class OsmMapWidget implements OnInit, AfterViewInit, OnChanges {
   @ViewChildren(ClusterpointComponent) clusterPointElements: QueryList<ClusterpointComponent>;
 
   @Input() markers: ISpgPoint[];
-  @Output() markerClicked = new EventEmitter<ISpgPoint>()
+  @Input() draggableMarkers = true;
+  @Output() markerClicked = new EventEmitter<ISpgPoint>();
+  @Output() markerRepositioned = new EventEmitter<ISpgPoint>();
+  @Output() mapClicked = new EventEmitter<ILatLongCoordinate>();
 
   public clusterSizeInPixels = 50;
   public zoom: number;
@@ -50,7 +56,6 @@ export class OsmMapWidget implements OnInit, AfterViewInit, OnChanges {
   private mapBoundary: IMapBoundary;
   private clusterSizeInMeters: number;
 
-  private dragging = false;
   private markerOverlays: any = {};
 
   constructor() { }
@@ -63,6 +68,7 @@ export class OsmMapWidget implements OnInit, AfterViewInit, OnChanges {
     if (changes.markers.firstChange) {
       return;
     }
+    // TODO: filter for the only changed overlays
     this.drawMarkers();
   }
 
@@ -103,10 +109,19 @@ export class OsmMapWidget implements OnInit, AfterViewInit, OnChanges {
     this.markersDirectionsList.changes.subscribe(() => {
       this.onMarkerDirectionsChanged();
     });
+    this.map.on('click', (event) => {
+      const [mapX, mapY] = event.coordinate;
+      const [lng, ltd] = toLonLat([mapX, mapY]);
+      this.mapClicked.emit({
+        ltd,
+        lng
+      });
+    });
   }
 
   onMarkerClicked(point: ISpgPoint) {
     this.markerClicked.emit(point);
+    console.log(point);
   }
 
   onClusterClicked(cluster: IClusterPoint) {
@@ -118,8 +133,7 @@ export class OsmMapWidget implements OnInit, AfterViewInit, OnChanges {
       const markerOverlay = new Overlay({
         position: [marker.pointData.x, marker.pointData.y],
         element: marker.elementRef.nativeElement,
-        positioning: 'center-center',
-        dragging: true
+        positioning: 'center-center'
       });
       this.map.addOverlay(markerOverlay);
       this.markerOverlays[marker.pointData.id] = markerOverlay;
@@ -193,23 +207,20 @@ export class OsmMapWidget implements OnInit, AfterViewInit, OnChanges {
 
   mapZoomChanged() {
     this.clusterSizeInMeters =
-      this.map.getCoordinateFromPixel([this.clusterSizeInPixels, 0])[0] - this.map.getCoordinateFromPixel([0, 0 ])[0];
+    // Cannot read property '0' of null
+    this.map.getCoordinateFromPixel([this.clusterSizeInPixels, 0])[0] - this.map.getCoordinateFromPixel([0, 0 ])[0];
   }
 
-  markerGrabbed($event: MouseEvent, point: ISpgPoint) {
-    console.log($event, point);
-    this.dragging = true;
-  }
-
-  releaseMarker($event: MouseEvent, point: ISpgPoint) {
-    console.log($event, point);
-    this.dragging = false;
-  }
-
-  markerMoving($event: MouseEvent, point: ISpgPoint) {
-    if (this.dragging) {
-      console.log($event.x, $event.y, this.markerOverlays[point.id]);
-      this.markerOverlays[point.id].setPosition(this.map.getEventCoordinate($event));
-    }
+  markerDropped($event: any, point: ISpgPoint) {
+    const [coordNullX, coordNullY] = this.map.getCoordinateFromPixel([0, 0]);
+    const [coordDiffX, coordDiffY] = this.map.getCoordinateFromPixel([$event.distance.x, $event.distance.y]);
+    const newXCoord = point.x + coordDiffX - coordNullX;
+    const newYCoord = point.y + coordDiffY - coordNullY;
+    this.markerOverlays[point.id].setPosition([newXCoord, newYCoord]);
+    const [newLng, newLtd] = toLonLat([newXCoord, newYCoord]);
+    console.log(newLng, newXCoord);
+    point.ltd = newLtd;
+    point.lng = newLng;
+    this.markerRepositioned.emit(point);
   }
 }

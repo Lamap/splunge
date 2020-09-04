@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { map } from 'rxjs/internal/operators';
-import { ISpgPoint } from '../models/spgPoint';
+import { ISpgPoint, ISpgPointRawData, SpgPoint } from '../models/spgPoint';
 import { Observable } from 'rxjs/index';
+import { ILatLongCoordinate } from '../widgets/osm-map/osm-map.widget';
 
 @Injectable({
   providedIn: 'root'
@@ -20,5 +21,19 @@ export class MarkersService {
         return data;
       })));
   }
-
+  updateMarker(point: SpgPoint) {
+    const rawPointData = SpgPoint.getRawData(point);
+    this.markersCollection.doc(point.id).update(rawPointData);
+  }
+  createMarker(coords: ILatLongCoordinate) {
+    const newPoint: any = {
+      coords: {
+        latitude: coords.ltd,
+        longitude: coords.lng
+      },
+      direction: 0,
+      hasDirection: false
+    };
+    this.markersCollection.add(newPoint as ISpgPoint);
+  }
 }

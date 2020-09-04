@@ -3,6 +3,7 @@ import { MarkersService } from '../../services/markers.service';
 import { SpgPoint, ISpgPoint } from '../../models/spgPoint';
 import { ImageService } from '../../services/image.service';
 import { ISpgImage } from '../../models/spgImage';
+import { ILatLongCoordinate } from '../../widgets/osm-map/osm-map.widget';
 
 @Component({
   selector: 'spg-dashboard',
@@ -12,9 +13,10 @@ import { ISpgImage } from '../../models/spgImage';
 export class DashboardPage implements OnInit {
   public markerList: ISpgPoint[] = [];
   public imageList: ISpgImage[] = [];
-  private fullImageList: ISpgImage[] = [];
   public selectedImage: ISpgImage;
-  private selectedMarker: ISpgPoint;
+  public selectedMarker: ISpgPoint;
+  private fullImageList: ISpgImage[] = [];
+  private markerCreationMode = false;
   constructor(private markerService: MarkersService, private imageService: ImageService) { }
 
   ngOnInit(): void {
@@ -28,7 +30,7 @@ export class DashboardPage implements OnInit {
     })
   }
 
-  onMarkerClicked(clickedPoint: SpgPoint) {
+  onMarkerClicked(clickedPoint: ISpgPoint) {
     this.selectedMarker = clickedPoint;
     // this.imageService.queryByMarkerId(clickedPoint.id);
     this.filterImages(clickedPoint.id);
@@ -36,6 +38,10 @@ export class DashboardPage implements OnInit {
       point.isSelected = clickedPoint.id === point.id;
       return point;
     });
+  }
+
+  onMarkerRepositioned(updatedMarker: ISpgPoint) {
+    this.markerService.updateMarker(updatedMarker as SpgPoint);
   }
 
   filterImages(markerFilterId?: string) {
@@ -46,5 +52,21 @@ export class DashboardPage implements OnInit {
   }
   clearImageFilter() {
     this.filterImages();
+  }
+
+  addMarker() {
+    console.log('add marker');
+    this.markerCreationMode = true;
+  }
+  filterImagelessMarkers() {
+    // filtering
+  }
+  onMapClicked($event: ILatLongCoordinate) {
+    if (!this.markerCreationMode) {
+      return;
+    }
+    // TODO: set map cursor type
+    this.markerService.createMarker($event);
+    this.markerCreationMode = false;
   }
 }

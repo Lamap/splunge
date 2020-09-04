@@ -1,10 +1,17 @@
-<div #osmMapContainer class="spg-osm-map" id="osm-map" (mouseup)="releaseMarker($event)">
+<div
+  #osmMapContainer
+  class="spg-osm-map"
+  id="osm-map"
+  cdkDropList
+  [cdkDropListDisabled]="!draggableMarkers"
+>
   <spg-marker
     *ngFor="let point of markerPoints"
     [pointData]="point"
     (click)="onMarkerClicked(point)"
-    (mousedown)="markerGrabbed($event, point)"
-    (mousemove)="markerMoving($event, point)"
+    cdkDrag
+    [cdkDragDisabled]="!draggableMarkers"
+    (cdkDragDropped)="markerDropped($event, point)"
   ></spg-marker>
   <spg-clusterpoint
     *ngFor="let clusterpoint of clusterPoints"

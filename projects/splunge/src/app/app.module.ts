@@ -18,6 +18,9 @@ import { OverlayModule } from '@angular/cdk/overlay';
 
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 import { AuthService } from './services/auth.service';
 import { FlashMessageComponent } from './components/flash-message/flash-message.component';
@@ -29,6 +32,7 @@ import { ClusterpointComponent } from './components/clusterpoint/clusterpoint.co
 import { PositionMarkerComponent } from './components/position-marker/position-marker.component';
 import { DashboardPage } from './pages/dashboard/dashboard.page';
 import { MarkerEditorComponent } from './components/marker-editor/marker-editor.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [
@@ -58,10 +62,23 @@ import { MarkerEditorComponent } from './components/marker-editor/marker-editor.
     FormsModule,
     ReactiveFormsModule,
     OverlayModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    DragDropModule,
+    HttpClientModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: httpTranslateLoader,
+        deps: [HttpClient]
+      }
+    })
   ],
   providers: [ AuthService ],
   bootstrap: [ AppComponent ],
   entryComponents: [ FlashMessageComponent ]
 })
 export class AppModule { }
+
+export function httpTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
