@@ -4,6 +4,7 @@
   id="osm-map"
   cdkDropList
   [cdkDropListDisabled]="!draggableMarkers"
+  [ngStyle]="{'cursor': cursorType}"
 >
   <spg-marker
     *ngFor="let point of markerPoints"

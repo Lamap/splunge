@@ -2,27 +2,48 @@
   <div class="spg-dashboard__map">
     <spg-osm-map
       [markers]="markerList"
+      [cursorType]="markerCreationMode ? 'crosshair' : null"
       (markerClicked)="onMarkerClicked($event)"
       (markerRepositioned)="onMarkerRepositioned($event)"
       (mapClicked)="onMapClicked($event)"
     ></spg-osm-map>
   </div>
-  <div class="spg-dashboard__editor-pane">
+  <div class="spg-dashboard__editor-pane" #editorpane >
     <div class="spg-dashboard__marker-editor">
-      <div>
-        <span class="spg-dashboard__marker-edit-header">{{'dashboard.marker-edit.title' | translate}}</span>
-        <span class="spg-dashboard__add-marker-button material-icons" (click)="addMarker()">
-          add_box
+      <div class="spg-dashboard__marker-editor-header">
+        <span class="spg-dashboard__marker-editor-header-title">{{'dashboard.marker-edit.title' | translate}}</span>
+        <span class="spg-dashboard__add-marker-add-button material-icons" (click)="addMarker()" *ngIf="!markerCreationMode">
+          add_circle
+        </span>
+        <span class="spg-dashboard__cancel-marker-add-button material-icons" (click)="cancelAddMarker()" *ngIf="markerCreationMode">
+          cancel
         </span>
       </div>
-      <div>
-        <span (click)="filterImagelessMarkers()">{{'dashboard.marker-edit.show-imageless-markers' | translate}}</span>
-      </div>
-      <spg-marker-editor [point]="selectedMarker" *ngIf="selectedMarker"></spg-marker-editor>
+      <spg-marker-editor [point]="selectedMarker" (pointDeselected$)="deselectMarker()" (pointChanged$)="markerChanged()"></spg-marker-editor>
     </div>
-    <div (click)="clearImageFilter()">clearMarkerFilter</div>
-    <ul>
-      <li *ngFor="let image of imageList">{{image.id}}</li>
-    </ul>
+    <div *ngIf="selectedMarker">
+      <mat-expansion-panel [expanded]="true">
+        <mat-expansion-panel-header>
+          <h5 class="spg-dashboard__linked-images-title">{{linkedImageList.length}} {{'dashboard.linked-images.title' | translate}}</h5>
+        </mat-expansion-panel-header>
+        <div>
+          <spg-image-box *ngFor="let image of linkedImageList" [imageData]="image">{{image.id}}</spg-image-box>
+        </div>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <h5 class="spg-dashboard__free-images-title">{{freeImageList.length}} {{'dashboard.free-images.title' | translate}}</h5>
+        </mat-expansion-panel-header>
+        <div>
+          <spg-image-box *ngFor="let image of freeImageList" [imageData]="image">{{image.id}}</spg-image-box>
+        </div>
+      </mat-expansion-panel>
+    </div>
+    <div *ngIf="!selectedMarker">
+      <h5 class="spg-dashboard__all-images-title">{{'dashboard.all-images.title' | translate}}</h5>
+      <div>
+        <spg-image-box *ngFor="let image of fullImageList" [imageData]="image" (pointMarker$)="pointMarkerFromImage($event)"></spg-image-box>
+      </div>
+    </div>
   </div>
 </div>

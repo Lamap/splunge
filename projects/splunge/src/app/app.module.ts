@@ -33,6 +33,10 @@ import { PositionMarkerComponent } from './components/position-marker/position-m
 import { DashboardPage } from './pages/dashboard/dashboard.page';
 import { MarkerEditorComponent } from './components/marker-editor/marker-editor.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSliderModule } from '@angular/material/slider';
+import { ImageBoxComponent } from './components/image-box/image-box.component';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
   declarations: [
@@ -48,31 +52,35 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     ClusterpointComponent,
     PositionMarkerComponent,
     DashboardPage,
-    MarkerEditorComponent
+    MarkerEditorComponent,
+    ImageBoxComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    AngularFireModule.initializeApp(environment.firebase),
-    AngularFireAuthModule,
-    MatInputModule,
-    MatFormFieldModule,
-    BrowserAnimationsModule,
-    MatButtonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    OverlayModule,
-    MatSnackBarModule,
-    DragDropModule,
-    HttpClientModule,
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: httpTranslateLoader,
-        deps: [HttpClient]
-      }
-    })
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        AngularFireModule.initializeApp(environment.firebase),
+        AngularFireAuthModule,
+        MatInputModule,
+        MatFormFieldModule,
+        BrowserAnimationsModule,
+        MatButtonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        OverlayModule,
+        MatSnackBarModule,
+        DragDropModule,
+        HttpClientModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: httpTranslateLoader,
+                deps: [HttpClient]
+            }
+        }),
+        MatCheckboxModule,
+        MatSliderModule,
+        MatExpansionModule
+    ],
   providers: [ AuthService ],
   bootstrap: [ AppComponent ],
   entryComponents: [ FlashMessageComponent ]

@@ -1,4 +1,12 @@
 {
   "dashboard.marker-edit.title": "Markerpoint editing",
-  "dashboard.marker-edit.show-imageless-markers": "Show imageless markers"
+  "dashboard.marker-edit.show-imageless-markers": "Show image-less markers",
+  "dashboard.linked-images.title":  "Connected images",
+  "dashboard.free-images.title":  "Independent images",
+  "dashboard.all-images.title":  "All images",
+  "marker-editor.header": "Selected point id: {{pointId}}",
+  "marker-editor.select-instruction": "Select a marker on the map for editing and linking to image.",
+  "marker-editor.hasdirection.label": "Set direction",
+  "marker-editor.deselect": "Deselect",
+  "marker-editor.delete": "Delete"
 }

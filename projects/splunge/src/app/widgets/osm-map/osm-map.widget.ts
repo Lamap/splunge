@@ -17,6 +17,7 @@ export interface IClusterPoint {
   points: ISpgPoint[];
   positionX: number;
   positionY: number;
+  hasPointed?: boolean;
 }
 export interface IMapBoundary {
   north: number;
@@ -41,11 +42,12 @@ export class OsmMapWidget implements OnInit, AfterViewInit, OnChanges {
 
   @Input() markers: ISpgPoint[];
   @Input() draggableMarkers = true;
+  @Input() cursorType: string;
   @Output() markerClicked = new EventEmitter<ISpgPoint>();
   @Output() markerRepositioned = new EventEmitter<ISpgPoint>();
   @Output() mapClicked = new EventEmitter<ILatLongCoordinate>();
 
-  public clusterSizeInPixels = 50;
+  public clusterSizeInPixels = 80;
   public zoom: number;
   public clusterPoints: IClusterPoint[] = [];
   public markerPoints: ISpgPoint[] = [];
@@ -64,8 +66,7 @@ export class OsmMapWidget implements OnInit, AfterViewInit, OnChanges {
     console.log('ngOnInit - this.markers:', this.markers);
   }
   ngOnChanges(changes: SimpleChanges) {
-    console.log(changes);
-    if (changes.markers.firstChange) {
+    if (changes.markers && changes.markers.firstChange) {
       return;
     }
     // TODO: filter for the only changed overlays
@@ -190,10 +191,12 @@ export class OsmMapWidget implements OnInit, AfterViewInit, OnChanges {
           positionX: horizontalIndex * this.clusterSizeInMeters,
           positionY: verticalIndex * this.clusterSizeInMeters,
           verticalIndex,
-          horizontalIndex
+          horizontalIndex,
+          hasPointed: point.isPointed
         };
       } else {
         clusterCells[clusterId].points.push(point);
+        clusterCells[clusterId].hasPointed = point.isPointed ? true : clusterCells[clusterId].hasPointed;
       }
     });
     this.map.getOverlays().clear();
@@ -202,13 +205,18 @@ export class OsmMapWidget implements OnInit, AfterViewInit, OnChanges {
       JSON.stringify(clusterArray.filter(cluster => cluster.points.length === 1).map(cluster => cluster.points[0]))
     );
     this.clusterPoints = clusterArray.filter(cluster => cluster.points.length > 1);
-    this.directionPoints = this.markerPoints.filter(point => point.direction);
+    this.directionPoints = this.markerPoints.filter(point => point.hasDirection);
   }
 
   mapZoomChanged() {
-    this.clusterSizeInMeters =
     // Cannot read property '0' of null
-    this.map.getCoordinateFromPixel([this.clusterSizeInPixels, 0])[0] - this.map.getCoordinateFromPixel([0, 0 ])[0];
+    const nullPoint = this.map.getCoordinateFromPixel([0, 0]);
+    const clusterDistance = this.map.getCoordinateFromPixel([this.clusterSizeInPixels, 0]);
+    console.log('mapZoomChanged', this.map, nullPoint, clusterDistance);
+    if (!nullPoint || !clusterDistance) {
+      return;
+    }
+    this.clusterSizeInMeters = clusterDistance[0] - nullPoint[0];
   }
 
   markerDropped($event: any, point: ISpgPoint) {

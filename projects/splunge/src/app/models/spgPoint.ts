@@ -1,4 +1,5 @@
 import { fromLonLat } from 'ol/proj';
+import { ISpgImage } from './spgImage';
 
 export interface ISpgPoint {
   id: string;
@@ -9,7 +10,8 @@ export interface ISpgPoint {
   direction?: number;
   hasDirection: boolean;
   isSelected?: boolean;
-  imageCount?: number;
+  isPointed?: boolean;
+  images?: ISpgImage[];
 }
 
 export interface ISpgPointRawData {

@@ -2,7 +2,7 @@
   class="spg-clusterpoint"
   [style.width]="clusterDimensionInPixels"
   [style.height]="clusterDimensionInPixels"
-  [ngClass]="{'spg-clusterpoint--debug': isDebug}"
+  [ngClass]="{'spg-clusterpoint--debug': isDebug, 'spg-clusterpoint--haspointed': clusterData.hasPointed}"
 >
   <span class="spg-clusterpoint__number">{{clusterData.points.length}}</span>
 </div>

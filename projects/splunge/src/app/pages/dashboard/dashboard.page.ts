@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import { MarkersService } from '../../services/markers.service';
 import { SpgPoint, ISpgPoint } from '../../models/spgPoint';
 import { ImageService } from '../../services/image.service';
-import { ISpgImage } from '../../models/spgImage';
+import {ISpgImage, SpgImage} from '../../models/spgImage';
 import { ILatLongCoordinate } from '../../widgets/osm-map/osm-map.widget';
 
 @Component({
@@ -12,22 +12,52 @@ import { ILatLongCoordinate } from '../../widgets/osm-map/osm-map.widget';
 })
 export class DashboardPage implements OnInit {
   public markerList: ISpgPoint[] = [];
-  public imageList: ISpgImage[] = [];
+  public fullImageList: ISpgImage[] = [];
+  public linkedImageList: ISpgImage[] = [];
+  public freeImageList: ISpgImage[] = [];
   public selectedImage: ISpgImage;
   public selectedMarker: ISpgPoint;
-  private fullImageList: ISpgImage[] = [];
-  private markerCreationMode = false;
+  public markerCreationMode = false;
+
+  @ViewChild('editorpane', { static: false }) editorPane: ElementRef;
+
   constructor(private markerService: MarkersService, private imageService: ImageService) { }
 
   ngOnInit(): void {
     this.markerService.markerList$.subscribe((snapshot) => {
-      this.markerList = snapshot.map(point => new SpgPoint(point));
+      this.markerList = snapshot.map((point) => {
+        const spgPoint = new SpgPoint(point);
+        if (this.selectedMarker && this.selectedMarker.id === spgPoint.id) {
+          spgPoint.isSelected = true;
+        }
+        return spgPoint;
+      });
+      this.mergeImagesAndMarkers();
     });
     this.imageService.queriedImageCollection.subscribe((snapshot) => {
-      console.log(snapshot);
-      this.fullImageList = snapshot;
+      this.fullImageList = snapshot.map(image => new SpgImage(image) as ISpgImage);
       this.filterImages();
-    })
+      this.mergeImagesAndMarkers();
+    });
+  }
+
+  // forkjoin doesnt work
+  mergeImagesAndMarkers() {
+    if (!this.fullImageList.length || !this.markerList.length) {
+      return;
+    }
+    const imagesByMarkers = {};
+    this.fullImageList.forEach((image) => {
+      if (!imagesByMarkers[image.markerId]) {
+        imagesByMarkers[image.markerId] = [image.id];
+      } else {
+        imagesByMarkers[image.markerId].push(image.id);
+      }
+    });
+    this.markerList = this.markerList.map((marker) => {
+      marker.images = imagesByMarkers[marker.id] ? imagesByMarkers[marker.id] : [];
+      return marker;
+    });
   }
 
   onMarkerClicked(clickedPoint: ISpgPoint) {
@@ -40,26 +70,46 @@ export class DashboardPage implements OnInit {
     });
   }
 
+  deselectMarker() {
+    this.selectedMarker = null;
+    this.markerList = this.markerList.map((point) => {
+      point.isSelected = false;
+      return point;
+    });
+    this.filterImages();
+  }
+
+  markerChanged() {
+    console.log(this.selectedMarker);
+    this.markerService.updateMarker(this.selectedMarker as SpgPoint);
+  }
+
   onMarkerRepositioned(updatedMarker: ISpgPoint) {
     this.markerService.updateMarker(updatedMarker as SpgPoint);
   }
 
   filterImages(markerFilterId?: string) {
+    this.editorPane.nativeElement.scrollTop = 0;
     if (!markerFilterId) {
-      return this.imageList = this.fullImageList;
+      return;
     }
-    this.imageList = this.fullImageList.filter(({markerId}) => markerId === markerFilterId);
-  }
-  clearImageFilter() {
-    this.filterImages();
+    this.freeImageList = [];
+    this.linkedImageList = [];
+    this.fullImageList.forEach((image) => {
+      if (image.markerId === markerFilterId) {
+        this.linkedImageList.push(image);
+      } else {
+        this.freeImageList.push(image);
+      }
+    });
   }
 
   addMarker() {
     console.log('add marker');
     this.markerCreationMode = true;
   }
-  filterImagelessMarkers() {
-    // filtering
+  cancelAddMarker() {
+    this.markerCreationMode = false;
   }
   onMapClicked($event: ILatLongCoordinate) {
     if (!this.markerCreationMode) {
@@ -68,5 +118,13 @@ export class DashboardPage implements OnInit {
     // TODO: set map cursor type
     this.markerService.createMarker($event);
     this.markerCreationMode = false;
+  }
+
+  pointMarkerFromImage(image: SpgImage) {
+    console.log('point', image);
+    this.markerList = this.markerList.map((marker) => {
+      marker.isPointed = marker.id === image.markerId;
+      return marker;
+    });
   }
 }

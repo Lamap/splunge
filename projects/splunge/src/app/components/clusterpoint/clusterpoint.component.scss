@@ -1,4 +1,6 @@
 .spg-clusterpoint {
+  $pointedsize: 100px;
+
   display: flex;
   align-items: center;
   justify-content: center;
@@ -20,5 +22,16 @@
     background: #fff;
     font-weight: bold;
     user-select: none;
+  }
+
+  &--haspointed {
+    &::after {
+      position: absolute;
+      width: $pointedsize;
+      height: $pointedsize;
+      border: 2px dashed #000;
+      border-radius: 100%;
+      content: '';
+    }
   }
 }

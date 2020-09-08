@@ -1,6 +1,7 @@
 .spg-marker {
   $markersize: 38px;
   $markersizehiglighted: 44px;
+  $markerpointedsize: 100px;
   position: relative;
   width: 0;
   height: 0;
@@ -15,12 +16,47 @@
     cursor: pointer;
   }
 
-  &:hover, &--selected {
+  &__count {
+    display: flex;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #03a9f4;
+    border-radius: 100%;
+    background: #fff;
+    font-size: 12px;
+    text-align: center;
+    user-select: none;
+
+    &--empty {
+      border-width: 2px;
+      border-color: #ff574b;
+    }
+  }
+
+  &:hover,
+  &--selected {
     .spg-marker__sign {
       top: -$markersizehiglighted / 2;
       left: -$markersizehiglighted / 2;
       width: $markersizehiglighted;
       height: $markersizehiglighted;
+    }
+  }
+
+  &--pointed {
+    &::after {
+      position: absolute;
+      width: $markerpointedsize;
+      height: $markerpointedsize;
+      transform: translate(-$markerpointedsize / 2, -$markerpointedsize / 2);
+      border: 2px dashed #000;
+      border-radius: 100%;
+      content: '';
     }
   }
 }

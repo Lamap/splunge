@@ -1,3 +1,8 @@
-<div class="spg-marker" [ngClass]="{'spg-marker--selected': pointData.isSelected}">
+<div class="spg-marker" [ngClass]="{'spg-marker--selected': pointData.isSelected, 'spg-marker--pointed': pointData.isPointed}">
   <div  class="spg-marker__sign" (click)="onMarkerClicked()"></div>
+  <div
+    class="spg-marker__count"
+    *ngIf="pointData.images"
+    [ngClass]="{'spg-marker__count--empty': pointData.images && pointData.images.length === 0 }"
+  >{{pointData.images.length}}</div>
 </div>

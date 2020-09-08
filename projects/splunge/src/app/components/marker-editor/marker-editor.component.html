@@ -1,10 +1,27 @@
 <div class="spg-marker-editor">
-  <div class="spg-marker-editor__header">Kiválasztott jel: {{point.id}}</div>
-  <div class="spg-marker-editor__actions">
-    Delete Point List
+  <div *ngIf="point">
+    <div class="spg-marker-editor__header">
+      {{'marker-editor.header' | translate: {pointId: point.id} }}
+    </div>
+    <div class="spg-marker-editor__actions">
+      <span class="spg-marker-editor__deselect" (click)="deselect()">
+        {{'marker-editor.deselect' | translate}}
+      </span>
+      <span class="spg-marker-editor__deselect" title="Delete this marker" (click)="delete()">
+        {{'marker-editor.delete' | translate}}
+      </span>
+    </div>
+    <div class="spg-marker-editor__panorama">
+      <mat-checkbox (change)="pointChanged()" [(ngModel)]="point.hasDirection">{{'marker-editor.hasdirection.label' | translate}}</mat-checkbox>
+      <mat-slider
+        class="spg-marker-editor__slider"
+        [min]="0"
+        [max]="360"
+        (change)="pointChanged()"
+        [(ngModel)]="point.direction"
+        *ngIf="point.hasDirection"
+      ></mat-slider>
+    </div>
   </div>
-  <div class="spg-marker-editor__panorama">
-    <input type="checkbox" />
-    <span>direction slider</span>
-  </div>
+  <p class="spg-marker-editor__instruction" *ngIf="!point">{{'marker-editor.select-instruction' | translate}}</p>
 </div>

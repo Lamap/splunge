@@ -1,0 +1,8 @@
+<div class="spg-image-box">
+  <img class="spg-image-box__img" [src]="imageData.url"/>
+  <div class="spg-image-box__actions">
+    link unlink edit pointMarker delete
+    <span class="material-icons" (click)="pointMarker()" *ngIf="imageData.markerId">my_location</span>
+  </div>
+  <p class="spg-image-box__title">{{imageData.title}}</p>
+</div>
