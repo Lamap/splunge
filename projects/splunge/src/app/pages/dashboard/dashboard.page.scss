@@ -1,3 +1,5 @@
+@import '../../../styles';
+
 .spg-dashboard {
   display: flex;
   height: 100%;
@@ -16,8 +18,9 @@
   &__marker-editor {
     position: sticky;
     top: 0;
-    background: #fff;
-    border-bottom: 1px solid #888;
+    border-bottom: 1px solid $color-gray;
+    background: $color-white;
+    z-index: 1;
   }
 
   &__editor-pane {
@@ -46,5 +49,11 @@
   &__free-images-title,
   &__linked-images-title {
     @extend %section-title;
+  }
+
+  &__all-images-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
 }

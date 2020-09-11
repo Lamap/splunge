@@ -1,7 +1,10 @@
+@import '../../../styles';
+
 .spg-marker {
   $markersize: 38px;
-  $markersizehiglighted: 44px;
+  $markersizehiglighted: 46px;
   $markerpointedsize: 100px;
+  $markerpointedborder: 2px;
   position: relative;
   width: 0;
   height: 0;
@@ -25,16 +28,16 @@
     justify-content: center;
     width: 20px;
     height: 20px;
-    border: 1px solid #03a9f4;
+    border: 1px solid $color-marker;
     border-radius: 100%;
-    background: #fff;
+    background: $color-white;
     font-size: 12px;
     text-align: center;
     user-select: none;
 
     &--empty {
       border-width: 2px;
-      border-color: #ff574b;
+      border-color: $color-warning;
     }
   }
 
@@ -45,6 +48,7 @@
       left: -$markersizehiglighted / 2;
       width: $markersizehiglighted;
       height: $markersizehiglighted;
+      background: url('../../../assets/svg/eye-selected.svg');
     }
   }
 
@@ -53,10 +57,21 @@
       position: absolute;
       width: $markerpointedsize;
       height: $markerpointedsize;
-      transform: translate(-$markerpointedsize / 2, -$markerpointedsize / 2);
-      border: 2px dashed #000;
+      transform: translate(-$markerpointedsize / 2 - $markerpointedborder, -$markerpointedsize / 2 - $markerpointedborder);
+      border: $markerpointedborder dashed $color-black;
       border-radius: 100%;
       content: '';
+    }
+
+    &::before {
+      position: absolute;
+      width: 100vw;
+      height: 100vh;
+      transform: translate(-50vw, -50vh);
+      background: radial-gradient(circle, transparent ($markerpointedsize / 2), $marker-highlight-step-1 ($markerpointedsize / 2), $marker-highlight-step-2 200px, $marker-highlight-step-3 500px);
+      content: '';
+      opacity: 0.5;
+      pointer-events: none;
     }
   }
 }

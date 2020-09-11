@@ -1,5 +1,47 @@
+@import '../../../styles';
+
 .spg-image-box {
+  position: relative;
+  margin: 5px;
+  border-radius: 4px;
+  overflow: hidden;
+
   &__img {
+    display: block;
     width: 100%;
+  }
+
+  &__actions {
+    display: flex;
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
+
+  &__actions-button {
+    margin: 3px;
+  }
+
+  &__delete-button {
+    margin-left: auto;
+  }
+
+  &__title {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: 0;
+    padding: 8px;
+    background: $color-white-60;
+
+    :hover & {
+      background: $color-white-80;
+    }
+  }
+
+  &__dated {
+    margin-right: 5px;
+    font-weight: bold;
   }
 }

@@ -1,0 +1,10 @@
+<span class="spg-file-selector">
+  <spg-icon-button iconId="add_to_photos" [title]="'file-selector.title' | translate" (click)="browseFiles()"></spg-icon-button>
+  <input
+    type="file"
+    class="spg-file-selector__input"
+    [accept]="acceptedTypes.join(', ')"
+    (change)="fileAdded($event)"
+    #fileupload
+  />
+</span>

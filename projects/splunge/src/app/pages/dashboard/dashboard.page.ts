@@ -2,8 +2,8 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import { MarkersService } from '../../services/markers.service';
 import { SpgPoint, ISpgPoint } from '../../models/spgPoint';
 import { ImageService } from '../../services/image.service';
-import {ISpgImage, SpgImage} from '../../models/spgImage';
-import { ILatLongCoordinate } from '../../widgets/osm-map/osm-map.widget';
+import { ISpgImage, SpgImage } from '../../models/spgImage';
+import { ILatLongCoordinate, OsmMapWidget } from '../../widgets/osm-map/osm-map.widget';
 
 @Component({
   selector: 'spg-dashboard',
@@ -20,6 +20,7 @@ export class DashboardPage implements OnInit {
   public markerCreationMode = false;
 
   @ViewChild('editorpane', { static: false }) editorPane: ElementRef;
+  @ViewChild(OsmMapWidget) map: OsmMapWidget;
 
   constructor(private markerService: MarkersService, private imageService: ImageService) { }
 
@@ -32,12 +33,14 @@ export class DashboardPage implements OnInit {
         }
         return spgPoint;
       });
+      console.log('markerList');
       this.mergeImagesAndMarkers();
     });
     this.imageService.queriedImageCollection.subscribe((snapshot) => {
       this.fullImageList = snapshot.map(image => new SpgImage(image) as ISpgImage);
-      this.filterImages();
+      console.log('imageList');
       this.mergeImagesAndMarkers();
+      this.filterImages(this.selectedMarker && this.selectedMarker.id);
     });
   }
 
@@ -66,6 +69,7 @@ export class DashboardPage implements OnInit {
     this.filterImages(clickedPoint.id);
     this.markerList = this.markerList.map((point) => {
       point.isSelected = clickedPoint.id === point.id;
+      point.isPointed = false;
       return point;
     });
   }
@@ -90,13 +94,15 @@ export class DashboardPage implements OnInit {
 
   filterImages(markerFilterId?: string) {
     this.editorPane.nativeElement.scrollTop = 0;
+    this.freeImageList = [];
+    this.linkedImageList = [];
     if (!markerFilterId) {
       return;
     }
-    this.freeImageList = [];
-    this.linkedImageList = [];
+
     this.fullImageList.forEach((image) => {
-      if (image.markerId === markerFilterId) {
+      console.log(markerFilterId, image.markerId);
+      if (image.markerId && image.markerId === markerFilterId) {
         this.linkedImageList.push(image);
       } else {
         this.freeImageList.push(image);
@@ -126,5 +132,35 @@ export class DashboardPage implements OnInit {
       marker.isPointed = marker.id === image.markerId;
       return marker;
     });
+    const pointedMarker = this.markerList.find(({id}) => id === image.markerId);
+    this.map.centerMarker(pointedMarker as SpgPoint);
+  }
+
+  uploadImage(file: File) {
+    this.imageService.addNewImage(file);
+  }
+
+  deleteMarker() {
+    console.log('delete', this.selectedMarker);
+    this.markerService.deleteMarker(this.selectedMarker as SpgPoint);
+    this.selectedMarker = null;
+  }
+  linkImageToMarker(image: SpgImage) {
+    console.log('linkto', image);
+    this.imageService.updateImage(image.id, {
+      markerId: this.selectedMarker.id
+    });
+    // TODO: images list is not updated!
+  }
+  switchImageMarker(image: SpgImage) {
+    console.log('switchMarker');
+  }
+  removeMarker(image: SpgImage) {
+    this.imageService.updateImage(image.id, {
+      markerId: null
+    });
+  }
+  deleteImage(image: SpgImage) {
+    this.imageService.deleteImage(image);
   }
 }

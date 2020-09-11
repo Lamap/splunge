@@ -1,6 +1,8 @@
+@import '../../../styles';
+
 .spg-position-marker {
   width: 10px;
   height: 10px;
   border-radius: 100%;
-  background: red;
+  background: $color-warning;
 }

@@ -1,8 +1,44 @@
 <div class="spg-image-box">
   <img class="spg-image-box__img" [src]="imageData.url"/>
   <div class="spg-image-box__actions">
-    link unlink edit pointMarker delete
-    <span class="material-icons" (click)="pointMarker()" *ngIf="imageData.markerId">my_location</span>
+    <spg-icon-button
+      class="spg-image-box__actions-button"
+      iconId="create"
+      *ngIf="canEdit"
+      [title]="'image-box.edit-title' | translate"
+    ></spg-icon-button>
+    <spg-icon-button
+      class="spg-image-box__actions-button"
+      iconId="unlink"
+      *ngIf="canUnlink"
+      (click)="removeMarker()"
+      [title]="'image-box.unlink-title' | translate"
+    ></spg-icon-button>
+    <spg-icon-button
+      class="spg-image-box__actions-button"
+      iconId="link"
+      *ngIf="canLink"
+      (click)="linkToMarker()"
+      [type]="imageData.markerId ? 'warning' : null"
+      [title]="imageData.markerId ? ('image-box.switchlink-title' | translate) : ('image-box.link-title' | translate)"
+    ></spg-icon-button>
+    <spg-icon-button
+      class="spg-image-box__actions-button"
+      iconId="my_location"
+      (click)="pointMarker()"
+      *ngIf="imageData.markerId && canPoint"
+      [title]="'image-box.point-marker-title' | translate"
+    ></spg-icon-button>
+    <spg-icon-button
+      class="spg-image-box__delete-button spg-image-box__actions-button"
+      iconId="delete_forever"
+      [title]="'image-box.delete-title' | translate"
+      type="warning"
+      (click)="deleteImage()"
+    ></spg-icon-button>
   </div>
-  <p class="spg-image-box__title">{{imageData.title}}</p>
+  <p class="spg-image-box__title">
+    <span class="spg-image-box__dated" *ngIf="imageData.dated">{{imageData.dated}}</span>
+    {{imageData.title ? imageData.title : 'image-box.no-title' | translate}}
+  </p>
 </div>

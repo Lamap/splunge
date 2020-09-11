@@ -43,6 +43,7 @@ export class OsmMapWidget implements OnInit, AfterViewInit, OnChanges {
   @Input() markers: ISpgPoint[];
   @Input() draggableMarkers = true;
   @Input() cursorType: string;
+  @Input() pointedMap: SpgPoint;
   @Output() markerClicked = new EventEmitter<ISpgPoint>();
   @Output() markerRepositioned = new EventEmitter<ISpgPoint>();
   @Output() mapClicked = new EventEmitter<ILatLongCoordinate>();
@@ -230,5 +231,9 @@ export class OsmMapWidget implements OnInit, AfterViewInit, OnChanges {
     point.ltd = newLtd;
     point.lng = newLng;
     this.markerRepositioned.emit(point);
+  }
+
+  centerMarker(point: SpgPoint) {
+    this.map.getView().animate({center: [point.x, point.y]});
   }
 }

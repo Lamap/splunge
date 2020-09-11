@@ -37,6 +37,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSliderModule } from '@angular/material/slider';
 import { ImageBoxComponent } from './components/image-box/image-box.component';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { IconButtonComponent } from './components/icon-button/icon-button.component';
+import { FileSelectorComponent } from './components/file-selector/file-selector.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +55,9 @@ import { MatExpansionModule } from '@angular/material/expansion';
     PositionMarkerComponent,
     DashboardPage,
     MarkerEditorComponent,
-    ImageBoxComponent
+    ImageBoxComponent,
+    IconButtonComponent,
+    FileSelectorComponent
   ],
     imports: [
         BrowserModule,

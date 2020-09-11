@@ -4,9 +4,20 @@
   "dashboard.linked-images.title":  "Connected images",
   "dashboard.free-images.title":  "Independent images",
   "dashboard.all-images.title":  "All images",
+  "dashboard.add-marker.title":  "Create new marker",
+  "dashboard.cancel-adding-marker.title":  "Quit marker create process",
+  "dashboard.add-new-image": "Upload new image",
   "marker-editor.header": "Selected point id: {{pointId}}",
   "marker-editor.select-instruction": "Select a marker on the map for editing and linking to image.",
   "marker-editor.hasdirection.label": "Set direction",
-  "marker-editor.deselect": "Deselect",
-  "marker-editor.delete": "Delete"
+  "marker-editor.deselect": "Deselect marker",
+  "marker-editor.delete": "Delete marker",
+  "image-box.delete-title": "Delete image",
+  "image-box.point-marker-title": "Point marker on the map",
+  "image-box.switchlink-title": "Re-link image to the selected marker. It is already connected to another marker!",
+  "image-box.link-title": "Link image to the selected marker",
+  "image-box.unlink-title": "Disconnect the image and the selected marker",
+  "image-box.edit-title": "Edit image details",
+  "image-box.no-title": "Untitled",
+  "file-selector.title": "Upload new image"
 }

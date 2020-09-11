@@ -4,12 +4,11 @@
       {{'marker-editor.header' | translate: {pointId: point.id} }}
     </div>
     <div class="spg-marker-editor__actions">
-      <span class="spg-marker-editor__deselect" (click)="deselect()">
-        {{'marker-editor.deselect' | translate}}
-      </span>
-      <span class="spg-marker-editor__deselect" title="Delete this marker" (click)="delete()">
+      <spg-icon-button iconId="cancel" [title]="'marker-editor.deselect' | translate" class="spg-marker-editor__deselect" (click)="deselect()">
+      </spg-icon-button>
+      <spg-icon-button iconId="delete_forever" [title]="'marker-editor.delete' | translate" class="spg-marker-editor__deselect" title="Delete this marker" (click)="delete()">
         {{'marker-editor.delete' | translate}}
-      </span>
+      </spg-icon-button>
     </div>
     <div class="spg-marker-editor__panorama">
       <mat-checkbox (change)="pointChanged()" [(ngModel)]="point.hasDirection">{{'marker-editor.hasdirection.label' | translate}}</mat-checkbox>

@@ -1,3 +1,5 @@
+@import '../../../styles';
+
 .spg-marker-direction {
   position: relative;
   top: -50px;
@@ -14,7 +16,7 @@
     transform: rotate(130deg);
     transform-origin: 50% 100%;
     border-radius: 100px 100px 0 0;
-    background-image: radial-gradient(circle at bottom, #03a9f4, #00bcd400 60%);
+    background-image: radial-gradient(circle at bottom, $color-panorama-step-1, $color-panorama-step-2 60%);
     background-position: 0 -100px;
     content: '';
   }

@@ -1,0 +1,43 @@
+@import '../../../styles';
+
+.spg-icon-button {
+  $default-color: $color-button-color;
+  $warning-color: $color-warning;
+  $default-size: 32px;
+
+  display: inline-flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  width: $default-size;
+  height: $default-size;
+  border: 1px solid $default-color;
+  border-radius: 50%;
+  background: $color-white;
+  color: $default-color;
+  cursor: pointer;
+  opacity: 0.6;
+  user-select: none;
+
+  &:hover {
+    box-shadow: 1px 1px 5px #888;
+    opacity: 1;
+  }
+
+  &.unlink {
+    &::after {
+      position: absolute;
+      width: 2px;
+      height: $default-size / 3 * 2;
+      transform: rotate(-45deg);
+      background: $default-color;
+      content: '';
+      opacity: 0.7;
+    }
+  }
+
+  &.warning {
+    border-color: $warning-color;
+    color: $warning-color;
+  }
+}
