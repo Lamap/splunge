@@ -70,12 +70,17 @@ export class OsmMapWidget implements OnInit, AfterViewInit {
   private directionOverlays: Overlay[] = [];
   private mapBoundary: IMapBoundary;
   private positionOverlay: Overlay;
+  private bg =
+    'https://firebasestorage.googleapis.com/v0/b/myhovercraftisfullofeels-445da.appspot.com/o/mm.jpg' +
+    '?alt=media&token=feac49bd-b5a7-49c9-81ea-34ced30a78c0';
+
   constructor() { }
 
   ngOnInit(): void {
   }
 
   ngAfterViewInit() {
+    console.log(this.bg);
     this.map = new Map({
       target: this.osmMap.nativeElement,
       layers: [
@@ -86,7 +91,7 @@ export class OsmMapWidget implements OnInit, AfterViewInit {
           minZoom: 10,
           maxZoom: 25,
           source: new Static({
-            url: 'https://firebasestorage.googleapis.com/v0/b/myhovercraftisfullofeels-445da.appspot.com/o/mm.jpg?alt=media&token=feac49bd-b5a7-49c9-81ea-34ced30a78c0',
+            url: this.bg,
             imageExtent: [18.92185, 47.49267, 18.94555, 47.50704],
             projection: 'EPSG:4326'
           }),
