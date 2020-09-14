@@ -86,7 +86,7 @@ export class OsmMapWidget implements OnInit, AfterViewInit {
           minZoom: 10,
           maxZoom: 25,
           source: new Static({
-            url: 'http://hspartacus.hu/budakeszi/mm.jpg',
+            url: 'https://firebasestorage.googleapis.com/v0/b/myhovercraftisfullofeels-445da.appspot.com/o/mm.jpg?alt=media&token=feac49bd-b5a7-49c9-81ea-34ced30a78c0',
             imageExtent: [18.92185, 47.49267, 18.94555, 47.50704],
             projection: 'EPSG:4326'
           }),
