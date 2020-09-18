@@ -25,9 +25,17 @@ export interface IMapBoundary {
   east: number;
   south: number;
 }
-export interface ILatLongCoordinate {
+export interface ISpgCoordinates {
   lng: number;
   ltd: number;
+  x: number;
+  y: number;
+}
+export interface IMapBoundary {
+  north: number;
+  east: number;
+  south: number;
+  west: number;
 }
 @Component({
   selector: 'spg-osm-map',
@@ -46,7 +54,8 @@ export class OsmMapWidget implements OnInit, AfterViewInit, OnChanges {
   @Input() pointedMap: SpgPoint;
   @Output() markerClicked = new EventEmitter<ISpgPoint>();
   @Output() markerRepositioned = new EventEmitter<ISpgPoint>();
-  @Output() mapClicked = new EventEmitter<ILatLongCoordinate>();
+  @Output() mapClicked = new EventEmitter<ISpgCoordinates>();
+  @Output() mapBoundaryChanged$ = new EventEmitter<IMapBoundary>();
 
   public clusterSizeInPixels = 80;
   public zoom: number;
@@ -55,7 +64,6 @@ export class OsmMapWidget implements OnInit, AfterViewInit, OnChanges {
   public directionPoints: ISpgPoint[] = [];
 
   private map: Map;
-  private visiblePoints: ISpgPoint[] = [];
   private mapBoundary: IMapBoundary;
   private clusterSizeInMeters: number;
 
@@ -100,7 +108,7 @@ export class OsmMapWidget implements OnInit, AfterViewInit, OnChanges {
     });
 
     this.map.on('moveend', () => {
-      this.drawMarkers();
+      this.mapBoundaryChanged();
     });
     this.markersList.changes.subscribe(() => {
       this.onMarkerListChanged();
@@ -116,7 +124,9 @@ export class OsmMapWidget implements OnInit, AfterViewInit, OnChanges {
       const [lng, ltd] = toLonLat([mapX, mapY]);
       this.mapClicked.emit({
         ltd,
-        lng
+        lng,
+        x: mapX,
+        y: mapY
       });
     });
   }
@@ -163,9 +173,8 @@ export class OsmMapWidget implements OnInit, AfterViewInit, OnChanges {
       this.map.addOverlay(clusterOverlay);
     });
   }
-  drawMarkers() {
-    const clusterCells = {};
-    const newZoom = this.map.getView().getZoom();
+
+  mapBoundaryChanged() {
     const [south, west, north, east] = this.map.getView().calculateExtent();
     this.mapBoundary = {
       north,
@@ -173,16 +182,19 @@ export class OsmMapWidget implements OnInit, AfterViewInit, OnChanges {
       south,
       east
     };
-    this.visiblePoints = this.markers.filter(point =>
-      point.x < this.mapBoundary.north && point.x > this.mapBoundary.south &&
-      point.y > this.mapBoundary.west &&
-      point.y < this.mapBoundary.east
-    );
+    this.mapBoundaryChanged$.emit(this.mapBoundary);
+    this.drawMarkers();
+  }
+
+  drawMarkers() {
+    const clusterCells = {};
+    const newZoom = this.map.getView().getZoom();
+
     if (newZoom !== this.zoom) {
       this.zoom = newZoom;
       this.mapZoomChanged();
     }
-    this.visiblePoints.forEach((point) => {
+    this.markers.forEach((point) => {
       const horizontalIndex = Math.floor(point.x / this.clusterSizeInMeters);
       const verticalIndex = Math.floor(point.y / this.clusterSizeInMeters);
       const clusterId = `${horizontalIndex}-${verticalIndex}`;

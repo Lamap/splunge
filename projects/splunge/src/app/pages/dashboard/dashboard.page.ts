@@ -3,7 +3,7 @@ import { MarkersService } from '../../services/markers.service';
 import { SpgPoint, ISpgPoint } from '../../models/spgPoint';
 import { ImageService } from '../../services/image.service';
 import { ISpgImage, SpgImage } from '../../models/spgImage';
-import { ILatLongCoordinate, OsmMapWidget } from '../../widgets/osm-map/osm-map.widget';
+import { ISpgCoordinates, OsmMapWidget } from '../../widgets/osm-map/osm-map.widget';
 
 @Component({
   selector: 'spg-dashboard',
@@ -25,9 +25,9 @@ export class DashboardPage implements OnInit {
   constructor(private markerService: MarkersService, private imageService: ImageService) { }
 
   ngOnInit(): void {
-    this.markerService.markerList$.subscribe((snapshot) => {
+    this.markerService.filteredMarkerList$.subscribe((snapshot) => {
       this.markerList = snapshot.map((point) => {
-        const spgPoint = new SpgPoint(point);
+        const spgPoint = point;
         if (this.selectedMarker && this.selectedMarker.id === spgPoint.id) {
           spgPoint.isSelected = true;
         }
@@ -42,6 +42,10 @@ export class DashboardPage implements OnInit {
       this.mergeImagesAndMarkers();
       this.filterImages(this.selectedMarker && this.selectedMarker.id);
     });
+  }
+
+  mapBoundaryChanged(boundary) {
+    this.markerService.setMapBoundary(boundary);
   }
 
   // forkjoin doesnt work
@@ -117,7 +121,7 @@ export class DashboardPage implements OnInit {
   cancelAddMarker() {
     this.markerCreationMode = false;
   }
-  onMapClicked($event: ILatLongCoordinate) {
+  onMapClicked($event: ISpgCoordinates) {
     if (!this.markerCreationMode) {
       return;
     }

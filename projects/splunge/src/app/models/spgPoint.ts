@@ -18,6 +18,8 @@ export interface ISpgPointRawData {
   coords: {
     latitude: number;
     longitude: number;
+    x: number;
+    y: number;
   };
   direction: number;
   hasDirection: boolean;
@@ -47,7 +49,9 @@ export class SpgPoint implements ISpgPoint {
     return {
       coords: {
         latitude: point.ltd,
-        longitude: point.lng
+        longitude: point.lng,
+        x: point.x,
+        y: point.y
       },
       direction: point.direction,
       hasDirection: point.hasDirection
