@@ -1,6 +1,12 @@
+@import '../../../styles';
+
 .spg-home {
-  display: flex;
   height: 100%;
+
+  &__body {
+    display: flex;
+    height: calc(100% - #{$map-selector-footer-height});
+  }
 
   &__map {
     flex-grow: 1;

@@ -1,0 +1,10 @@
+@import '../../../styles';
+
+.spg-map-selector-footer {
+  display: flex;
+  height: $map-selector-footer-height;
+
+  &__maps {
+    flex-grow: 1;
+  }
+}

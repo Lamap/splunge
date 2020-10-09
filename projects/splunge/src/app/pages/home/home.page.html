@@ -1,10 +1,14 @@
 <div class="spg-home">
-  <spg-osm-map
-    class="spg-home__map"
-    [markers]="markerList"
-    (mapBoundaryChanged$)="mapBoundaryChanged($event)"
-    [draggableMarkers]="false"></spg-osm-map>
-  <div class="spg-home__image-side">
+  <div class="spg-home__body">
+    <spg-osm-map
+      class="spg-home__map"
+      [markers]="markerList"
+      (mapBoundaryChanged$)="mapBoundaryChanged($event)"
+      [draggableMarkers]="false"></spg-osm-map>
+    <div class="spg-home__image-side">
 
+    </div>
   </div>
+
+  <spg-map-selector-footer></spg-map-selector-footer>
 </div>

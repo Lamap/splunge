@@ -19,5 +19,8 @@
   "image-box.unlink-title": "Disconnect the image and the selected marker",
   "image-box.edit-title": "Edit image details",
   "image-box.no-title": "Untitled",
-  "file-selector.title": "Upload new image"
+  "file-selector.title": "Upload new image",
+  "map-selector-footer.title": "Maps",
+  "map-selector-footer.present.title": "of the Present",
+  "map-selector-footer.past.title": "of the Past"
 }
