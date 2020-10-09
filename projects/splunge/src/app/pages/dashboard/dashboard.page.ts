@@ -34,13 +34,11 @@ export class DashboardPage implements OnInit {
         return spgPoint;
       });
       console.log('markerList');
-      this.mergeImagesAndMarkers();
     });
-    this.imageService.queriedImageCollection.subscribe((snapshot) => {
+    this.imageService.fullImageCollection$.subscribe((snapshot) => {
       this.fullImageList = snapshot.map(image => new SpgImage(image) as ISpgImage);
       console.log('imageList');
-      this.mergeImagesAndMarkers();
-      this.filterImages(this.selectedMarker && this.selectedMarker.id);
+      this.splitImagesByMarkerId(this.selectedMarker && this.selectedMarker.id);
     });
   }
 
@@ -48,29 +46,9 @@ export class DashboardPage implements OnInit {
     this.markerService.setMapBoundary(boundary);
   }
 
-  // forkjoin doesnt work
-  mergeImagesAndMarkers() {
-    if (!this.fullImageList.length || !this.markerList.length) {
-      return;
-    }
-    const imagesByMarkers = {};
-    this.fullImageList.forEach((image) => {
-      if (!imagesByMarkers[image.markerId]) {
-        imagesByMarkers[image.markerId] = [image.id];
-      } else {
-        imagesByMarkers[image.markerId].push(image.id);
-      }
-    });
-    this.markerList = this.markerList.map((marker) => {
-      marker.images = imagesByMarkers[marker.id] ? imagesByMarkers[marker.id] : [];
-      return marker;
-    });
-  }
-
   onMarkerClicked(clickedPoint: ISpgPoint) {
     this.selectedMarker = clickedPoint;
-    // this.imageService.queryByMarkerId(clickedPoint.id);
-    this.filterImages(clickedPoint.id);
+    this.splitImagesByMarkerId(clickedPoint.id);
     this.markerList = this.markerList.map((point) => {
       point.isSelected = clickedPoint.id === point.id;
       point.isPointed = false;
@@ -84,7 +62,7 @@ export class DashboardPage implements OnInit {
       point.isSelected = false;
       return point;
     });
-    this.filterImages();
+    this.splitImagesByMarkerId();
   }
 
   markerChanged() {
@@ -96,7 +74,7 @@ export class DashboardPage implements OnInit {
     this.markerService.updateMarker(updatedMarker as SpgPoint);
   }
 
-  filterImages(markerFilterId?: string) {
+  splitImagesByMarkerId(markerFilterId?: string) {
     this.editorPane.nativeElement.scrollTop = 0;
     this.freeImageList = [];
     this.linkedImageList = [];

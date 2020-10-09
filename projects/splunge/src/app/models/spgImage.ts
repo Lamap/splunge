@@ -8,6 +8,7 @@ export interface ISpgImage {
   filePath: string;
   author: string;
   description: string;
+  tags?: string[];
 }
 
 export class SpgImage implements ISpgImage {
@@ -19,6 +20,7 @@ export class SpgImage implements ISpgImage {
   public filePath: string;
   public author: string;
   public description: string;
+  public tags: string[];
 
   constructor(rawData: any) {
     this.id = rawData.id;
@@ -29,5 +31,6 @@ export class SpgImage implements ISpgImage {
     this.title = rawData.title;
     this.author = rawData.author;
     this.description = rawData.description;
+    this.tags = rawData.tags;
   }
 }

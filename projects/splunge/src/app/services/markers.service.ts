@@ -1,19 +1,23 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
-import {filter, map, switchMap, take, takeLast} from 'rxjs/internal/operators';
+import {filter, map, switchMap, take, takeLast, merge} from 'rxjs/internal/operators';
 import { ISpgPoint, ISpgPointRawData, SpgPoint } from '../models/spgPoint';
-import { BehaviorSubject, Observable, of} from 'rxjs/index';
+import { BehaviorSubject, forkJoin, Observable, of } from 'rxjs/index';
 import { IMapBoundary, ISpgCoordinates } from '../widgets/osm-map/osm-map.widget';
 import { ImageService } from './image.service';
+import { combineLatest } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MarkersService {
   public fullMarkerList$: Observable<ISpgPoint[]>;
-  public filteredMarkerList$: Observable<ISpgPoint[]>; // filtered by map boundary, date filter and keyword filter
+
+  // TODO: this variable will be replaced by an API call response
+  public filteredMarkerList$ = new BehaviorSubject<ISpgPoint[]>([]); // filtered by map boundary, date filter and keyword filter
+
   private markersCollection: AngularFirestoreCollection<ISpgPoint>;
-  private mapBoundaryFilter = new BehaviorSubject<IMapBoundary>(null);
+  private mapBoundaryFilter$ = new BehaviorSubject<IMapBoundary>(null);
 
   constructor(private firestore: AngularFirestore, private imageService: ImageService) {
     this.markersCollection = firestore.collection('markers');
@@ -24,18 +28,32 @@ export class MarkersService {
         return new SpgPoint(data);
       })));
 
-    this.filteredMarkerList$ = this.mapBoundaryFilter.pipe(switchMap(
-      (boundary) => {
-        console.log(boundary);
-        if (!boundary) {
-          return of([]);
+    // TODO: pipe combinelatest with mergemap into the filtered markers
+    // TODO: merge tag filtered and date filtered images into markers
+    combineLatest(this.fullMarkerList$, this.mapBoundaryFilter$, this.imageService.fullImageCollection$)
+      .subscribe(([markers, boundaries, images]) => {
+        console.log('forkJoin:', markers, boundaries);
+        if (!boundaries) {
+          return this.filteredMarkerList$.next([]);
         }
-        return this.fullMarkerList$.pipe(
-          map(markers => markers.filter(
-            marker => marker.x < boundary.north && marker.x > boundary.south && marker.y > boundary.west && marker.y < boundary.east)
-          ));
-      }
-    ));
+        const imagesByMarkers = {};
+        images.forEach((image) => {
+          if (!imagesByMarkers[image.markerId]) {
+            imagesByMarkers[image.markerId] = [image.id];
+          } else {
+            imagesByMarkers[image.markerId].push(image.id);
+          }
+        });
+        const extendedMarkers = markers.map((marker) => {
+          marker.images = imagesByMarkers[marker.id] ? imagesByMarkers[marker.id] : [];
+          return marker;
+        });
+
+        const filteredMarkers = extendedMarkers.filter(
+          marker => marker.x < boundaries.north && marker.x > boundaries.south && marker.y > boundaries.west && marker.y < boundaries.east
+        );
+        this.filteredMarkerList$.next(filteredMarkers);
+      });
   }
   updateMarker(point: SpgPoint) {
     const rawPointData = SpgPoint.getRawData(point);
@@ -60,6 +78,6 @@ export class MarkersService {
     this.imageService.removeMarkerFromImages(point.id);
   }
   setMapBoundary(boundary: IMapBoundary) {
-    this.mapBoundaryFilter.next(boundary);
+    this.mapBoundaryFilter$.next(boundary);
   }
 }

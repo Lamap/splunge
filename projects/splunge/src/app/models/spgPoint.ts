@@ -34,6 +34,8 @@ export class SpgPoint implements ISpgPoint {
   public direction: number;
   public hasDirection: boolean;
   public isSelected = false;
+  public images: ISpgImage[] = [];
+
   constructor(rawData: any) {
     const [x, y] = fromLonLat([rawData.coords.longitude, rawData.coords.latitude]);
     this.id = rawData.id;

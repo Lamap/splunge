@@ -1,3 +1,10 @@
 <div class="spg-home">
-  <spg-osm-map [markers]="markerList" (mapBoundaryChanged$)="mapBoundaryChanged($event)"></spg-osm-map>
+  <spg-osm-map
+    class="spg-home__map"
+    [markers]="markerList"
+    (mapBoundaryChanged$)="mapBoundaryChanged($event)"
+    [draggableMarkers]="false"></spg-osm-map>
+  <div class="spg-home__image-side">
+
+  </div>
 </div>

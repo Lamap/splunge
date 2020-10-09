@@ -1,47 +1,58 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
-import {map, switchMap, take} from 'rxjs/internal/operators';
-import { Observable, BehaviorSubject } from 'rxjs/index';
-import {ISpgImage, SpgImage} from '../models/spgImage';
+import { map, switchMap, take } from 'rxjs/internal/operators';
+import {Observable, BehaviorSubject, combineLatest} from 'rxjs/index';
+import { ISpgImage, SpgImage } from '../models/spgImage';
+
+export interface IDateRangeFilter {
+  minYear: number;
+  maxYear: number;
+}
+
+export interface ITagFilter {
+  tags: string[];
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class ImageService {
-  public queriedImageCollection: Observable<ISpgImage[]>;
-  public fullImageCollection: Observable<ISpgImage[]>;
-  private markerFilter$ = new BehaviorSubject<string>('');
+  public fullImageCollection$: Observable<ISpgImage[]>;
+  public filteredImages$ = new BehaviorSubject([]);
+  private dateRangeFilter$ = new BehaviorSubject<IDateRangeFilter>(null);
+  private tagFilter$ = new BehaviorSubject<ITagFilter>(null);
 
   constructor(private firestore: AngularFirestore) {
-    this.queriedImageCollection = this.markerFilter$.pipe(switchMap((markerId) => {
-      return this.firestore.collection('images', (ref) => {
-        return markerId ? ref.where('markerId', '==', markerId) : ref;
-      })
-        .snapshotChanges()
-        .pipe(map(actions => actions.map((action) => {
-          const data: ISpgImage = action.payload.doc.data() as ISpgImage;
-          data.id = action.payload.doc.id;
-          return data;
-        })));
-    }));
-    this.fullImageCollection = this.firestore.collection('images')
+    this.fullImageCollection$ = this.firestore.collection('images')
       .snapshotChanges()
       .pipe(map(actions => actions.map((action) => {
         const data: ISpgImage = action.payload.doc.data() as ISpgImage;
         data.id = action.payload.doc.id;
         return data;
       })));
-  }
 
-  queryByMarkerId(markerId: string) {
-    this.markerFilter$.next(markerId);
+    combineLatest(this.dateRangeFilter$, this.tagFilter$, this.fullImageCollection$).subscribe(([dateRange, tagFilters, allImages]) => {
+      if (!allImages) {
+        return this.filteredImages$.next([]);
+      }
+      const images = allImages.filter(image => {
+        let pass: boolean;
+        if (dateRange) {
+          pass = image.dated > dateRange.minYear && image.dated < dateRange.maxYear;
+        }
+        if (tagFilters && tagFilters.tags && tagFilters.tags.length) {
+          tagFilters.tags.forEach((tag) => image.tags.find(imageTag => imageTag === tag));
+        }
+      });
+      this.filteredImages$.next(images);
+    });
   }
 
   updateImage(id: string, updateObject) {
     this.firestore.collection('images').doc(id).update(updateObject);
   }
   removeMarkerFromImages(removalMarkerId: string) {
-    this.fullImageCollection
+    this.fullImageCollection$
       .pipe(take(1))
       .subscribe((images) => {
         const imagesToUnlink = images.filter(({ markerId }) => markerId === removalMarkerId);
