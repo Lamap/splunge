@@ -1,11 +1,29 @@
 <div class="spg-map-selector-footer">
-  <h1>{{'map-selector-footer.title' | translate}}</h1>
+  <h1 class="spg-map-selector-footer__title">{{'map-selector-footer.title' | translate}}</h1>
   <div class="spg-map-selector-footer__maps">
     <div class="spg-map-selector-footer__past-maps">
-      {{'map-selector-footer.past.title' | translate}}
+      <span class="spg-map-selector-footer__past-maps-title">
+        {{'map-selector-footer.past.title' | translate}}
+      </span>
+      <div class="spg-map-selector-footer__past-maps-list">
+        <span class="spg-map-selector-footer__past-map-item" *ngFor="let map of pastMaps">
+          <span class="spg-map-selector-footer__pastmap-date">
+            {{map.date}}
+          </span>
+          <span class="spg-map-selector-footer__pastmap-slider"></span>
+          <span class="spg-map-selector-footer__pastmap-text">{{map.name}}</span>
+        </span>
+      </div>
     </div>
     <div class="spg-map-selector-footer__present-maps">
-      {{'map-selector-footer.present.title' | translate}}
+      <span class="spg-map-selector-footer__present-maps-title">
+        {{'map-selector-footer.present.title' | translate}}
+      </span>
+      <div class="spg-map-selector-footer__present-maps-list">
+        <span class="spg-map-selector-footer__present-map-item"  *ngFor="let map of presentMaps">
+          {{map.name}}
+        </span>
+      </div>
     </div>
   </div>
 </div>

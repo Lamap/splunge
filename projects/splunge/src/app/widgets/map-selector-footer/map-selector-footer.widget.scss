@@ -3,8 +3,72 @@
 .spg-map-selector-footer {
   display: flex;
   height: $map-selector-footer-height;
+  padding: 10px;
+
+  &__title {
+    margin: 0;
+    font-size: 16px;
+  }
 
   &__maps {
     flex-grow: 1;
+    margin: 0 10px;
+  }
+
+  &__past-maps,
+  &__present-maps {
+    display: flex;
+  }
+
+  &__past-maps-title,
+  &__present-maps-title {
+    width: 120px;
+    font-family: 'Roboto Light', serif;
+    font-size: 16px;
+  }
+
+  &__past-maps-list,
+  &__present-maps-list {
+    display: flex;
+  }
+
+  &__past-map-item {
+    position: relative;
+    height: 0;
+    margin-right: 5px;
+    user-select: none;
+  }
+
+  &__pastmap-date {
+    padding: 8px;
+    color: $color-gray;
+    font-weight: bold;
+  }
+
+  &__pastmap-slider {
+    display: none;
+    width: 120px;
+    height: 20px;
+    background: $color-warning;
+
+    .spg-map-selector-footer__past-map-item--selected &,
+    .spg-map-selector-footer__past-map-item:hover & {
+      display: inline-block;
+    }
+  }
+
+  &__pastmap-text {
+    display: none;
+
+    .spg-map-selector-footer__past-map-item--selected &,
+    .spg-map-selector-footer__past-map-item:hover & {
+      display: block;
+      position: absolute;
+      bottom: 0;
+      width: 201px;
+      padding: 8px;
+      border-radius: 5px;
+      background: $color-white;
+    }
   }
 }
