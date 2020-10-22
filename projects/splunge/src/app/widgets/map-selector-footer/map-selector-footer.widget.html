@@ -6,8 +6,8 @@
         {{'map-selector-footer.past.title' | translate}}
       </span>
       <div class="spg-map-selector-footer__past-maps-list">
-        <span class="spg-map-selector-footer__past-map-item" *ngFor="let map of pastMaps">
-          <span class="spg-map-selector-footer__pastmap-date">
+        <span class="spg-map-selector-footer__past-map-item" *ngFor="let map of pastMaps" [ngClass]="{'spg-map-selector-footer__past-map-item--selected': map.selected}">
+          <span class="spg-map-selector-footer__pastmap-date" (click)="pastMapClicked(map)">
             {{map.date}}
           </span>
           <span class="spg-map-selector-footer__pastmap-slider"></span>

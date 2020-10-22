@@ -15,7 +15,8 @@ export class HomePage implements OnInit {
   public presentMaps: IPresentMap[] = [
     {
       name: 'Open Street Maps',
-      date: 2020
+      date: 2020,
+      id: 0
     }
   ];
   public pastMaps: IPastMap[] = [
@@ -23,25 +24,45 @@ export class HomePage implements OnInit {
       name: 'Marek János: Buda sz. kir. város határainak másolati térképe',
       date: 1873,
       opacity: 100,
-      src: ''
+      src: '',
+      id: 0,
+      displayZoomRange: {
+        min: 10,
+        max: 20
+      }
     },
     {
       name: 'Marek János: Buda sz. kir. város határainak másolati térképe',
       date: 1900,
       opacity: 100,
-      src: ''
+      src: '',
+      id: 1,
+      displayZoomRange: {
+        min: 10,
+        max: 20
+      }
     },
     {
       name: 'Marek János: Buda sz. kir. város határainak másolati térképe',
       date: 1910,
       opacity: 100,
-      src: ''
+      src: '',
+      id: 2,
+      displayZoomRange: {
+        min: 10,
+        max: 20
+      }
     },
     {
       name: 'Marek János: Buda sz. kir. város határainak másolati térképe',
       date: 1930,
       opacity: 100,
-      src: ''
+      src: '',
+      id: 3,
+      displayZoomRange: {
+        min: 10,
+        max: 20
+      }
     }
   ];
 
@@ -58,5 +79,11 @@ export class HomePage implements OnInit {
     this.markerService.setMapBoundary(boundary);
   }
 
+  selectPastMap(selectedMap: IPastMap) {
+    this.pastMaps = this.pastMaps.map(map => {
+      map.selected = map.id === selectedMap.id;
+      return map;
+    });
+  }
 }
 

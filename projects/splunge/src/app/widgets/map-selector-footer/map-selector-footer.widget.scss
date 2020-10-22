@@ -4,6 +4,7 @@
   display: flex;
   height: $map-selector-footer-height;
   padding: 10px;
+  box-shadow: $color-black-10 0 -3px 3px 0;
 
   &__title {
     margin: 0;
@@ -23,8 +24,8 @@
   &__past-maps-title,
   &__present-maps-title {
     width: 120px;
-    font-family: 'Roboto Light', serif;
     font-size: 16px;
+    font-weight: 300;
   }
 
   &__past-maps-list,
@@ -37,6 +38,10 @@
     height: 0;
     margin-right: 5px;
     user-select: none;
+
+    &:hover {
+      z-index: 1000000000000;
+    }
   }
 
   &__pastmap-date {
@@ -51,14 +56,14 @@
     height: 20px;
     background: $color-warning;
 
-    .spg-map-selector-footer__past-map-item--selected &,
-    .spg-map-selector-footer__past-map-item:hover & {
+    .spg-map-selector-footer__past-map-item--selected & {
       display: inline-block;
     }
   }
 
   &__pastmap-text {
     display: none;
+    box-shadow: $color-black-10 0 -3px 3px 0;
 
     .spg-map-selector-footer__past-map-item--selected &,
     .spg-map-selector-footer__past-map-item:hover & {
@@ -69,6 +74,12 @@
       padding: 8px;
       border-radius: 5px;
       background: $color-white;
+    }
+
+    .spg-map-selector-footer__past-map-item:hover & {
+      color: $color-gray;
+      text-decoration: underline;
+      cursor: pointer;
     }
   }
 }
