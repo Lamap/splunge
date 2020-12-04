@@ -1,23 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-
-export interface IDisplayZoomRange {
-  min: number;
-  max: number;
-}
-export interface IPresentMap {
-  id: number;
-  name: string;
-  date: number;
-}
-export interface IPastMap {
-  id: number;
-  name: string;
-  date: number;
-  opacity: number;
-  src: string;
-  selected?: boolean;
-  displayZoomRange: IDisplayZoomRange;
-}
+import { IPastMap, IPresentMap } from '../../services/map.service';
 
 @Component({
   selector: 'spg-map-selector-footer',

@@ -6,7 +6,9 @@
       (mapBoundaryChanged$)="mapBoundaryChanged($event)"
       [draggableMarkers]="false"></spg-osm-map>
     <div class="spg-home__image-side">
-
+      <div *ngFor="let image of images">
+        <img [src]="image.url" />
+      </div>
     </div>
   </div>
 

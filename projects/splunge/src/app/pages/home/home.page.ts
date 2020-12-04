@@ -2,7 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ISpgPoint } from '../../models/spgPoint';
 import { MarkersService } from '../../services/markers.service';
 
-import { IPastMap, IPresentMap } from '../../widgets/map-selector-footer/map-selector-footer.widget';
+import { IPastMap, IPresentMap } from '../../services/map.service';
+import { MapService } from '../../services/map.service';
+import { ISpgImage } from '../../models/spgImage';
+import { ImageService } from '../../services/image.service';
 
 @Component({
   selector: 'spg-home',
@@ -12,71 +15,25 @@ import { IPastMap, IPresentMap } from '../../widgets/map-selector-footer/map-sel
 export class HomePage implements OnInit {
 
   public markerList: ISpgPoint[] = [];
-  public presentMaps: IPresentMap[] = [
-    {
-      name: 'Open Street Maps',
-      date: 2020,
-      id: 0
-    }
-  ];
-  public pastMaps: IPastMap[] = [
-    {
-      name: 'Marek János: Buda sz. kir. város határainak másolati térképe',
-      date: 1873,
-      opacity: 100,
-      src: '',
-      id: 0,
-      displayZoomRange: {
-        min: 10,
-        max: 20
-      }
-    },
-    {
-      name: 'Marek János: Buda sz. kir. város határainak másolati térképe',
-      date: 1900,
-      opacity: 100,
-      src: '',
-      id: 1,
-      displayZoomRange: {
-        min: 10,
-        max: 20
-      }
-    },
-    {
-      name: 'Marek János: Buda sz. kir. város határainak másolati térképe',
-      date: 1910,
-      opacity: 100,
-      src: '',
-      id: 2,
-      displayZoomRange: {
-        min: 10,
-        max: 20
-      }
-    },
-    {
-      name: 'Marek János: Buda sz. kir. város határainak másolati térképe',
-      date: 1930,
-      opacity: 100,
-      src: '',
-      id: 3,
-      displayZoomRange: {
-        min: 10,
-        max: 20
-      }
-    }
-  ];
+  public presentMaps: IPresentMap[];
+  public pastMaps: IPastMap[];
 
-  constructor(private markerService: MarkersService) { }
+  public images: ISpgImage[];
+  constructor(private markerService: MarkersService, private mapService: MapService, private imageService: ImageService) { }
 
   ngOnInit(): void {
-    this.markerService.filteredMarkerList$.subscribe(filteredMarkers => {
-      console.log(filteredMarkers);
-      this.markerList = filteredMarkers;
+    this.mapService.pastMaps$.subscribe(value => this.pastMaps = value);
+    this.mapService.presentMaps$.subscribe(value => this.presentMaps = value);
+    this.markerService.markersOfBoundary$.subscribe(markers => {
+      this.markerList = markers;
+      console.log('markersOfBoundary$', markers);
     });
+    this.markerService.imageFilteredMarkersOfBoundary$.subscribe(markers => console.log('imageFilteredMarkersOfBoundary$', markers));
+    this.imageService.dataFilteredImagesOfBoundary$.subscribe(imagesSnapshot => this.images = imagesSnapshot);
   }
 
   mapBoundaryChanged(boundary) {
-    this.markerService.setMapBoundary(boundary);
+    this.mapService.setMapBoundary(boundary);
   }
 
   selectPastMap(selectedMap: IPastMap) {

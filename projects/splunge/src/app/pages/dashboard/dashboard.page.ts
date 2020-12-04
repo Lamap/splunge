@@ -4,6 +4,7 @@ import { SpgPoint, ISpgPoint } from '../../models/spgPoint';
 import { ImageService } from '../../services/image.service';
 import { ISpgImage, SpgImage } from '../../models/spgImage';
 import { ISpgCoordinates, OsmMapWidget } from '../../widgets/osm-map/osm-map.widget';
+import { MapService } from '../../services/map.service';
 
 @Component({
   selector: 'spg-dashboard',
@@ -22,7 +23,7 @@ export class DashboardPage implements OnInit {
   @ViewChild('editorpane', { static: false }) editorPane: ElementRef;
   @ViewChild(OsmMapWidget) map: OsmMapWidget;
 
-  constructor(private markerService: MarkersService, private imageService: ImageService) { }
+  constructor(private markerService: MarkersService, private imageService: ImageService, private mapService: MapService) { }
 
   ngOnInit(): void {
     this.markerService.filteredMarkerList$.subscribe((snapshot) => {
@@ -43,7 +44,7 @@ export class DashboardPage implements OnInit {
   }
 
   mapBoundaryChanged(boundary) {
-    this.markerService.setMapBoundary(boundary);
+    this.mapService.setMapBoundary(boundary);
   }
 
   onMarkerClicked(clickedPoint: ISpgPoint) {
