@@ -40,6 +40,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { IconButtonComponent } from './components/icon-button/icon-button.component';
 import { FileSelectorComponent } from './components/file-selector/file-selector.component';
 import { MapSelectorFooterWidget } from './widgets/map-selector-footer/map-selector-footer.widget';
+import { ImageListComponent } from './components/image-list/image-list.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import { MapSelectorFooterWidget } from './widgets/map-selector-footer/map-selec
     ImageBoxComponent,
     IconButtonComponent,
     FileSelectorComponent,
-    MapSelectorFooterWidget
+    MapSelectorFooterWidget,
+    ImageListComponent
   ],
     imports: [
         BrowserModule,

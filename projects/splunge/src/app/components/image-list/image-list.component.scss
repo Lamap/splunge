@@ -1,0 +1,40 @@
+@import '../../../styles';
+.spg-image-list {
+  display: flex;
+  flex-wrap: wrap;
+
+  &__col {
+    &--count-1 {
+      width: 100%;
+    }
+
+    &--count-2 {
+      width: 50%;
+    }
+
+    &--count-3 {
+      width: 33.33%;
+    }
+
+    &--count-4 {
+      width: 25%;
+    }
+
+    &--count-5 {
+      width: 20%;
+    }
+  }
+
+  &__item {
+    padding: 5px;
+
+    &--selected {
+      background: $color-warning-light;
+    }
+  }
+
+  &__img {
+    display: block;
+    width: 100%;
+  }
+}

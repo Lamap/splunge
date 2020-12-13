@@ -1,0 +1,7 @@
+<div class="spg-image-list">
+  <div *ngFor="let col of structured" class="spg-image-list__col" [ngClass]="this.colClass">
+    <div *ngFor="let image of col" class="spg-image-list__item" [ngClass]="{'spg-image-list__item--selected': image.isSelected}" (click)="tempClick(image)">
+      <img class="spg-image-list__img" [src]="image.url"/>
+    </div>
+  </div>
+</div>

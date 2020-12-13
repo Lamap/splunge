@@ -1,5 +1,3 @@
-import {MatIconLocation} from "@angular/material/icon";
-
 export interface ISpgImage {
   id: string;
   markerId: string;
@@ -15,6 +13,7 @@ export interface ISpgImage {
     x: number;
     y: number;
   };
+  isSelected?: boolean;
 }
 
 export class SpgImage implements ISpgImage {
