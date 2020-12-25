@@ -3,8 +3,10 @@
     <spg-osm-map
       class="spg-home__map"
       [markers]="markerList"
+      [draggableMarkers]="false"
       (mapBoundaryChanged$)="mapBoundaryChanged($event)"
-      [draggableMarkers]="false"></spg-osm-map>
+      (markerClicked)="markerClicked($event)"
+    ></spg-osm-map>
     <div class="spg-home__image-side">
       <spg-image-list [images]="images"></spg-image-list>
     </div>

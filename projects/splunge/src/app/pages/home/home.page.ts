@@ -6,6 +6,9 @@ import { IPastMap, IPresentMap } from '../../services/map.service';
 import { MapService } from '../../services/map.service';
 import { ISpgImage } from '../../models/spgImage';
 import { ImageService } from '../../services/image.service';
+import {BehaviorSubject, combineLatest, of} from 'rxjs/index';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/internal/operators';
 
 @Component({
   selector: 'spg-home',
@@ -18,7 +21,9 @@ export class HomePage implements OnInit {
   public presentMaps: IPresentMap[];
   public pastMaps: IPastMap[];
 
-  public images: ISpgImage[];
+  public images: Observable<ISpgImage[]>;
+  private pointedMarkerId = new BehaviorSubject<string>(null);
+
   constructor(private markerService: MarkersService, private mapService: MapService, private imageService: ImageService) { }
 
   ngOnInit(): void {
@@ -29,7 +34,13 @@ export class HomePage implements OnInit {
       console.log('markersOfBoundary$', markers);
     });
     this.markerService.imageFilteredMarkersOfBoundary$.subscribe(markers => console.log('imageFilteredMarkersOfBoundary$', markers));
-    this.imageService.dataFilteredImagesOfBoundary$.subscribe(imagesSnapshot => this.images = imagesSnapshot);
+    this.images = combineLatest([this.imageService.dataFilteredImagesOfBoundary$, this.pointedMarkerId])
+      .pipe(map(([images, pointedMarkerId]) => {
+        return images.map(image => {
+          image.isSelected = image.markerId === pointedMarkerId;
+          return image;
+        });
+      }));
   }
 
   mapBoundaryChanged(boundary) {
@@ -41,6 +52,11 @@ export class HomePage implements OnInit {
       map.selected = map.id === selectedMap.id;
       return map;
     });
+  }
+
+  markerClicked(point: ISpgPoint) {
+    console.log(point);
+    this.pointedMarkerId.next(point.id);
   }
 }
 

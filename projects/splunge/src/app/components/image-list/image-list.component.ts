@@ -1,48 +1,43 @@
-import {Component, OnInit, Input, SimpleChanges, OnChanges} from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ISpgImage } from '../../models/spgImage';
+import { Observable, of } from 'rxjs';
+import { switchMap } from 'rxjs/internal/operators';
 
 @Component({
   selector: 'spg-image-list',
   templateUrl: './image-list.component.html',
   styleUrls: ['./image-list.component.scss']
 })
-export class ImageListComponent implements OnInit, OnChanges {
-  @Input() images: ISpgImage[];
+export class ImageListComponent implements OnInit {
+  @Input() images: Observable<ISpgImage[]>;
   @Input() colCount = 3;
-  public structured: ISpgImage[][];
+  public structured: Observable<ISpgImage[][]>;
   public colClass: string;
 
   constructor() { }
 
   ngOnInit(): void {
-
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes && changes.images) {
-      this.computeImageCols();
-    }
-  }
-
-  computeImageCols() {
-    this.colClass = `spg-image-list__col--count-${this.colCount}`;
-    if (!this.images) {
-      return;
-    }
-    this.structured = [];
-    this.images.forEach((image, index) => {
-      const colIndex = index % this.colCount;
-      if (!this.structured[colIndex]) {
-        this.structured[colIndex] = [image];
-      } else {
-        this.structured[colIndex].push(image);
+    this.structured = this.images.pipe(switchMap(images => {
+      this.colClass = `spg-image-list__col--count-${this.colCount}`;
+      if (!images) {
+        return [];
       }
-    });
-    console.log(this.structured);
+      const structured = [];
+      images.forEach((image, index) => {
+        const colIndex = index % this.colCount;
+        if (!structured[colIndex]) {
+          structured[colIndex] = [];
+        }
+        structured[colIndex].push(image);
+      });
+      console.log('structured inside', structured);
+      return of(structured);
+    }));
+    this.structured.subscribe(blabla => console.log('this.structured.subscribe', blabla));
   }
 
   tempClick(image: ISpgImage) {
-    image.isSelected = true;
+    // image.isSelected = true;
     console.log('selected', image);
   }
 
